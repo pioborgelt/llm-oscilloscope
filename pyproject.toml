@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-oscilloscope"
+version = "0.1.0"
+description = "Research-grade completion-aware entity hallucination detector"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+dependencies = ["numpy>=1.26", "scikit-learn>=1.4"]
+
+[project.scripts]
+llm-oscilloscope-verify = "llm_oscilloscope.verify:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

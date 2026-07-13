@@ -1,0 +1,197 @@
+{
+  "decision_rule": {
+    "neither_source_below_0_5": true,
+    "passed": true,
+    "pooled_ci_lower_gt_0_5": true
+  },
+  "development_overlap": {
+    "answer_overlap_prompts": {
+      "granola": 403,
+      "simpleqa": 51
+    },
+    "policy": "descriptive exact normalized surface overlap; exclusion metrics are post-hoc sensitivity only",
+    "question_overlap": 0
+  },
+  "entity_end": {
+    "granola": {
+      "correctness": {
+        "auroc": 0.8169934640522876,
+        "average_precision": 0.8212994850277733,
+        "n": 798,
+        "n_negative": 390,
+        "n_positive": 408,
+        "prevalence": 0.5112781954887218
+      },
+      "product": {
+        "auroc": 0.7463989441930619,
+        "average_precision": 0.7713047185842627,
+        "n": 798,
+        "n_negative": 390,
+        "n_positive": 408,
+        "prevalence": 0.5112781954887218
+      }
+    },
+    "pooled": {
+      "correctness": {
+        "auroc": 0.8442845486239893,
+        "average_precision": 0.9256788986859028,
+        "n": 1532,
+        "n_negative": 427,
+        "n_positive": 1105,
+        "prevalence": 0.7212793733681462
+      },
+      "product": {
+        "auroc": 0.7624911250755031,
+        "average_precision": 0.8914008986632069,
+        "n": 1532,
+        "n_negative": 427,
+        "n_positive": 1105,
+        "prevalence": 0.7212793733681462
+      },
+      "prompt_bootstrap": {
+        "iterations_requested": 2000,
+        "iterations_valid": 2000,
+        "metrics": {
+          "auroc": {
+            "ci95": [
+              0.8210570217388145,
+              0.8670406707123809
+            ],
+            "mean": 0.8444647803859306
+          },
+          "average_precision": {
+            "ci95": [
+              0.9099131899701111,
+              0.9406339223781172
+            ],
+            "mean": 0.9258052784326503
+          }
+        }
+      }
+    },
+    "simpleqa": {
+      "correctness": {
+        "auroc": 0.6497731590988406,
+        "average_precision": 0.9743934495147624,
+        "n": 734,
+        "n_negative": 37,
+        "n_positive": 697,
+        "prevalence": 0.9495912806539509
+      },
+      "product": {
+        "auroc": 0.5550816239481949,
+        "average_precision": 0.9646762581744596,
+        "n": 734,
+        "n_negative": 37,
+        "n_positive": 697,
+        "prevalence": 0.9495912806539509
+      }
+    }
+  },
+  "judge_completion": [
+    {
+      "OK": 1600
+    },
+    {
+      "OK": 1600
+    }
+  ],
+  "judge_failure_prompts": 0,
+  "judge_status_agreement": 0.990625,
+  "policy": "dual-judge exact final-token and support consensus",
+  "post_hoc_sensitivity_no_development_answer_overlap": {
+    "granola": {
+      "auroc": 0.8536980231765507,
+      "average_precision": 0.8750785332827873,
+      "n": 379,
+      "n_negative": 163,
+      "n_positive": 216,
+      "prevalence": 0.5699208443271768
+    },
+    "pooled": {
+      "auroc": 0.8411509075235295,
+      "average_precision": 0.9527379480181937,
+      "n": 1067,
+      "n_negative": 194,
+      "n_positive": 873,
+      "prevalence": 0.8181818181818182
+    },
+    "simpleqa": {
+      "auroc": 0.6434919232091126,
+      "average_precision": 0.9765136303655977,
+      "n": 688,
+      "n_negative": 31,
+      "n_positive": 657,
+      "prevalence": 0.9549418604651163
+    }
+  },
+  "schema_version": 1,
+  "status_counts": {
+    "granola": {
+      "ABSTAINED": 37,
+      "AMBIGUOUS": 5,
+      "ANSWERED": 758
+    },
+    "simpleqa": {
+      "ABSTAINED": 75,
+      "AMBIGUOUS": 13,
+      "ANSWERED": 712
+    }
+  },
+  "stream": {
+    "all_generations": {
+      "boundary": {
+        "auroc": 0.987481782182775,
+        "average_precision": 0.9530957215327878,
+        "n": 12650,
+        "n_negative": 11118,
+        "n_positive": 1532,
+        "prevalence": 0.12110671936758893
+      },
+      "fixed_threshold_0_5": {
+        "fn": 945,
+        "fp": 18,
+        "precision": 0.898876404494382,
+        "recall": 0.14479638009049775,
+        "threshold": 0.5,
+        "tn": 11527,
+        "tp": 160
+      },
+      "product": {
+        "auroc": 0.9738746475036696,
+        "average_precision": 0.8054790317957639,
+        "n": 12650,
+        "n_negative": 11545,
+        "n_positive": 1105,
+        "prevalence": 0.08735177865612648
+      }
+    },
+    "answered_only": {
+      "boundary": {
+        "auroc": 0.9857789571169033,
+        "average_precision": 0.954055353968791,
+        "n": 10737,
+        "n_negative": 9205,
+        "n_positive": 1532,
+        "prevalence": 0.1426841762130949
+      },
+      "fixed_threshold_0_5": {
+        "fn": 945,
+        "fp": 17,
+        "precision": 0.903954802259887,
+        "recall": 0.14479638009049775,
+        "threshold": 0.5,
+        "tn": 9615,
+        "tp": 160
+      },
+      "product": {
+        "auroc": 0.9701383773545197,
+        "average_precision": 0.8090727828166465,
+        "n": 10737,
+        "n_negative": 9632,
+        "n_positive": 1105,
+        "prevalence": 0.10291515320853124
+      }
+    }
+  }
+}

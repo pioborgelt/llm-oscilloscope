@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+title: LLM-Oscilloscope Completion-Aware Entity Detector
+message: Please cite this software release using this metadata.
+type: software
+authors:
+  - family-names: Borgelt
+    given-names: Pio
+version: 0.1.0
+date-released: 2026-07-13
