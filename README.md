@@ -1,87 +1,125 @@
 # LLM-Oscilloscope
-
-> **Reviewer evidence package:** This repository exists to let grant reviewers inspect a current snapshot of my work. The detector is not ready for deployment.
-
-The LLM-Oscilloscope is a research project about reading useful signals from the internal states of LLMs while they generate and translating them into human-readable measurements.
+> This repo is a checkpoint of my research progress for reviewers and potential funders. It contains a working but limited detector, and it is not ready to be deployed.
 
 
-The long-term goal for the Oscilloscope is an EEG for model generation, which includes, but is not limited to, separate measurements for factual retrieval, answer formation and correctness.
+Because of the black-box problem, LLMs expose very little about what they are actually doing while they generate. Token probabilities can show that a model is confident, but they cannot show whether factual retrieval happened, which internal knowledge region was used, or whether an answer is actually supported.
 
-## Why This Repo
-A generous $20,000 Emergent Ventures grant supported the exploratory work that led to the current state of work. This repo contains the most important results so far in a form that reviewers can inspect directly. This includes the detector weights, OOF predictions, checksums and CPU verification scripts.
-
-The current state required a much broader body of discovery work than what is included here. That included many failed approaches, label audits, mechanistic experiments and several different versions of the detector. The repo is just a research checkpoint for additional research support, and it does not mean hallucination detection has been solved. See [Non-Claims](#non-claims) for more information.
-
-More detailed methods, results, limitations and information about data availability are in [`docs/`](docs/).
-
-## What Currently Works
-The detector in this repo uses two signals from the Llama-3.1-8B-Instruct LLM after each generated token. One estimates whether an answer entity has just ended, the other estimates whether that completed entity is unsupported. The product of those two signals produces a detector score on each generated token without web search, repeated sampling or a second model at inference time. However, it does require access to the model's hidden states and can only flag an entity *after* it has been emitted.
+Because of this, I'm building the LLM-Oscilloscope as an EEG for model generation. Its purpose is to translate some of the complex features in the model's internal representations into human-perceivable data.
 
 
-The detector was evaluated on 157,760 naturally generated tokens of which about 1% are unsupported entity endings. It produces 0.983 AUROC and 0.42 average precision on prompt-grouped folds. Leave-one-source-out evaluation produces 0.98 and 0.39.
+![The four working measurement channels and two planned additions](assets/funder-04-channel-map.jpg)
+The long-term goal is a model-independent research instrument that can show where an answer process starts to fail and use that information to trigger a targeted intervention.
 
 
-It's important to note that the high AUROC should not be read as 98% accuracy. At an operating point near one false alarm per 100 tokens, precision is 0.368 and recall is 0.557. This is very useful research progress, but it's far from a production detector.
+## Why this repo?
+
+A generous $20,000 Emergent Ventures grant funded the broad discovery work that led the detector to this point. This work included *many* failed approaches, label audits, mechanistic experiments and several versions of the detector. Most of this discovery work is intentionally not included here.
+
+What is included is the part that can already be inspected cleanly by reviewers. This includes a portable detector head, OOF predictions, frozen evaluations, checksums, preregistrations and CPU verification scripts.
 
 
-The exported detector was also frozen and tested without refitting on new
-short-answer data. On the GRANOLA subset it reaches 0.817 AUROC.
+This is mainly here to prove that the current detector really exists and to provide a starting point for the next stage of the project.
 
-Also see:
-[per-token detector results](docs/RESULTS.md),
-[entity-completion analysis](docs/ENTITY_COMPLETION_RESULTS.md) and
-[matched transfer results](docs/MATCHED_HOLDOUT_V2_RESULTS.md).
+## The current detector
+The most complete part of the Oscilloscope is a per-token detector for unsupported (hallucinated) answer entities in Llama-3.1-8B-Instruct.
 
-## V_dyn
-The current detector is only one part of the long-term intended instrument. Earlier experiments also found a separate signal at the transition from prompt processing to generation, which I called V_dyn.
+It uses two internal readings after every generated token. The first estimates whether a factual answer entity has just finished, and the second estimates whether that completed entity looks unsupported. Multiplying the two readings produces one alert score for every token in the natural generation stream.
 
-While the initial interpretation was too strong, as it is not a truth detector and does not show whether the model knows it is wrong, later experiments show that it is better understood as a retrieval-timing signal. This means it can track whether the model's factual retrieval has fired, but retrieval can fire and still return the wrong person or fact, which means that V_dyn cannot replace the correctness channel.
+Unlike many other methods, this does not require web search, repeated sampling or a second LLM at inference time. However, it does require access to the model's internal states, and it can only judge an entity *after* it has been emitted.
 
 
-Also, V_dyn is important for cross-model performance of this detector, as earlier experiments found that this signal can be transferred between different model architectures through linear representation alignment. The larger question is whether retrieval, entity and correctness channels can all be transferred this way without training a completely new detector.
+![A saved generation where the detector marks the wrong person name as unsupported](assets/funder-01-detection.jpg)
+The example in the picture above is useful because the model is not uncertain in the normal sense. The model gives us a wrong name with a next-token probability of 0.990, and my detector is reading something different from ordinary output confidence.
 
 
-## Relation To Existing Work
-Internal-state hallucination detection already exists, and this project did not invent the concept of hidden-state probes or entity-level detection.
+The first channel waits until the full name has unfolded. This is especially important for multi-token entities, because correctness is substantially easier to read at the last entity token than at the first. Then the second channel checks the completed identity instead of trying to decide whether an incomplete fragment is correct.
 
-The closest work to this is Obeso et al.'s [Real-Time Detection of Hallucinated Entities](https://arxiv.org/abs/2509.03531).
-This already demonstrates entity-level detection on long-form generations, several model families and models up to 70B parameters. [MIND](https://aclanthology.org/2024.findings-acl.854/) studies
-unsupervised real-time detection from internal states, while
-[Simple Factuality Probes](https://aclanthology.org/2025.findings-emnlp.880/) shows
-that lightweight probes can work on long-form factuality.
+Only entity completion and support checking feed the released alert. The retrieval reading shown in the trace belongs to the wider research instrument described below.
 
 
-Because of this, the attached two-head detector is not supposed to be the final novelty claim. It is a working proof of my work, and the part that could make the LLM-Oscilloscope meaningfully different is the combination of separate measurement channels, transfer through representation alignment and eventually using all of those signals in a closed loop to reduce errors.
+The detailed methodology and results are in the [detector method](docs/METHOD.md), [entity-completion analysis](docs/ENTITY_COMPLETION_RESULTS.md) and [main results](docs/RESULTS.md).
 
 
-## Research Roadmap
-The next step is per-token grading of V_dyn. At the current state, the V_dyn signal mainly compares the state before generation with the first generated token. I want to follow the same retrieval signal through the generation sequence and test if it can distinguish the start of factual retrieval at every token position.
+## Evaluation
 
-Combining possible per-token grading of V_dyn with the existing channels would give the detector a more complete lifecycle for factual answers, which then consists of retrieval starting, development of the retrieved content and finishing of the answer entity. All of this then receives a correctness score.
-
-Another major test is cross-model transfer of the detector. I want to align a new model's internal space to an existing instrument and measure how much of the detector survives. Cross-model transfer is not only hypothetical: [Obeso et al.](https://arxiv.org/abs/2509.03531) report that hallucination probes can transfer between model families, and my earlier V_dyn experiments found that the retrieval signal can be moved between four architectures through linear alignment. The open question here is whether the complete multi-channel instrument transfers in the same way.
-
-Then the detector needs to move from short factual answers to everyday long-form generation. Better independent labels and realistic calibration are part of that work.
+The detector was evaluated on 157,760 naturally generated tokens. Unsupported answer-entity endings made up 1.021% of that stream.
 
 
-Hallucination reduction remains in the project. Once the instrument can reliably identify where a factual answer process fails, it can be used to trigger abstention, retrieval, local regeneration or representation-level intervention. The most important test is whether these actions reduce errors without damaging correct answers. Earlier experiments already showed that a signal can be diagnostically useful without being a good steering direction, so negative results matter here.
+On prompt-grouped out-of-fold evaluation it reaches 0.983 AUROC and 0.420 average precision. Leave-one-source-out evaluation reaches 0.980 AUROC and 0.391 average precision.
 
-The retrieval, entity and correctness channels are only the beginning of the intended instrument. Additional channels are on the roadmap, including which internal subspaces the model is relying on, whether an answer is being shaped by sycophancy, and whether the model is following its own retrieval signal or overriding it during generation. Together, all of these signals could show what the model is actually doing while generating.
+However, the high AUROC does not mean 98% accuracy. At an operating point near one false alarm per 100 generated tokens, precision is 0.368 and recall is 0.557. That is enough to make the detector useful as a research instrument, but not enough for deployment.
 
+
+The exact evaluation arrays and detector heads are included here. `python scripts/verify_results.py` recomputes the reported metrics and reloads all 17 exported artifacts. The full protocol, controls and external checks are in [How I Evaluated The Detector](docs/EVALUATION.md).
+
+## The wider instrument
+The released detector contains entity completion and support checking. The wider project already has two additional working research channels. Each channel now has its own methodology and evidence boundary under [`docs/channels/`](docs/channels/).
+
+**[Subject routing](docs/channels/SUBJECT_ROUTING.md)** reads which academic subject region the model is using while it generates. On Llama-3.1-8B it reaches 0.924 token-level macro AUROC across eight subjects. More importantly, this channel can be moved into Mistral-7B and Qwen2.5-7B through compact activation adapters while the original Llama measurement head remains frozen.
+
+**[Retrieval timing](docs/channels/RETRIEVAL_TIMING.md)** tracks whether the model's factual retrieval process fires around the transition into generation. It is not a truth detector because retrieval can fire and still return the wrong fact. Its value is that it measures a different stage of the answer process from entity completion and support.
+
+**[Entity completion](docs/channels/ENTITY_COMPLETION.md)** estimates when the model has finished producing a factual answer entity. This is the first half of the released detector.
+
+**[Support checking](docs/channels/SUPPORT_CHECKING.md)** estimates whether that completed answer looks unsupported. This is the second half of the released detector.
+
+Two additional channels are currently on the research roadmap. One would track whether an answer is being bent toward the user's stated belief or preference. The other would track whether the model follows its own retrieval signal or overrides it later in generation.
+
+Each channel answers a narrower question than a general confidence score. The main research bet is that reading them together will be more useful than expecting one probe to explain the entire generation.
+
+## Moving the instrument between models
+
+Training every channel again from new labels for every model would make the Oscilloscope much less useful. A central part of the project is therefore fast channel transfer through representation alignment.
+
+![Internal representation spaces being aligned so one measurement can be read across model families](assets/funder-03-transfer.jpg)
+
+For the subject-routing channel, paired activations from the new model are aligned with the existing Llama instrument using a 64-dimensional PCA and Ridge adapter. No target-model subject labels are used either to train or to select the adapter.
+
+On an untouched holdout of 128 new base questions rendered through four templates, the frozen channel achieves macro AUROCs of 0.933 on Mistral-7B and 0.934 on Qwen2.5-7B. The final adapters are smaller than 1 MB and can be fitted in roughly one CPU second once activations have been extracted.
+
+Performance is weaker on the more demanding independent factual-prompt control, reaching AUROCs of 0.739 and 0.746, respectively, and narrowly missing the frozen 0.750 pass threshold. For now, these results should therefore be interpreted as evidence of functional channel transfer when domain-covering paired activations are available, not as evidence for a universal mapping between complete model spaces.
+
+This is still in active testing and will be one of the first parts of the research roadmap.
+
+## Closing the loop
+But detection is only the first step. The LLM-Oscilloscope is ultimately meant to improve what the model produces by connecting its measurements to interventions at the latent-space level.
+
+
+![A detector alert removing an unsupported person name during a gated rerun](assets/funder-02-intervention.jpg)
+
+
+The picture above shows a basic loop for a first intervention PoC. The detector flags the wrong name, and in the second pass the model is nudged toward saying "I don't know" instead of repeating it.
+
+But this is just one intervention example, not a hallucination-reduction result. The system did not recover the correct spouse and broad reduction has not yet been evaluated. I still include it here because it proves that the detector output can already be connected to an action, while keeping the actual reduction claim open for the next stage of research. The frozen test and its limits are described in [A First Intervention PoC](docs/INTERVENTION_POC.md).
+
+## The roadmap
+
+The first priority is transferring the complete instrument. Entity completion and support checking need to be moved to at least one new architecture with the same frozen-head protocol used for subject routing. This would show whether the transfer result is a reusable onboarding method or only works for one easier channel.
+
+The second priority is moving from short factual QA to natural long-form generation. That requires better entity coverage, independent labels, realistic calibration and enough context to follow several factual claims in one answer.
+
+The third priority is reduction. Once the instrument can distinguish where an answer process failed, different interventions can be compared under one harness instead of being tested as isolated steering tricks.
+
+In parallel, the Oscilloscope can gain additional channels for behavior such as sycophancy, internal routing and retrieval override. The goal is not to add every probe ever published. The goal is to find a small set of readings that remain interpretable, transferable and useful for action.
+
+However, all of this requires substantial resources that I don't currently have, which is why I'm making this repo.
 
 ## Non-Claims
 
-This repository does not claim the following:
+This repository does not claim that:
 
 - hallucinations are detected with 98% accuracy
 - the detector is production-ready or covers every type of hallucination
 - natural long-form generation has already been validated
-- hallucination reduction has already been achieved
-- V_dyn determines whether a retrieved fact is correct
+- hallucination reduction has already been demonstrated broadly
+- retrieval firing means that the retrieved fact is correct
 - the complete detector already transfers across model architectures
+- the released artifacts prove every wider channel described above
 
-## Five-Minute Reviewer Check
-The main check of the evidence:
+The exact evidence boundary is described in [limitations](docs/LIMITATIONS.md) and [data availability](docs/DATA_AVAILABILITY.md).
+
+## Quick reviewer check
+
 ```bash
 python -m venv .venv
 source .venv/bin/activate
@@ -89,7 +127,8 @@ pip install -e .
 python scripts/verify_results.py
 python -m unittest discover -s tests -q
 ```
-The verifier recomputes the evaluations and checks all 17 detector artifacts, checksums and entity-disjoint manifests.
+
+The verifier recomputes the three main per-token evaluations, checks the entity-completion results and reloads every exported detector artifact. `MANIFEST.sha256` covers the complete evidence package.
 
 The paired prompt bootstrap is slower and can be reproduced separately:
 
@@ -97,7 +136,22 @@ The paired prompt bootstrap is slower and can be reproduced separately:
 python scripts/verify_bootstrap.py --iterations 2000
 ```
 
+The 65 GB activation cache is not included. The released predictions and weights are enough to verify the reported metrics and confirm that the portable heads reproduce their saved outputs. See [artifact terms](ARTIFACT_TERMS.md) and the [artifact license review](ARTIFACT_LICENSE_REVIEW.md) before redistributing model-derived files.
 
-## Evidence Boundary
+## Documentation
 
-Many of my failed approaches, activation cache data for this detector, etc. are intentionally excluded. This package shows that the reported metrics follow from the released predictions and that the packaged detector and evaluation artifacts exist.
+The detailed technical material lives in [`docs/`](docs/):
+
+- [Method](docs/METHOD.md)
+- [Evaluation](docs/EVALUATION.md)
+- [Main detector results](docs/RESULTS.md)
+- [Entity-completion analysis](docs/ENTITY_COMPLETION_RESULTS.md)
+- [First intervention PoC](docs/INTERVENTION_POC.md)
+- [Entity-completion channel](docs/channels/ENTITY_COMPLETION.md)
+- [Support-checking channel](docs/channels/SUPPORT_CHECKING.md)
+- [Subject-routing channel](docs/channels/SUBJECT_ROUTING.md)
+- [Retrieval-timing channel](docs/channels/RETRIEVAL_TIMING.md)
+- [Matched external holdout](docs/MATCHED_HOLDOUT_V2_RESULTS.md)
+- [Preregistration](docs/PREREGISTRATION.md)
+- [Limitations](docs/LIMITATIONS.md)
+- [Data availability](docs/DATA_AVAILABILITY.md)

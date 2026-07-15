@@ -4,8 +4,6 @@ This experiment tests whether entity correctness becomes easier to read after th
 
 The protocol follows [Real-Time Detection of Hallucinated Entities in Long-Form Generation](https://arxiv.org/abs/2509.03531). I also used its [official code](https://github.com/obalcells/hallucination_probes) and [published probe weights](https://huggingface.co/obalcells/hallucination-probes) for the transfer control.
 
-"Official zero-shot" below means that the published head was used without fitting on P15 labels. It is not fully domain-unseen because its training mixture includes TriviaQA.
-
 ## Main Result
 
 | Model / split | First AUROC/AP | Last AUROC/AP | Span-max AUROC/AP |
@@ -43,16 +41,14 @@ I do not report entity-disjoint CV for the all-role control. Repeated supporting
 | four_plus_tokens | 1215 | 0.730 / 0.611 | 0.826 / 0.739 | 0.805 / 0.721 |
 | multi_token | 4164 | 0.750 / 0.591 | 0.826 / 0.707 | 0.808 / 0.689 |
 
-The gain comes from multi-token entities. First and last are effectively identical for one-token entities, while the gap grows once the identity has to unfold over several tokens.
+The gain comes from multi-token entities. First and last are almost identical for one-token entities, while the gap grows once the identity has to unfold over several tokens.
 
-## What This Means
+## What does this mean?
 
 The correctness signal is substantially stronger after the full entity has been emitted. The last token beats both the first token and max aggregation over the span. Hard span-max training also does not beat the simpler token head evaluated at the last token.
 
-The published head transfers above chance, but it loses a lot under the P15 data and labels. The local head stays almost unchanged when answer entities are disjoint between train and test, so memorized entity strings are not a good explanation for the result.
+The main limitation is timing: the stronger score only exists after the entity has already been generated. It helps detection, but it cannot prevent the entity from being emitted.
 
-The limitation is timing: the stronger score only exists after the entity has already been generated. It helps detection, but it cannot prevent the entity from being emitted.
-
-## Packaged Files
+## Files
 
 `artifacts/entity_completion_scores.npz` contains the OOF labels and first-, last- and max-token scores for the random, entity-disjoint and leave-one-source-out models. `artifacts/entity_completion_analysis.json` contains the reported metrics and paired prompt bootstrap. `python scripts/verify_results.py` recomputes the six AUROC/AP pairs shown for the local token heads above.

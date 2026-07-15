@@ -1,14 +1,13 @@
 # Limitations
 
-This package has clear limits:
+The package in this repo has clear limits:
 
-- This is a research-grade detector, not a production hallucination alarm.
-- The complete detector has only been tested on Llama-3.1-8B-Instruct and short factual-QA generations.
-- The detector identifies unsupported answer entities, not arbitrary reasoning errors or every kind of hallucination.
-- The strongest correctness score comes after the entity has been completed. It cannot warn before that entity is emitted.
-- At approximately one false alarm per 100 tokens, random precision/recall is 0.368/0.557.
-- Long-form generation, more model architectures, deployment calibration and reduction interventions have not been established yet.
-- The calibration partition used for `release_head.npz` is not an independent test set. The main 0.983/0.420 result comes from the OOF folds; the separately frozen matched holdout is reported on its own terms.
-- The matched SimpleQA/GRANOLA follow-up was designed after I diagnosed an earlier mismatched stress test. Its pooled AUROC is partly driven by the difference between sources. GRANOLA is the cleaner balanced result, while SimpleQA has only 37 supported entity ends.
-- The v2 protocol was frozen locally before generation but was not externally timestamped before the run. This release documents the protocol but cannot independently prove when it was frozen.
-- The matched-transfer summary is included for reviewer context, but its full generation and judge files are not redistributed pending source-dataset terms review.
+1. This is a research-grade detector, not a production hallucination alarm.
+2. The complete detector has only been tested on Llama-3.1-8B-Instruct.
+3. The detector identifies unsupported answer entities, not arbitrary reasoning errors or every kind of hallucination.
+4. The strongest correctness score comes after the entity has already been completed.
+5. At approximately one false alarm per 100 tokens, random precision/recall is 0.368/0.557.
+6. Long-form generation, more model architectures, deployment calibration and reduction interventions have not been established yet.
+7. The exported release head is not itself an independent test. The main detector numbers come from OOF evaluation, while the frozen holdout is reported separately.
+8. The matched external holdout was designed after an earlier low-coverage stress test. Its pooled score is affected by source differences, so the balanced GRANOLA result is the cleaner number.
+9. The matched-holdout preregistration was frozen locally but not externally timestamped. Its raw generations and judge files are also not included in this package.
