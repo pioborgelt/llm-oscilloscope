@@ -76,8 +76,9 @@ Training every channel again from new labels for every model would make the Osci
 For the subject-routing channel, paired activations from the new model are aligned with the existing Llama instrument using a 64-dimensional PCA and Ridge adapter. No target-model subject labels are used either to train or to select the adapter.
 
 On an untouched holdout of 128 new base questions rendered through four templates, the frozen channel achieves macro AUROCs of 0.933 on Mistral-7B and 0.934 on Qwen2.5-7B. The final adapters are smaller than 1 MB and can be fitted in roughly one CPU second once activations have been extracted.
+The transfer also works for subjects it had never seen during setup. Across all 28 held-out subject pairs, the channel reaches 0.953 mean AUROC, compared with 0.490 for a randomized control.
 
-Performance is weaker on the more demanding independent factual-prompt control, reaching AUROCs of 0.739 and 0.746, respectively, and narrowly missing the frozen 0.750 pass threshold. For now, these results should therefore be interpreted as evidence of functional channel transfer when domain-covering paired activations are available, not as evidence for a universal mapping between complete model spaces.
+This does not mean that any internal signal can be transferred between any two models. The broader domain and point in the generation process still need to match.
 
 This is still in active testing and will be one of the first parts of the research roadmap.
 

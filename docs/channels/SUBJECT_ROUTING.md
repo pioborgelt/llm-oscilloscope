@@ -31,4 +31,6 @@ To move the channel, I run the same unlabeled prompts through Llama and the new 
 
 On an untouched 512-row holdout, the frozen Llama channel reaches 0.933 macro AUROC on Mistral-7B and 0.934 on Qwen2.5-7B. With only 128 paired activations, it already reaches 0.875 and 0.895.
 
-The compact verifier does not include this channel yet. The next test is transferring entity completion and support checking in the same way.
+The first adapters saw paired examples from all eight subjects. To test whether that was necessary, I repeated the Qwen transfer across all 28 possible pairs while removing both evaluated subjects from Qwen preprocessing and adapter fitting. The frozen Llama channel reaches 0.953 mean pairwise AUROC on these unseen subjects, compared with 0.490 under random pairing. All 28 pairs are above chance. The adapter that saw all subjects reaches 0.979 on the same pairwise endpoint, making the held-out loss 0.026.
+
+This means that the adapter can carry the channel to individual subject labels it never saw during onboarding.
