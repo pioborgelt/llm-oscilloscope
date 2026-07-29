@@ -1,0 +1,447 @@
+{
+  "data": {
+    "core_rows": 1664,
+    "fit_subjects_per_pair": 6,
+    "heldout_subjects_per_pair": 2,
+    "subject_pairs": 28,
+    "test_rows": 512
+  },
+  "decision": "HELDOUT_SUBJECT_TRANSPORT_PASS",
+  "full_domain_transport": {
+    "max_auroc": 1.0,
+    "mean_auroc": 0.9786464146205357,
+    "median_auroc": 0.9951171875,
+    "min_auroc": 0.888916015625,
+    "pairs_above_chance": 28
+  },
+  "generalization_loss_from_full_domain": 0.025913783482142794,
+  "heldout_transport": {
+    "base_question_bootstrap_95_ci": [
+      0.9382823399135045,
+      0.9664324079241071
+    ],
+    "max_auroc": 1.0,
+    "mean_auroc": 0.9527326311383929,
+    "median_auroc": 0.9859619140625,
+    "min_auroc": 0.752685546875,
+    "pairs_above_chance": 28
+  },
+  "margin_over_random": 0.46234130859375,
+  "pairs": [
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.9990234375,
+      "held_out": [
+        "mathematics",
+        "physics"
+      ],
+      "heldout_transport_auroc": 0.994384765625,
+      "random_pair_mean_auroc": 0.50836181640625,
+      "source_auroc": 0.9921875,
+      "test_rows": 128,
+      "unaligned_auroc": 0.2666015625
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 1.0,
+      "held_out": [
+        "mathematics",
+        "chemistry"
+      ],
+      "heldout_transport_auroc": 0.999755859375,
+      "random_pair_mean_auroc": 0.487158203125,
+      "source_auroc": 1.0,
+      "test_rows": 128,
+      "unaligned_auroc": 0.4794921875
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.996826171875,
+      "held_out": [
+        "mathematics",
+        "biology"
+      ],
+      "heldout_transport_auroc": 0.99951171875,
+      "random_pair_mean_auroc": 0.525341796875,
+      "source_auroc": 0.98828125,
+      "test_rows": 128,
+      "unaligned_auroc": 0.13037109375
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.956298828125,
+      "held_out": [
+        "mathematics",
+        "computer_science"
+      ],
+      "heldout_transport_auroc": 0.84765625,
+      "random_pair_mean_auroc": 0.460595703125,
+      "source_auroc": 0.95947265625,
+      "test_rows": 128,
+      "unaligned_auroc": 0.431884765625
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.99462890625,
+      "held_out": [
+        "mathematics",
+        "engineering"
+      ],
+      "heldout_transport_auroc": 0.9951171875,
+      "random_pair_mean_auroc": 0.5224365234375,
+      "source_auroc": 0.993896484375,
+      "test_rows": 128,
+      "unaligned_auroc": 0.232666015625
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.95849609375,
+      "held_out": [
+        "mathematics",
+        "economics_business"
+      ],
+      "heldout_transport_auroc": 0.956298828125,
+      "random_pair_mean_auroc": 0.47425537109375,
+      "source_auroc": 0.969970703125,
+      "test_rows": 128,
+      "unaligned_auroc": 0.22998046875
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 1.0,
+      "held_out": [
+        "mathematics",
+        "psychology_social_science"
+      ],
+      "heldout_transport_auroc": 1.0,
+      "random_pair_mean_auroc": 0.4728271484375,
+      "source_auroc": 1.0,
+      "test_rows": 128,
+      "unaligned_auroc": 0.138916015625
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.888916015625,
+      "held_out": [
+        "physics",
+        "chemistry"
+      ],
+      "heldout_transport_auroc": 0.752685546875,
+      "random_pair_mean_auroc": 0.50843505859375,
+      "source_auroc": 0.89599609375,
+      "test_rows": 128,
+      "unaligned_auroc": 0.65234375
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.999755859375,
+      "held_out": [
+        "physics",
+        "biology"
+      ],
+      "heldout_transport_auroc": 0.99755859375,
+      "random_pair_mean_auroc": 0.512109375,
+      "source_auroc": 0.98876953125,
+      "test_rows": 128,
+      "unaligned_auroc": 0.286865234375
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 1.0,
+      "held_out": [
+        "physics",
+        "computer_science"
+      ],
+      "heldout_transport_auroc": 0.998779296875,
+      "random_pair_mean_auroc": 0.47750244140625,
+      "source_auroc": 1.0,
+      "test_rows": 128,
+      "unaligned_auroc": 0.556396484375
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.9912109375,
+      "held_out": [
+        "physics",
+        "engineering"
+      ],
+      "heldout_transport_auroc": 0.94091796875,
+      "random_pair_mean_auroc": 0.47042236328125,
+      "source_auroc": 0.9970703125,
+      "test_rows": 128,
+      "unaligned_auroc": 0.418701171875
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 1.0,
+      "held_out": [
+        "physics",
+        "economics_business"
+      ],
+      "heldout_transport_auroc": 0.9970703125,
+      "random_pair_mean_auroc": 0.4685302734375,
+      "source_auroc": 1.0,
+      "test_rows": 128,
+      "unaligned_auroc": 0.75341796875
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 1.0,
+      "held_out": [
+        "physics",
+        "psychology_social_science"
+      ],
+      "heldout_transport_auroc": 0.998046875,
+      "random_pair_mean_auroc": 0.467578125,
+      "source_auroc": 0.999755859375,
+      "test_rows": 128,
+      "unaligned_auroc": 0.482666015625
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.96240234375,
+      "held_out": [
+        "chemistry",
+        "biology"
+      ],
+      "heldout_transport_auroc": 0.95703125,
+      "random_pair_mean_auroc": 0.480615234375,
+      "source_auroc": 0.955078125,
+      "test_rows": 128,
+      "unaligned_auroc": 0.48974609375
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 1.0,
+      "held_out": [
+        "chemistry",
+        "computer_science"
+      ],
+      "heldout_transport_auroc": 1.0,
+      "random_pair_mean_auroc": 0.54586181640625,
+      "source_auroc": 1.0,
+      "test_rows": 128,
+      "unaligned_auroc": 0.2841796875
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.992431640625,
+      "held_out": [
+        "chemistry",
+        "engineering"
+      ],
+      "heldout_transport_auroc": 0.96826171875,
+      "random_pair_mean_auroc": 0.4731201171875,
+      "source_auroc": 0.997314453125,
+      "test_rows": 128,
+      "unaligned_auroc": 0.629638671875
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 1.0,
+      "held_out": [
+        "chemistry",
+        "economics_business"
+      ],
+      "heldout_transport_auroc": 0.99951171875,
+      "random_pair_mean_auroc": 0.5136474609375,
+      "source_auroc": 1.0,
+      "test_rows": 128,
+      "unaligned_auroc": 0.25732421875
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 1.0,
+      "held_out": [
+        "chemistry",
+        "psychology_social_science"
+      ],
+      "heldout_transport_auroc": 0.999267578125,
+      "random_pair_mean_auroc": 0.52373046875,
+      "source_auroc": 1.0,
+      "test_rows": 128,
+      "unaligned_auroc": 0.428466796875
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.974609375,
+      "held_out": [
+        "biology",
+        "computer_science"
+      ],
+      "heldout_transport_auroc": 0.93896484375,
+      "random_pair_mean_auroc": 0.48621826171875,
+      "source_auroc": 0.982666015625,
+      "test_rows": 128,
+      "unaligned_auroc": 0.376220703125
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 1.0,
+      "held_out": [
+        "biology",
+        "engineering"
+      ],
+      "heldout_transport_auroc": 0.99560546875,
+      "random_pair_mean_auroc": 0.47037353515625,
+      "source_auroc": 0.999267578125,
+      "test_rows": 128,
+      "unaligned_auroc": 0.420166015625
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.962646484375,
+      "held_out": [
+        "biology",
+        "economics_business"
+      ],
+      "heldout_transport_auroc": 0.892822265625,
+      "random_pair_mean_auroc": 0.47247314453125,
+      "source_auroc": 0.9951171875,
+      "test_rows": 128,
+      "unaligned_auroc": 0.474365234375
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.908935546875,
+      "held_out": [
+        "biology",
+        "psychology_social_science"
+      ],
+      "heldout_transport_auroc": 0.8427734375,
+      "random_pair_mean_auroc": 0.48916015625,
+      "source_auroc": 0.835205078125,
+      "test_rows": 128,
+      "unaligned_auroc": 0.43115234375
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.959228515625,
+      "held_out": [
+        "computer_science",
+        "engineering"
+      ],
+      "heldout_transport_auroc": 0.93701171875,
+      "random_pair_mean_auroc": 0.47628173828125,
+      "source_auroc": 0.9775390625,
+      "test_rows": 128,
+      "unaligned_auroc": 0.517822265625
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.99560546875,
+      "held_out": [
+        "computer_science",
+        "economics_business"
+      ],
+      "heldout_transport_auroc": 0.9296875,
+      "random_pair_mean_auroc": 0.48905029296875,
+      "source_auroc": 0.99560546875,
+      "test_rows": 128,
+      "unaligned_auroc": 0.441162109375
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.974365234375,
+      "held_out": [
+        "computer_science",
+        "psychology_social_science"
+      ],
+      "heldout_transport_auroc": 0.92822265625,
+      "random_pair_mean_auroc": 0.4991455078125,
+      "source_auroc": 0.97705078125,
+      "test_rows": 128,
+      "unaligned_auroc": 0.396728515625
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.99462890625,
+      "held_out": [
+        "engineering",
+        "economics_business"
+      ],
+      "heldout_transport_auroc": 0.9775390625,
+      "random_pair_mean_auroc": 0.5205078125,
+      "source_auroc": 0.9990234375,
+      "test_rows": 128,
+      "unaligned_auroc": 0.4833984375
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.99951171875,
+      "held_out": [
+        "engineering",
+        "psychology_social_science"
+      ],
+      "heldout_transport_auroc": 0.998291015625,
+      "random_pair_mean_auroc": 0.47313232421875,
+      "source_auroc": 0.99951171875,
+      "test_rows": 128,
+      "unaligned_auroc": 0.1669921875
+    },
+    {
+      "adapter_fit_rows": 1248,
+      "full_domain_transport_auroc": 0.892578125,
+      "held_out": [
+        "economics_business",
+        "psychology_social_science"
+      ],
+      "heldout_transport_auroc": 0.833740234375,
+      "random_pair_mean_auroc": 0.4620849609375,
+      "source_auroc": 0.962158203125,
+      "test_rows": 128,
+      "unaligned_auroc": 0.28662109375
+    }
+  ],
+  "protocol": {
+    "bootstrap_iterations": 2000,
+    "frozen_date": "2026-07-20",
+    "random_controls": 20,
+    "rank": 64,
+    "ridge_alpha": 100.0,
+    "sha256": "7b7c9388d5985aeff584e729dafc64950b9ae2697d273849bfadbfc64155dddd",
+    "source_layer": 24,
+    "target_layer": 23
+  },
+  "random_pair": {
+    "control_mean_aurocs": [
+      0.5294538225446429,
+      0.521484375,
+      0.48257882254464285,
+      0.43777901785714285,
+      0.49416678292410715,
+      0.5071062360491071,
+      0.47705078125,
+      0.4788731166294643,
+      0.48525565011160715,
+      0.46766880580357145,
+      0.49969482421875,
+      0.48388671875,
+      0.490478515625,
+      0.5060773577008929,
+      0.4945155552455357,
+      0.5197317940848214,
+      0.5114397321428571,
+      0.49285888671875,
+      0.5002528599330357,
+      0.42747279575892855
+    ],
+    "mean_auroc": 0.4903913225446429,
+    "std_auroc": 0.024725117040829716
+  },
+  "runtime_seconds": 85.4228994846344,
+  "source": {
+    "max_auroc": 1.0,
+    "mean_auroc": 0.9807477678571429,
+    "median_auroc": 0.995361328125,
+    "min_auroc": 0.835205078125,
+    "pairs_above_chance": 28
+  },
+  "unaligned": {
+    "max_auroc": 0.75341796875,
+    "mean_auroc": 0.39801025390625,
+    "median_auroc": 0.42431640625,
+    "min_auroc": 0.13037109375,
+    "pairs_above_chance": 5
+  }
+}

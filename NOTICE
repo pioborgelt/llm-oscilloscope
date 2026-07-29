@@ -1,5 +1,11 @@
-LLM-Oscilloscope v0.1.0
+LLM-Oscilloscope v0.2.0
 Copyright 2026 Pio Borgelt
 
-The released detector artifacts were developed using Meta Llama-3.1-8B-Instruct. Meta does not sponsor or endorse this project. Users must obtain model access separately and comply with all applicable upstream model and dataset terms.
+The released measurement artifacts were developed using
+Meta Llama-3.1-8B-Instruct, Mistral-7B-Instruct-v0.3 and
+Qwen2.5-7B-Instruct. Their developers do not sponsor or endorse this project.
+Users must obtain model access separately and comply with all applicable
+upstream model and dataset terms.
 
+Llama 3.1 is licensed under the Llama 3.1 Community License,
+Copyright © Meta Platforms, Inc. All Rights Reserved.

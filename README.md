@@ -15,7 +15,7 @@ The long-term goal is a model-independent research instrument that can show wher
 
 A generous $20,000 Emergent Ventures grant funded the broad discovery work that led the detector to this point. This work included *many* failed approaches, label audits, mechanistic experiments and several versions of the detector. Most of this discovery work is intentionally not included here.
 
-What is included is the part that can already be inspected cleanly by reviewers. This includes a portable detector head, OOF predictions, frozen evaluations, checksums, preregistrations and CPU verification scripts.
+What is included is the part that can already be inspected cleanly by reviewers. This includes portable measurement heads, OOF predictions, frozen evaluations, checksums, preregistrations and CPU verification scripts.
 
 
 This is mainly here to prove that the current detector really exists and to provide a starting point for the next stage of the project.
@@ -50,22 +50,22 @@ On prompt-grouped out-of-fold evaluation it reaches 0.983 AUROC and 0.420 averag
 However, the high AUROC does not mean 98% accuracy. At an operating point near one false alarm per 100 generated tokens, precision is 0.368 and recall is 0.557. That is enough to make the detector useful as a research instrument, but not enough for deployment.
 
 
-The exact evaluation arrays and detector heads are included here. `python scripts/verify_results.py` recomputes the reported metrics and reloads all 17 exported artifacts. The full protocol, controls and external checks are in [How I Evaluated The Detector](docs/EVALUATION.md).
+The exact detector arrays and heads are included here. `python scripts/verify_results.py` recomputes the detector results and the released Subject Routing evidence. The full detector protocol, controls and external checks are in [How I Evaluated The Detector](docs/EVALUATION.md).
 
 ## The wider instrument
-The released detector contains entity completion and support checking. The wider project already has two additional working research channels. Each channel now has its own methodology and evidence boundary under [`docs/channels/`](docs/channels/).
+The public package now contains three verifiable measurement channels. Entity completion and support checking form the alert. Subject routing is now released separately as a research channel. The retrieval timing channel is still in active polishing and will be the next channel to get released.
 
-**[Subject routing](docs/channels/SUBJECT_ROUTING.md)** reads which academic subject region the model is using while it generates. On Llama-3.1-8B it reaches 0.924 token-level macro AUROC across eight subjects. More importantly, this channel can be moved into Mistral-7B and Qwen2.5-7B through compact activation adapters while the original Llama measurement head remains frozen.
+**[Subject routing](docs/channels/SUBJECT_ROUTING.md)** reads a graded distribution over eight academic subjects. The primary Llama test reaches 0.878 macro AUROC, and the same measurement head achieves 0.933 macro AUROC on Mistral-7B and 0.934 on Qwen2.5-7B through activation adapters. The included Qwen generation stream reaches 0.885 token-level macro AUROC.
 
-**[Retrieval timing](docs/channels/RETRIEVAL_TIMING.md)** tracks whether the model's factual retrieval process fires around the transition into generation. It is not a truth detector because retrieval can fire and still return the wrong fact. Its value is that it measures a different stage of the answer process from entity completion and support.
+**[Retrieval timing](docs/channels/RETRIEVAL_TIMING.md)** is evidence that a distinct retrieval-related event appears around the transition into generation. It is not a truth detector because retrieval can fire and still return the wrong fact. The current labels are not yet clean enough to release it as an equally verified channel.
 
 **[Entity completion](docs/channels/ENTITY_COMPLETION.md)** estimates when the model has finished producing a factual answer entity. This is the first half of the released detector.
 
 **[Support checking](docs/channels/SUPPORT_CHECKING.md)** estimates whether that completed answer looks unsupported. This is the second half of the released detector.
 
-Two additional channels are currently on the research roadmap. One would track whether an answer is being bent toward the user's stated belief or preference. The other would track whether the model follows its own retrieval signal or overrides it later in generation.
+Two additional channels are on the research roadmap as concrete next steps. One would track whether the model is sycophantic towards the user's stated beliefs or preferences. The other would track whether the model follows its own retrieval signals or if it overrides them later in generation.
 
-Each channel answers a narrower question than a general confidence score. The main research bet is that reading them together will be more useful than expecting one probe to explain the entire generation.
+Each channel answers a narrower question than a general confidence score. The main research hypothesis is that reading them together will be more useful than expecting one probe to explain the entire generation.
 
 ## Moving the instrument between models
 
@@ -80,7 +80,7 @@ The transfer also works for subjects it had never seen during setup. Across all 
 
 This does not mean that any internal signal can be transferred between any two models. The broader domain and point in the generation process still need to match.
 
-This is still in active testing and will be one of the first parts of the research roadmap.
+The runtime heads, frozen probabilities, failed controls and verifier are included in this release.
 
 ## Closing the loop
 But detection is only the first step. The LLM-Oscilloscope is ultimately meant to improve what the model produces by connecting its measurements to interventions at the latent-space level.
@@ -95,7 +95,7 @@ But this is just one intervention example, not a hallucination-reduction result.
 
 ## The roadmap
 
-The first priority is transferring the complete instrument. Entity completion and support checking need to be moved to at least one new architecture with the same frozen-head protocol used for subject routing. This would show whether the transfer result is a reusable onboarding method or only works for one easier channel.
+The first priority is packaging and independently reproducing the complete-detector transfer on Qwen, then testing it on better-balanced and longer-form data.
 
 The second priority is moving from short factual QA to natural long-form generation. That requires better entity coverage, independent labels, realistic calibration and enough context to follow several factual claims in one answer.
 
@@ -115,7 +115,7 @@ This repository does not claim that:
 - hallucination reduction has already been demonstrated broadly
 - retrieval firing means that the retrieved fact is correct
 - the complete detector already transfers across model architectures
-- the released artifacts prove every wider channel described above
+- retrieval timing is already an equally verified public channel
 
 The exact evidence boundary is described in [limitations](docs/LIMITATIONS.md) and [data availability](docs/DATA_AVAILABILITY.md).
 
@@ -129,7 +129,7 @@ python scripts/verify_results.py
 python -m unittest discover -s tests -q
 ```
 
-The verifier recomputes the three main per-token evaluations, checks the entity-completion results and reloads every exported detector artifact. `MANIFEST.sha256` covers the complete evidence package.
+The verifier recomputes the detector evaluations, checks the Subject Routing results and reloads the portable heads. It also reproduces the failed Subject Routing controls instead of hiding them. `MANIFEST.sha256` covers the complete evidence package.
 
 The paired prompt bootstrap is slower and can be reproduced separately:
 
@@ -137,7 +137,7 @@ The paired prompt bootstrap is slower and can be reproduced separately:
 python scripts/verify_bootstrap.py --iterations 2000
 ```
 
-The 65 GB activation cache is not included. The released predictions and weights are enough to verify the reported metrics and confirm that the portable heads reproduce their saved outputs. See [artifact terms](ARTIFACT_TERMS.md) and the [artifact license review](ARTIFACT_LICENSE_REVIEW.md) before redistributing model-derived files.
+The large activation caches are not included. The released predictions and weights are enough to recompute the reported metrics and confirm that the portable files load with the expected checksums and metadata. See [artifact terms](ARTIFACT_TERMS.md) and the [artifact license review](ARTIFACT_LICENSE_REVIEW.md) before redistributing model-derived files.
 
 ## Documentation
 
@@ -151,8 +151,11 @@ The detailed technical material lives in [`docs/`](docs/):
 - [Entity-completion channel](docs/channels/ENTITY_COMPLETION.md)
 - [Support-checking channel](docs/channels/SUPPORT_CHECKING.md)
 - [Subject-routing channel](docs/channels/SUBJECT_ROUTING.md)
+- [Subject-routing results and controls](docs/subject_routing/RESULTS.md)
 - [Retrieval-timing channel](docs/channels/RETRIEVAL_TIMING.md)
 - [Matched external holdout](docs/MATCHED_HOLDOUT_V2_RESULTS.md)
 - [Preregistration](docs/PREREGISTRATION.md)
 - [Limitations](docs/LIMITATIONS.md)
 - [Data availability](docs/DATA_AVAILABILITY.md)
+
+**Built with Llama.**

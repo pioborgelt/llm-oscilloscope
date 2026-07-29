@@ -3,6 +3,12 @@ This channel reads which broad subject subspace is active while the model genera
 
 The useful question is whether a compact internal readout can stay informative while prompts, source datasets and model architectures change.
 
+The channel is now part of the public evidence release. Its portable heads,
+frozen probabilities and independent verifier are included under
+[`artifacts/subject_routing/`](../../artifacts/subject_routing/). The complete
+result and its limits are in
+[Subject Routing Results](../subject_routing/RESULTS.md).
+
 ## The subject space
 
 The current channel contains mathematics, physics, chemistry, biology, computer science, engineering, economics/business and psychology/social science.
@@ -19,7 +25,6 @@ A related Apple result is [*ExpertLens: Activation Steering Features Are Highly 
 
 The part I am adding here is the instrument around that finding. This channel produces a graded subject reading after every generated token, tests it under source, template and fine-subject shift, and transports the frozen Llama readout to other model families without using their subject labels.
 
-
 ## During generation
 
 I applied the head after every consumed token in 256 generations. Across 7k post-token states, it reaches 0.924 macro AUROC and averaging the probabilities over each prompt raises AUROC to 0.963.
@@ -34,3 +39,7 @@ On an untouched 512-row holdout, the frozen Llama channel reaches 0.933 macro AU
 The first adapters saw paired examples from all eight subjects. To test whether that was necessary, I repeated the Qwen transfer across all 28 possible pairs while removing both evaluated subjects from Qwen preprocessing and adapter fitting. The frozen Llama channel reaches 0.953 mean pairwise AUROC on these unseen subjects, compared with 0.490 under random pairing. All 28 pairs are above chance. The adapter that saw all subjects reaches 0.979 on the same pairwise endpoint, making the held-out loss 0.026.
 
 This means that the adapter can carry the channel to individual subject labels it never saw during onboarding.
+
+One broader control deliberately remains negative. Adapters fitted on general
+factual-QA prompts reach 0.739 on Mistral and 0.746 on Qwen, missing the frozen
+0.750 threshold. The stage and broad operating domain still need coverage.

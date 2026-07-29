@@ -11,6 +11,7 @@ import numpy as np
 from sklearn.metrics import average_precision_score, roc_auc_score
 
 from .detector import DetectorHeads
+from .subject_verify import verify_subject_routing
 
 
 METHODS = (
@@ -147,6 +148,7 @@ def verify(root: Path) -> None:
         "3 entity-completion OOF evaluations, and "
         f"{len(weight_files)} detector artifacts"
     )
+    verify_subject_routing(root)
 
 
 def main() -> None:
