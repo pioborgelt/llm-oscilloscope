@@ -12,6 +12,7 @@ What is included:
 - portable Llama, Mistral and Qwen subject-routing heads
 - native and transferred subject probabilities, random controls and the complete held-out-subject evaluation
 - 7,830 Qwen post-token subject readings
+- compact predictions and the portable adapter for the Qwen-native two-channel detector transfer
 - split prompt IDs inside every weight artifact
 - the preregistrations, result files and cryptographic manifest
 

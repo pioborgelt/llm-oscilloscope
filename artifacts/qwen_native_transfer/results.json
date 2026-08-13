@@ -1,0 +1,184 @@
+{
+  "bootstrap_iterations": 2000,
+  "channels": {
+    "entity": {
+      "by_source": {
+        "granola": {
+          "auroc": 0.9609526268232864,
+          "average_precision": 0.858804545627668,
+          "n": 1006,
+          "negative": 762,
+          "positive": 244,
+          "prevalence": 0.24254473161033796
+        },
+        "simpleqa": {
+          "auroc": 0.9452417602318001,
+          "average_precision": 0.7771740757950046,
+          "n": 1224,
+          "negative": 1004,
+          "positive": 220,
+          "prevalence": 0.17973856209150327
+        }
+      },
+      "native_target_labeled_ceiling": {
+        "auroc": 0.9932403737259343,
+        "average_precision": 0.976329349566506,
+        "n": 2230,
+        "negative": 1766,
+        "positive": 464,
+        "prevalence": 0.20807174887892377
+      },
+      "random_pair": {
+        "aurocs": [
+          0.6356709102979654,
+          0.4027890322958566,
+          0.37374179911742883,
+          0.5794216425196236,
+          0.4424266313898544,
+          0.5999268998711289,
+          0.3035449291209435,
+          0.46251269184207444,
+          0.4588174132073261,
+          0.47794609384152775,
+          0.5885072929277151,
+          0.5096091888936619,
+          0.26186870289374,
+          0.7374509411489045,
+          0.261054716483774,
+          0.6096428710899364,
+          0.34335887159761,
+          0.5688508025149374,
+          0.3672750615066193,
+          0.4264898270004296
+        ],
+        "controls": 20,
+        "mean_auroc": 0.4705453159780529,
+        "std_auroc": 0.1285816009690951
+      },
+      "transport": {
+        "auroc": 0.9538334244542507,
+        "average_precision": 0.8242121679110873,
+        "n": 2230,
+        "negative": 1766,
+        "positive": 464,
+        "prevalence": 0.20807174887892377,
+        "prompt_bootstrap_95_ci": [
+          0.9445556886971198,
+          0.9621604274460563
+        ]
+      }
+    },
+    "support": {
+      "by_source": {
+        "granola": {
+          "auroc": 0.7419555555555554,
+          "average_precision": 0.8504507803744745,
+          "n": 225,
+          "negative": 75,
+          "positive": 150,
+          "prevalence": 0.6666666666666666
+        },
+        "simpleqa": {
+          "auroc": 0.5085365853658536,
+          "average_precision": 0.9481216285587466,
+          "n": 217,
+          "negative": 12,
+          "positive": 205,
+          "prevalence": 0.9447004608294931
+        }
+      },
+      "native_target_labeled_ceiling": {
+        "auroc": 0.8088068641735471,
+        "average_precision": 0.9415188765253424,
+        "n": 442,
+        "negative": 87,
+        "positive": 355,
+        "prevalence": 0.8031674208144797
+      },
+      "random_pair": {
+        "aurocs": [
+          0.4646592196859317,
+          0.6645620851546058,
+          0.6373967945604662,
+          0.6737251092763478,
+          0.5121580055042901,
+          0.41508823053262106,
+          0.482337704387243,
+          0.46433543791484544,
+          0.3386919216448114,
+          0.6072203334952242,
+          0.3343046786465922,
+          0.44364578274243155,
+          0.439598510603853,
+          0.6316982353893476,
+          0.34913388376234417,
+          0.3930386919216448,
+          0.6916949975716367,
+          0.6889752306945118,
+          0.38193297717338515,
+          0.6147968269386435
+        ],
+        "controls": 20,
+        "mean_auroc": 0.5114497328800389,
+        "std_auroc": 0.12381958797016761
+      },
+      "transport": {
+        "auroc": 0.7169499757163672,
+        "average_precision": 0.9033032104962528,
+        "n": 442,
+        "negative": 87,
+        "positive": 355,
+        "prevalence": 0.8031674208144797,
+        "prompt_bootstrap_95_ci": [
+          0.652703177303163,
+          0.7763452504219752
+        ]
+      }
+    }
+  },
+  "claim_boundary": "Model-native short factual QA only; no long-form, universal-space or causal-intervention claim.",
+  "combined_secondary": {
+    "auroc": 0.9121789560894781,
+    "average_precision": 0.5736352749612209,
+    "n": 2208,
+    "negative": 1853,
+    "positive": 355,
+    "prevalence": 0.16077898550724637,
+    "prompt_bootstrap_95_ci": [
+      0.8976087796300832,
+      0.9251198972941277
+    ]
+  },
+  "coverage": {
+    "aligned_answer_endpoints": 464,
+    "failed_or_missing_grades": 0,
+    "generated_prompts": 400,
+    "generated_tokens": 2230,
+    "max_token_prompts": 2,
+    "partial_endpoints": 12,
+    "prompts_excluded_unaligned_answer": 0,
+    "selected_prompts": 400,
+    "successful_grades": 400,
+    "supported_endpoints": 87,
+    "unsupported_endpoints": 355,
+    "unverifiable_endpoints": 10,
+    "zero_token_prompts": 0
+  },
+  "decision": {
+    "coverage_pass": true,
+    "entity_transport_pass": true,
+    "status": "QWEN_NATIVE_TWO_CHANNEL_PASS",
+    "support_transport_pass": true
+  },
+  "input_hashes": {
+    "adapter_sha256": "58be4c4fc91b6f41af5047c9afb907d768cf8f3be9e821cfe2ad5d3659c0636c",
+    "generation_batches_sha256": "5d667fed4c84236c30376a117fd5da29f9885e4dfce293438afce2a268b35763",
+    "generation_results_sha256": "35571968f8756d5e5ff1f47deeb81e06814342c15fe3221bc0978b1cdc24c56f",
+    "grades_sha256": "a0696400b9feadb2339792ceca29460ee84a2467f503b611f29c0dc612ee3397",
+    "protocol_sha256": "c93cf00dade09360677888a24ce1540b79d9b39420078b121a95c5a639f30332",
+    "run_manifest_sha256": "e40add39888e5ea5f69a25ffbdf3a5d57bff98b860d6103dcfd27a0413345688",
+    "selection_sha256": "44e2b45c0b58b1333fce3b339b18bca1d50f48100f9fcfe65ea825c2d1c6867d"
+  },
+  "protocol": "p15_qwen_native_two_channel_v1",
+  "schema_version": 1
+}

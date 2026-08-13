@@ -3,7 +3,7 @@
 The package in this repo has clear limits:
 
 1. This is a research-grade detector, not a production hallucination alarm.
-2. The complete detector has only been tested on Llama-3.1-8B-Instruct.
+2. Both detector channels retain useful ranking information after transfer to Qwen2.5-7B-Instruct, but support transfer is uneven and not deployment-ready.
 3. The detector identifies unsupported answer entities, not arbitrary reasoning errors or every kind of hallucination.
 4. The strongest correctness score comes after the entity has already been completed.
 5. At approximately one false alarm per 100 tokens, random precision/recall is 0.368/0.557.
@@ -14,3 +14,4 @@ The package in this repo has clear limits:
 10. Subject routing covers eight academic subjects and short multiple-choice prompts. It has not been validated on multilingual generation, code or open-ended mixed-domain conversations.
 11. Subject-transfer AUROC is much stronger than hard classification accuracy. The Mistral and Qwen heads reach only 0.625 and 0.617 accuracy on the untouched holdout.
 12. Subject adapters fitted on general factual prompts miss the frozen transfer threshold. Channel onboarding still requires the right generation stage and broad operating domain.
+13. Qwen-native support transfer reaches 0.717 pooled AUROC but only 0.509 on SimpleQA. Its high AP partly reflects the 80.3% unsupported prevalence.

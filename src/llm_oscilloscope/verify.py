@@ -11,6 +11,7 @@ import numpy as np
 from sklearn.metrics import average_precision_score, roc_auc_score
 
 from .detector import DetectorHeads
+from .qwen_verify import verify_qwen_native_transfer
 from .subject_verify import verify_subject_routing
 
 
@@ -149,6 +150,7 @@ def verify(root: Path) -> None:
         f"{len(weight_files)} detector artifacts"
     )
     verify_subject_routing(root)
+    verify_qwen_native_transfer(root)
 
 
 def main() -> None:
