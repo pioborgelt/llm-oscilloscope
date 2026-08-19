@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llm-oscilloscope"
-version = "0.3.0"
+version = "0.4.0"
 description = "Research evidence package for internal language-model measurement channels"
 requires-python = ">=3.10"
 license = "Apache-2.0"

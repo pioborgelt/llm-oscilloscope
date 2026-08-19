@@ -1,0 +1,563 @@
+{
+  "coverage": {
+    "aligned_answer_endpoints": 464,
+    "failed_or_missing_grades": 0,
+    "generated_prompts": 400,
+    "generated_tokens": 2230,
+    "max_token_prompts": 2,
+    "partial_endpoints": 12,
+    "prompts_excluded_unaligned_answer": 0,
+    "selected_prompts": 400,
+    "successful_grades": 400,
+    "supported_endpoints": 87,
+    "unsupported_endpoints": 355,
+    "unverifiable_endpoints": 10,
+    "zero_token_prompts": 0
+  },
+  "final_fit": {
+    "support_endpoints": 442,
+    "supported": 87,
+    "unsupported": 355,
+    "weights_sha256": "3fa60d943ec97ff33b417fa9bb5a2baec9e058dd0df4fe544446a1cb1b532fb5"
+  },
+  "native_reference": {
+    "auroc": 0.8088068641735471,
+    "average_precision": 0.9415188765253424,
+    "by_source": {
+      "granola": {
+        "auroc": 0.7562666666666666,
+        "average_precision": 0.8630348562617453,
+        "n": 225,
+        "prevalence": 0.6666666666666666,
+        "supported": 75,
+        "unsupported": 150
+      },
+      "simpleqa": {
+        "auroc": 0.7060975609756097,
+        "average_precision": 0.9787192002097754,
+        "n": 217,
+        "prevalence": 0.9447004608294931,
+        "supported": 12,
+        "unsupported": 205
+      }
+    },
+    "fold_macro_auroc": 0.8002912279052019,
+    "fold_macro_average_precision": 0.9395557896486885,
+    "folds": [
+      {
+        "auroc": 0.7838709677419355,
+        "average_precision": 0.8982017330422724,
+        "n": 82,
+        "prevalence": 0.7560975609756098,
+        "supported": 20,
+        "unsupported": 62
+      },
+      {
+        "auroc": 0.7833333333333334,
+        "average_precision": 0.9717006945629449,
+        "n": 89,
+        "prevalence": 0.898876404494382,
+        "supported": 9,
+        "unsupported": 80
+      },
+      {
+        "auroc": 0.7736077481840193,
+        "average_precision": 0.9300932425564042,
+        "n": 73,
+        "prevalence": 0.8082191780821918,
+        "supported": 14,
+        "unsupported": 59
+      },
+      {
+        "auroc": 0.8288065843621399,
+        "average_precision": 0.9634646348095592,
+        "n": 96,
+        "prevalence": 0.84375,
+        "supported": 15,
+        "unsupported": 81
+      },
+      {
+        "auroc": 0.8318375059045819,
+        "average_precision": 0.9343186432722619,
+        "n": 102,
+        "prevalence": 0.7156862745098039,
+        "supported": 29,
+        "unsupported": 73
+      }
+    ],
+    "matched": {
+      "auroc": 0.700136612021858,
+      "n_strata": 17,
+      "pair_weight": 1464,
+      "strata": [
+        {
+          "auroc": 0.4920634920634921,
+          "length": 1,
+          "n": 16,
+          "pair_weight": 63,
+          "position_bucket": "1",
+          "source": "granola",
+          "supported": 9,
+          "unsupported": 7
+        },
+        {
+          "auroc": 0.35,
+          "length": 1,
+          "n": 9,
+          "pair_weight": 20,
+          "position_bucket": "2-3",
+          "source": "granola",
+          "supported": 4,
+          "unsupported": 5
+        },
+        {
+          "auroc": 0.5625,
+          "length": 1,
+          "n": 27,
+          "pair_weight": 176,
+          "position_bucket": "4-6",
+          "source": "granola",
+          "supported": 16,
+          "unsupported": 11
+        },
+        {
+          "auroc": 0.7106481481481481,
+          "length": 2,
+          "n": 42,
+          "pair_weight": 432,
+          "position_bucket": "2-3",
+          "source": "granola",
+          "supported": 18,
+          "unsupported": 24
+        },
+        {
+          "auroc": 1.0,
+          "length": 2,
+          "n": 3,
+          "pair_weight": 2,
+          "position_bucket": "4-6",
+          "source": "granola",
+          "supported": 1,
+          "unsupported": 2
+        },
+        {
+          "auroc": 0.8698412698412699,
+          "length": 3,
+          "n": 44,
+          "pair_weight": 315,
+          "position_bucket": "2-3",
+          "source": "granola",
+          "supported": 9,
+          "unsupported": 35
+        },
+        {
+          "auroc": 0.7936507936507936,
+          "length": 4,
+          "n": 30,
+          "pair_weight": 189,
+          "position_bucket": "4-6",
+          "source": "granola",
+          "supported": 9,
+          "unsupported": 21
+        },
+        {
+          "auroc": 0.6470588235294117,
+          "length": 5,
+          "n": 22,
+          "pair_weight": 85,
+          "position_bucket": "4-6",
+          "source": "granola",
+          "supported": 5,
+          "unsupported": 17
+        },
+        {
+          "auroc": 1.0,
+          "length": 7,
+          "n": 3,
+          "pair_weight": 2,
+          "position_bucket": "7-10",
+          "source": "granola",
+          "supported": 1,
+          "unsupported": 2
+        },
+        {
+          "auroc": 1.0,
+          "length": 8,
+          "n": 5,
+          "pair_weight": 4,
+          "position_bucket": "7-10",
+          "source": "granola",
+          "supported": 1,
+          "unsupported": 4
+        },
+        {
+          "auroc": 0.3,
+          "length": 1,
+          "n": 14,
+          "pair_weight": 40,
+          "position_bucket": "1",
+          "source": "simpleqa",
+          "supported": 4,
+          "unsupported": 10
+        },
+        {
+          "auroc": 0.16666666666666666,
+          "length": 1,
+          "n": 5,
+          "pair_weight": 6,
+          "position_bucket": "2-3",
+          "source": "simpleqa",
+          "supported": 2,
+          "unsupported": 3
+        },
+        {
+          "auroc": 0.4642857142857143,
+          "length": 2,
+          "n": 29,
+          "pair_weight": 28,
+          "position_bucket": "2-3",
+          "source": "simpleqa",
+          "supported": 1,
+          "unsupported": 28
+        },
+        {
+          "auroc": 0.75,
+          "length": 2,
+          "n": 5,
+          "pair_weight": 4,
+          "position_bucket": "4-6",
+          "source": "simpleqa",
+          "supported": 1,
+          "unsupported": 4
+        },
+        {
+          "auroc": 0.5303030303030303,
+          "length": 3,
+          "n": 35,
+          "pair_weight": 66,
+          "position_bucket": "2-3",
+          "source": "simpleqa",
+          "supported": 2,
+          "unsupported": 33
+        },
+        {
+          "auroc": 0.3333333333333333,
+          "length": 3,
+          "n": 4,
+          "pair_weight": 3,
+          "position_bucket": "7-10",
+          "source": "simpleqa",
+          "supported": 1,
+          "unsupported": 3
+        },
+        {
+          "auroc": 1.0,
+          "length": 4,
+          "n": 30,
+          "pair_weight": 29,
+          "position_bucket": "4-6",
+          "source": "simpleqa",
+          "supported": 1,
+          "unsupported": 29
+        }
+      ]
+    },
+    "n": 442,
+    "prevalence": 0.8031674208144797,
+    "reliable_source_macro_auroc": 0.7562666666666666,
+    "reliable_source_worst_auroc": 0.7562666666666666,
+    "source_macro_auroc": 0.7311821138211382,
+    "supported": 87,
+    "unsupported": 355
+  },
+  "native_support_v2": {
+    "auroc": 0.8602881657762668,
+    "average_precision": 0.9590664369265646,
+    "by_source": {
+      "granola": {
+        "auroc": 0.8359111111111112,
+        "average_precision": 0.9113551987840158,
+        "n": 225,
+        "prevalence": 0.6666666666666666,
+        "supported": 75,
+        "unsupported": 150
+      },
+      "simpleqa": {
+        "auroc": 0.6991869918699186,
+        "average_precision": 0.9778114119312378,
+        "n": 217,
+        "prevalence": 0.9447004608294931,
+        "supported": 12,
+        "unsupported": 205
+      }
+    },
+    "fold_macro_auroc": 0.8615417745342752,
+    "fold_macro_average_precision": 0.9611002482007984,
+    "folds": [
+      {
+        "auroc": 0.828225806451613,
+        "average_precision": 0.9368020526772123,
+        "n": 82,
+        "prevalence": 0.7560975609756098,
+        "supported": 20,
+        "unsupported": 62
+      },
+      {
+        "auroc": 0.8624999999999999,
+        "average_precision": 0.9791755784521837,
+        "n": 89,
+        "prevalence": 0.898876404494382,
+        "supported": 9,
+        "unsupported": 80
+      },
+      {
+        "auroc": 0.8801452784503633,
+        "average_precision": 0.9674114640091462,
+        "n": 73,
+        "prevalence": 0.8082191780821918,
+        "supported": 14,
+        "unsupported": 59
+      },
+      {
+        "auroc": 0.8502057613168723,
+        "average_precision": 0.9669200494840985,
+        "n": 96,
+        "prevalence": 0.84375,
+        "supported": 15,
+        "unsupported": 81
+      },
+      {
+        "auroc": 0.8866320264525271,
+        "average_precision": 0.9551920963813512,
+        "n": 102,
+        "prevalence": 0.7156862745098039,
+        "supported": 29,
+        "unsupported": 73
+      }
+    ],
+    "matched": {
+      "auroc": 0.8019125683060109,
+      "n_strata": 17,
+      "pair_weight": 1464,
+      "strata": [
+        {
+          "auroc": 0.5873015873015872,
+          "length": 1,
+          "n": 16,
+          "pair_weight": 63,
+          "position_bucket": "1",
+          "source": "granola",
+          "supported": 9,
+          "unsupported": 7
+        },
+        {
+          "auroc": 0.4,
+          "length": 1,
+          "n": 9,
+          "pair_weight": 20,
+          "position_bucket": "2-3",
+          "source": "granola",
+          "supported": 4,
+          "unsupported": 5
+        },
+        {
+          "auroc": 0.8125,
+          "length": 1,
+          "n": 27,
+          "pair_weight": 176,
+          "position_bucket": "4-6",
+          "source": "granola",
+          "supported": 16,
+          "unsupported": 11
+        },
+        {
+          "auroc": 0.8310185185185185,
+          "length": 2,
+          "n": 42,
+          "pair_weight": 432,
+          "position_bucket": "2-3",
+          "source": "granola",
+          "supported": 18,
+          "unsupported": 24
+        },
+        {
+          "auroc": 1.0,
+          "length": 2,
+          "n": 3,
+          "pair_weight": 2,
+          "position_bucket": "4-6",
+          "source": "granola",
+          "supported": 1,
+          "unsupported": 2
+        },
+        {
+          "auroc": 0.892063492063492,
+          "length": 3,
+          "n": 44,
+          "pair_weight": 315,
+          "position_bucket": "2-3",
+          "source": "granola",
+          "supported": 9,
+          "unsupported": 35
+        },
+        {
+          "auroc": 0.8518518518518519,
+          "length": 4,
+          "n": 30,
+          "pair_weight": 189,
+          "position_bucket": "4-6",
+          "source": "granola",
+          "supported": 9,
+          "unsupported": 21
+        },
+        {
+          "auroc": 0.7529411764705882,
+          "length": 5,
+          "n": 22,
+          "pair_weight": 85,
+          "position_bucket": "4-6",
+          "source": "granola",
+          "supported": 5,
+          "unsupported": 17
+        },
+        {
+          "auroc": 1.0,
+          "length": 7,
+          "n": 3,
+          "pair_weight": 2,
+          "position_bucket": "7-10",
+          "source": "granola",
+          "supported": 1,
+          "unsupported": 2
+        },
+        {
+          "auroc": 1.0,
+          "length": 8,
+          "n": 5,
+          "pair_weight": 4,
+          "position_bucket": "7-10",
+          "source": "granola",
+          "supported": 1,
+          "unsupported": 4
+        },
+        {
+          "auroc": 0.375,
+          "length": 1,
+          "n": 14,
+          "pair_weight": 40,
+          "position_bucket": "1",
+          "source": "simpleqa",
+          "supported": 4,
+          "unsupported": 10
+        },
+        {
+          "auroc": 0.16666666666666666,
+          "length": 1,
+          "n": 5,
+          "pair_weight": 6,
+          "position_bucket": "2-3",
+          "source": "simpleqa",
+          "supported": 2,
+          "unsupported": 3
+        },
+        {
+          "auroc": 0.4642857142857143,
+          "length": 2,
+          "n": 29,
+          "pair_weight": 28,
+          "position_bucket": "2-3",
+          "source": "simpleqa",
+          "supported": 1,
+          "unsupported": 28
+        },
+        {
+          "auroc": 0.25,
+          "length": 2,
+          "n": 5,
+          "pair_weight": 4,
+          "position_bucket": "4-6",
+          "source": "simpleqa",
+          "supported": 1,
+          "unsupported": 4
+        },
+        {
+          "auroc": 0.8333333333333333,
+          "length": 3,
+          "n": 35,
+          "pair_weight": 66,
+          "position_bucket": "2-3",
+          "source": "simpleqa",
+          "supported": 2,
+          "unsupported": 33
+        },
+        {
+          "auroc": 0.0,
+          "length": 3,
+          "n": 4,
+          "pair_weight": 3,
+          "position_bucket": "7-10",
+          "source": "simpleqa",
+          "supported": 1,
+          "unsupported": 3
+        },
+        {
+          "auroc": 0.9655172413793104,
+          "length": 4,
+          "n": 30,
+          "pair_weight": 29,
+          "position_bucket": "4-6",
+          "source": "simpleqa",
+          "supported": 1,
+          "unsupported": 29
+        }
+      ]
+    },
+    "n": 442,
+    "prevalence": 0.8031674208144797,
+    "reliable_source_macro_auroc": 0.8359111111111112,
+    "reliable_source_worst_auroc": 0.8359111111111112,
+    "source_macro_auroc": 0.7675490514905149,
+    "supported": 87,
+    "unsupported": 355
+  },
+  "opened_data_development_only": true,
+  "protocol_sha256": "13619721a09793f08108fff188ddc1c45e896d28f1174a17a26a85af7f19e185",
+  "reference_alpha": 0.1,
+  "runtime_seconds": 20.99130916595459,
+  "schema_version": 1,
+  "selection_checks": {
+    "macro_gain": 0.03636693766937671,
+    "matched_gain": 0.10177595628415292,
+    "shuffle_macro_margin": 0.2652312466124662,
+    "source_non_decrease": true
+  },
+  "shuffle_controls": {
+    "controls": 20,
+    "mean_source_macro_auroc": 0.5023178048780487,
+    "p95_source_macro_auroc": 0.574880731707317,
+    "source_macro_aurocs": [
+      0.48010569105691064,
+      0.5742878048780488,
+      0.5319837398373983,
+      0.5017848238482385,
+      0.5861463414634147,
+      0.4322471544715447,
+      0.4788780487804877,
+      0.514539295392954,
+      0.5373539295392953,
+      0.44197831978319785,
+      0.5480027100271002,
+      0.4427951219512195,
+      0.4573588075880759,
+      0.5011479674796748,
+      0.49244390243902436,
+      0.556970731707317,
+      0.5173257452574526,
+      0.47392682926829266,
+      0.504931165311653,
+      0.4721479674796748
+    ]
+  },
+  "status": "QWEN_NATIVE_SUPPORT_V2_SELECTED",
+  "v2_alpha": 0.0001
+}

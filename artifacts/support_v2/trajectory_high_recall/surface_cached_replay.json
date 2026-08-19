@@ -1,0 +1,173 @@
+{
+  "checks": {
+    "all_rows_nonempty": true,
+    "four_rows_per_source_mode_cell": true,
+    "local_position_accuracy_at_least_0_90": true,
+    "median_relative_l2_at_most_0_005": true,
+    "median_same_cosine_at_least_0_9999": true,
+    "minimum_same_cosine_at_least_0_999": true,
+    "same_over_adjacent_margin_at_least_0_001": true
+  },
+  "claim_boundary": "Exact cached execution-path and token-position parity only; original full-sequence replay failure preserved.",
+  "model_id": "Qwen/Qwen2.5-7B-Instruct",
+  "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "protocol_amendment_sha256": "5df5c0ae1059661cf5b7e9387bdc26633dc11582f73a1d2a5d45b99a0018c1f7",
+  "rows": [
+    {
+      "idx": 400,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 1.0,
+      "mode": "concise",
+      "source": "granola",
+      "tokens": 4
+    },
+    {
+      "idx": 402,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 0.9999999403953552,
+      "minimum_same_cosine": 0.9999999403953552,
+      "mode": "concise",
+      "source": "granola",
+      "tokens": 3
+    },
+    {
+      "idx": 404,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999999403953552,
+      "mode": "concise",
+      "source": "granola",
+      "tokens": 17
+    },
+    {
+      "idx": 406,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998807907104,
+      "mode": "concise",
+      "source": "granola",
+      "tokens": 12
+    },
+    {
+      "idx": 401,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998807907104,
+      "mode": "explained",
+      "source": "granola",
+      "tokens": 34
+    },
+    {
+      "idx": 403,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998807907104,
+      "mode": "explained",
+      "source": "granola",
+      "tokens": 36
+    },
+    {
+      "idx": 405,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998807907104,
+      "mode": "explained",
+      "source": "granola",
+      "tokens": 24
+    },
+    {
+      "idx": 407,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998807907104,
+      "mode": "explained",
+      "source": "granola",
+      "tokens": 21
+    },
+    {
+      "idx": 0,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998807907104,
+      "mode": "concise",
+      "source": "simpleqa",
+      "tokens": 5
+    },
+    {
+      "idx": 2,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0000001192092896,
+      "minimum_same_cosine": 1.0000001192092896,
+      "mode": "concise",
+      "source": "simpleqa",
+      "tokens": 1
+    },
+    {
+      "idx": 4,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 1.0,
+      "mode": "concise",
+      "source": "simpleqa",
+      "tokens": 7
+    },
+    {
+      "idx": 6,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.000000238418579,
+      "minimum_same_cosine": 1.000000238418579,
+      "mode": "concise",
+      "source": "simpleqa",
+      "tokens": 1
+    },
+    {
+      "idx": 1,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998807907104,
+      "mode": "explained",
+      "source": "simpleqa",
+      "tokens": 35
+    },
+    {
+      "idx": 3,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998807907104,
+      "mode": "explained",
+      "source": "simpleqa",
+      "tokens": 21
+    },
+    {
+      "idx": 5,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998807907104,
+      "mode": "explained",
+      "source": "simpleqa",
+      "tokens": 22
+    },
+    {
+      "idx": 7,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999999403953552,
+      "mode": "explained",
+      "source": "simpleqa",
+      "tokens": 26
+    }
+  ],
+  "schema_version": 1,
+  "selection_sha256": "2bbeddb57f910d54dff904ed32941ee5a575df79d044637176bea8b06818d965",
+  "status": "CACHED_GENERATION_STATE_REPLAY_PASS",
+  "summary": {
+    "adjacent_median_cosine": 0.5922769904136658,
+    "local_position_accuracy": 1.0,
+    "median_relative_l2": 0.0,
+    "median_same_cosine": 1.0,
+    "minimum_same_cosine": 0.9999998807907104,
+    "same_over_adjacent_median_margin": 0.40772300958633423,
+    "tokens": 269
+  }
+}

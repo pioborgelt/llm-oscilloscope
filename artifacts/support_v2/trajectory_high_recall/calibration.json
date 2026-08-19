@@ -1,0 +1,29 @@
+{
+  "base_candidate_sha256": "d96ca824c61044305d1cd3f4adc25701005bf4fb934797b9ed3906287f203d7a",
+  "calibration_predictions_sha256": "dcf7ea6ea53bbda440456d1d31904f2448308f7e2c6e78310e4327f6cd9471eb",
+  "candidate": {
+    "false_alarms_per_correct_alarm": 0.05263157894736842,
+    "fn": 166,
+    "fp": 15,
+    "miss_rate": 0.36807095343680707,
+    "recall": 0.6319290465631929,
+    "tn": 189,
+    "tp": 285
+  },
+  "fast_support": {
+    "false_alarms_per_correct_alarm": 0.06177606177606178,
+    "fn": 192,
+    "fp": 16,
+    "miss_rate": 0.42572062084257206,
+    "recall": 0.5742793791574279,
+    "tn": 188,
+    "tp": 259
+  },
+  "output_artifact_sha256": "8825ee875742b91a51b9013c6d02c0fa31cea3c3d202d0033d388d758ceb057f",
+  "protocol_sha256": "2dac3e5ce1223fa37f06a7ea914e7297983a7660151b40508ad710bd3118902a",
+  "recall_gain": 0.05764966740576505,
+  "rule": "maximize calibration true alerts subject to candidate false alerts <= Fast Support false alerts; break ties by fewer false alerts then higher threshold",
+  "schema_version": 1,
+  "status": "FALSE_ALARM_PARITY_THRESHOLD_FROZEN",
+  "threshold": 0.7451901435852051
+}

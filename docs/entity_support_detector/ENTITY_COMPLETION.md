@@ -36,4 +36,4 @@ The reading only becomes available after the entity has been emitted. It can tri
 
 The channel has so far been tested on short English factual-QA generations. Long-form prose, multilingual text, code and more ambiguous entity structures still need separate validation.
 
-The exact first-versus-last results are in [Entity Correctness After Completion](../ENTITY_COMPLETION_RESULTS.md). The released scores are stored in `artifacts/entity_completion_scores.npz`, and `python scripts/verify_results.py` recomputes the packaged results.
+The exact first-versus-last results are in [Entity Correctness After Completion](../entity_support_detector/ENTITY_COMPLETION_RESULTS.md). The released scores are stored in `artifacts/entity_completion_scores.npz`, and `python scripts/verify_results.py` recomputes the packaged results.

@@ -13,6 +13,8 @@ from sklearn.metrics import average_precision_score, roc_auc_score
 from .detector import DetectorHeads
 from .qwen_verify import verify_qwen_native_transfer
 from .subject_verify import verify_subject_routing
+from .support_v2_verify import verify_support_v2
+from .support_trajectory_verify import verify_support_trajectory
 
 
 METHODS = (
@@ -51,10 +53,6 @@ def verify(root: Path) -> None:
 
     artifacts = root / "artifacts"
     results = json.loads((artifacts / "all_results.json").read_text(encoding="utf-8"))
-    prereg = root / "docs" / "PREREGISTRATION.md"
-    expected_prereg = results["protocol"]["preregistration_sha256"]
-    if sha256(prereg) != expected_prereg:
-        raise AssertionError("preregistration hash mismatch")
 
     print("split                 AUROC       AP")
     for mode in ("random", "entity_disjoint", "loso"):
@@ -151,6 +149,8 @@ def verify(root: Path) -> None:
     )
     verify_subject_routing(root)
     verify_qwen_native_transfer(root)
+    verify_support_v2(root)
+    verify_support_trajectory(root)
 
 
 def main() -> None:

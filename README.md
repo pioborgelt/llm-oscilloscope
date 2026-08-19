@@ -2,20 +2,20 @@
 > This repo is a checkpoint of my research progress for reviewers and potential funders. It contains a working but limited detector, and it is not ready to be deployed.
 
 
-Because of the black-box problem, LLMs expose very little about what they are actually doing while they generate. Token probabilities can show that a model is confident, but they cannot show whether factual retrieval happened, which internal knowledge region was used, or whether an answer is actually supported.
+Because of the black-box problem, LLMs expose very little about what they are actually doing while they generate. Token probabilites barely tell anything about the actual confidence of the model, and they cannot show whether factual retrieval happened, which internal knowledge region was used, or whether an answer is actually supported.
 
 Because of this, I'm building the LLM-Oscilloscope as an EEG for model generation. Its purpose is to translate some of the complex features in the model's internal representations into human-perceivable data.
 
 
 ![The four working measurement channels and two planned additions](assets/funder-04-channel-map.jpg)
-The long-term goal is a model-independent research instrument that can show where an answer process starts to fail and use that information to trigger a targeted intervention.
+A long-term goal is a model-independent instrument that can show where an answer process starts to fail and use that information to trigger a targeted intervention.
 
 
 ## Why this repo?
 
 A generous $20,000 Emergent Ventures grant funded the broad discovery work that led the detector to this point. This work included *many* failed approaches, label audits, mechanistic experiments and several versions of the detector. Most of this discovery work is intentionally not included here.
 
-What is included is the part that can already be inspected cleanly by reviewers. This includes portable measurement heads, OOF predictions, frozen evaluations, checksums, preregistrations and CPU verification scripts.
+What is included is the part that can already be inspected cleanly by reviewers. This includes portable measurement heads, OOF predictions, frozen evaluations, checksums and CPU verification scripts.
 
 
 This is mainly here to prove that the current detector really exists and to provide a starting point for the next stage of the project.
@@ -37,7 +37,7 @@ The first channel waits until the full name has unfolded. This is especially imp
 Only entity completion and support checking feed the released alert. The retrieval reading shown in the trace belongs to the wider research instrument described below.
 
 
-The detailed methodology and results are in the [detector method](docs/METHOD.md), [entity-completion analysis](docs/ENTITY_COMPLETION_RESULTS.md) and [main results](docs/RESULTS.md).
+The detailed methodology and results are in the [detector method](docs/entity_support_detector/METHOD.md), [entity-completion analysis](docs/entity_support_detector/ENTITY_COMPLETION_RESULTS.md) and [main results](docs/entity_support_detector/RESULTS.md).
 
 
 ## Evaluation
@@ -49,7 +49,21 @@ On prompt-grouped out-of-fold evaluation it reaches 0.983 AUROC and 0.420 averag
 
 However, the high AUROC does not mean 98% accuracy. At an operating point near one false alarm per 100 generated tokens, precision is 0.368 and recall is 0.557. That is enough to make the detector useful as a research instrument, but not enough for deployment.
 
-The arrays and heads for the detector are included here. `python scripts/verify_results.py` recomputes the detector, Subject Routing and Qwen transfer results. The full protocol is in [How I Evaluated The Detector](docs/EVALUATION.md).
+The arrays and heads for the detector are included here. `python scripts/verify_results.py` recomputes the detector, Subject Routing and Qwen transfer results. The full protocol is in [How I Evaluated The Detector](docs/entity_support_detector/EVALUATION.md).
+
+The existing Qwen support channel now also has an option for supervised target
+model onboarding. With this, the new GRANOLA result is 0.843 AUROC / 0.921 AP
+on 655 answer endpoints, compared to 0.684 AUROC for the annotation neutral
+adapter on the same rows. This is a stronger support readout but it uses Qwen
+support labels during onboarding and is only validated on GRANOLA. See the
+[support-checking channel](docs/entity_support_detector/SUPPORT_CHECKING.md) for more
+information.
+
+Also available is an additional higher recall profile, which uses the generated
+L23 trajectory up to each answer endpoint. This detects 985 of 1,209 unsupported
+endpoints instead of 895: an increase of 7.4 percentage points in detection
+rate. This reduces the number of missed unsupported endpoints from 314 to 224,
+a 29% reduction, while increasing the false alarms from 67 to 85.
 
 ## The wider instrument
 The current package contains three verifiable measurement channels. The entity completion channel and the support checking channel form the alert for unsupported entities together. Separately, subject routing is released as a research channel. A single unlabeled adapter now also carries both detector channels onto Qwen's own generation stream, and the retrieval timing channel is in active polishing for release.
@@ -59,9 +73,9 @@ The current package contains three verifiable measurement channels. The entity c
 
 **[Retrieval timing](docs/channels/RETRIEVAL_TIMING.md)** is evidence that a distinct retrieval-related event appears around the transition into generation. It is not a truth detector because retrieval can fire and still return the wrong fact. The current labels are not yet clean enough to release it as an equally verified channel.
 
-**[Entity completion](docs/channels/ENTITY_COMPLETION.md)** estimates when the model has finished producing a factual answer entity. This is the first half of the released detector.
+**[Entity completion](docs/entity_support_detector/ENTITY_COMPLETION.md)** estimates when the model has finished producing a factual answer entity. This is the first half of the released detector.
 
-**[Support checking](docs/channels/SUPPORT_CHECKING.md)** estimates whether that completed answer looks unsupported. This is the second half of the released detector.
+**[Support checking](docs/entity_support_detector/SUPPORT_CHECKING.md)** estimates whether that completed answer looks unsupported. This is the second half of the released detector.
 
 Two additional channels are on the research roadmap as concrete next steps. One would track whether the model is sycophantic towards the user's stated beliefs or preferences. The other would track whether the model follows its own retrieval signals or if it overrides them later in generation.
 
@@ -80,7 +94,12 @@ Importantly, the transfer also works for subjects it had never seen during setup
 
 However, it is important to note that this does not mean that any internal signal can be transferred between any two models. The broader domain and point in the generation process still need to match.
 
-The same onboarding method was also used on both detector channels at once, and on 2k tokens generated by Qwen itself, entity completion reaches 0.95 AUROC and support checking reaches 0.72. The support result is uneven and falls to near chance on SimpleQA, with 0.509 AUROC. Therefore this is a useful transfer but not a finished cross-model detector. The full result is in [Moving Both Detector Channels To Qwen](docs/QWEN_NATIVE_TRANSFER.md).
+The same annotation-neutral onboarding method was also used on both detector channels at once, and on 2k tokens generated by Qwen itself, entity completion reaches 0.95 AUROC and support checking reaches 0.72. The support result is uneven and falls to near chance on SimpleQA, with 0.509 AUROC. Therefore this is a useful transfer but not a finished cross-model detector. The full result is in [Moving Both Detector Channels To Qwen](docs/QWEN_NATIVE_TRANSFER.md).
+
+If labeled target-model onboarding is acceptable, the new native Qwen support
+head is substantially stronger on a fresh disjoint GRANOLA test. This is an
+optimization of the same support endpoint, not a label-free transfer result or
+a new detector channel.
 
 
 
@@ -95,8 +114,11 @@ The picture above shows a basic loop for a first intervention PoC. The detector 
 
 But this is just one intervention example, not a hallucination-reduction result. The system did not recover the correct spouse and broad reduction has not yet been evaluated. I still include it here because it proves that the detector output can already be connected to an action, while keeping the actual reduction claim open for the next stage of research. The frozen test and its limits are described in [A First Intervention PoC](docs/INTERVENTION_POC.md).
 
-## The roadmap
-The first priority is testing detector transfer on data that is better balanced and long-form. While the current Qwen results are strong for entity completion, the support transfer still varies substantially by source.
+## Next Steps
+Right now, a CLI Tool for testing the detectors with a GPU is in active development, because the current package does not offer a simple practical method for testing it.
+
+After that, priority is natural-prevalence and long-form validation of Support
+V2.
 
 The second priority is moving from short factual QA to natural long-form generation. That requires better entity coverage, independent labels, realistic calibration and enough context to follow several factual claims in one answer.
 
@@ -122,7 +144,7 @@ The exact evidence boundary is described in [limitations](docs/LIMITATIONS.md) a
 
 ## Quick reviewer check
 
-```bash
+```
 python -m venv .venv
 source .venv/bin/activate
 pip install -e .
@@ -130,11 +152,11 @@ python scripts/verify_results.py
 python -m unittest discover -s tests -q
 ```
 
-The verifier recomputes the detector evaluations, checks Subject Routing and the Qwen-native two-channel transfer, and reloads the portable heads. It also reproduces the failed controls instead of hiding them. `MANIFEST.sha256` covers the complete evidence package.
+The verifier recomputes the detector evaluations, checks Subject Routing, the Qwen-native two-channel transfer and the fresh Support V2 result, and reloads the portable heads. It also reproduces both high-recall false-alarm gate failures instead of hiding them. MANIFEST.sha256 covers the complete evidence package.
 
 The paired prompt bootstrap is slower and can be reproduced separately:
 
-```bash
+```
 python scripts/verify_bootstrap.py --iterations 2000
 ```
 
@@ -142,21 +164,18 @@ The large activation caches are not included. The released predictions and weigh
 
 ## Documentation
 
-The detailed technical material lives in [`docs/`](docs/):
+The detailed technical material lives in [docs/](docs/):
 
-- [Method](docs/METHOD.md)
-- [Evaluation](docs/EVALUATION.md)
-- [Main detector results](docs/RESULTS.md)
-- [Entity-completion analysis](docs/ENTITY_COMPLETION_RESULTS.md)
+- [Method](docs/entity_support_detector/METHOD.md)
+- [Evaluation](docs/entity_support_detector/EVALUATION.md)
+- [Main detector results](docs/entity_support_detector/RESULTS.md)
+- [Entity-completion analysis](docs/entity_support_detector/ENTITY_COMPLETION_RESULTS.md)
 - [First intervention PoC](docs/INTERVENTION_POC.md)
-- [Entity-completion channel](docs/channels/ENTITY_COMPLETION.md)
-- [Support-checking channel](docs/channels/SUPPORT_CHECKING.md)
+- [Entity-completion channel](docs/entity_support_detector/ENTITY_COMPLETION.md)
+- [Support-checking channel](docs/entity_support_detector/SUPPORT_CHECKING.md)
 - [Subject-routing channel](docs/channels/SUBJECT_ROUTING.md)
-- [Subject-routing results and controls](docs/subject_routing/RESULTS.md)
 - [Qwen-native detector transfer](docs/QWEN_NATIVE_TRANSFER.md)
 - [Retrieval-timing channel](docs/channels/RETRIEVAL_TIMING.md)
-- [Matched external holdout](docs/MATCHED_HOLDOUT_V2_RESULTS.md)
-- [Preregistration](docs/PREREGISTRATION.md)
 - [Limitations](docs/LIMITATIONS.md)
 - [Data availability](docs/DATA_AVAILABILITY.md)
 

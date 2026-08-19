@@ -1,0 +1,20 @@
+{
+  "checks": [
+    "protocol_and_artifact_hashes",
+    "zero_development_overlap",
+    "scorer_metrics_and_bootstraps",
+    "shuffle_controls",
+    "frozen_decision"
+  ],
+  "decision": "FRESH_GRANOLA_SUPPORT_V2_PASS",
+  "head_sha256": "3fa60d943ec97ff33b417fa9bb5a2baec9e058dd0df4fe544446a1cb1b532fb5",
+  "schema_version": 1,
+  "selection_sha256": "e928b46bf4e1be544c0b4c6560a57e60ee53a9fee0c5ca07c4ec5b495b11a22c",
+  "status": "FRESH_GRANOLA_SUPPORT_V2_VERIFIED",
+  "support_endpoints": 655,
+  "supported": 204,
+  "unsupported": 451,
+  "v2_auroc": 0.842561192991609,
+  "v2_average_precision": 0.9209958576897965,
+  "v2_matched_auroc": 0.8221309910253962
+}

@@ -1,0 +1,951 @@
+{
+  "adapter_sha256": "58be4c4fc91b6f41af5047c9afb907d768cf8f3be9e821cfe2ad5d3659c0636c",
+  "claim_boundary": "Fresh GRANOLA only; no fresh SimpleQA or source-uniform claim.",
+  "coverage": {
+    "aligned_answer_endpoints": 693,
+    "failed_or_missing_grades": 0,
+    "generated_prompts": 600,
+    "generated_tokens": 3107,
+    "max_token_prompts": 0,
+    "partial_endpoints": 19,
+    "prompts_excluded_unaligned_answer": 0,
+    "selected_prompts": 600,
+    "successful_grades": 600,
+    "supported_endpoints": 204,
+    "unsupported_endpoints": 451,
+    "unverifiable_endpoints": 19,
+    "zero_token_prompts": 0
+  },
+  "decision_checks": {
+    "auroc": true,
+    "bootstrap_lower": true,
+    "coverage": true,
+    "matched": true,
+    "native_reference_gain": true,
+    "shuffle_margin": true,
+    "state_reconstruction_gain": true
+  },
+  "grades_sha256": "8907f6cff854b1dae4800a5caf1f77f7d1bfbcf11a810f411f875202f5e8f743",
+  "head_sha256": "3fa60d943ec97ff33b417fa9bb5a2baec9e058dd0df4fe544446a1cb1b532fb5",
+  "protocol_sha256": "b5a28962f432bd3bd110be98a0305a8829bf6c877aac416969d0b5cb3c3f22d2",
+  "schema_version": 1,
+  "scorers": {
+    "native_reference": {
+      "auroc": 0.7258271379505239,
+      "average_precision": 0.8649438070669251,
+      "by_source": {
+        "granola": {
+          "auroc": 0.7258271379505239,
+          "average_precision": 0.8649438070669251,
+          "n": 655,
+          "prevalence": 0.6885496183206107,
+          "supported": 204,
+          "unsupported": 451
+        }
+      },
+      "fold_macro_auroc": 0.727111792793293,
+      "fold_macro_average_precision": 0.8675077519642294,
+      "folds": [
+        {
+          "auroc": 0.7255913978494624,
+          "average_precision": 0.8332099344748871,
+          "n": 143,
+          "prevalence": 0.6503496503496503,
+          "supported": 50,
+          "unsupported": 93
+        },
+        {
+          "auroc": 0.655,
+          "average_precision": 0.8394542987761799,
+          "n": 130,
+          "prevalence": 0.6923076923076923,
+          "supported": 40,
+          "unsupported": 90
+        },
+        {
+          "auroc": 0.7291666666666666,
+          "average_precision": 0.8704465777122948,
+          "n": 141,
+          "prevalence": 0.6595744680851063,
+          "supported": 48,
+          "unsupported": 93
+        },
+        {
+          "auroc": 0.7543723280217645,
+          "average_precision": 0.8950698519687561,
+          "n": 114,
+          "prevalence": 0.7280701754385965,
+          "supported": 31,
+          "unsupported": 83
+        },
+        {
+          "auroc": 0.7714285714285714,
+          "average_precision": 0.899358096889029,
+          "n": 127,
+          "prevalence": 0.7244094488188977,
+          "supported": 35,
+          "unsupported": 92
+        }
+      ],
+      "matched": {
+        "auroc": 0.6547641779644835,
+        "n_strata": 22,
+        "pair_weight": 10474,
+        "strata": [
+          {
+            "auroc": 0.4769433465085639,
+            "length": 1,
+            "n": 56,
+            "pair_weight": 759,
+            "position_bucket": "1",
+            "source": "granola",
+            "supported": 33,
+            "unsupported": 23
+          },
+          {
+            "auroc": 0.625,
+            "length": 1,
+            "n": 6,
+            "pair_weight": 8,
+            "position_bucket": "11-15",
+            "source": "granola",
+            "supported": 4,
+            "unsupported": 2
+          },
+          {
+            "auroc": 0.5476190476190477,
+            "length": 1,
+            "n": 13,
+            "pair_weight": 42,
+            "position_bucket": "2-3",
+            "source": "granola",
+            "supported": 6,
+            "unsupported": 7
+          },
+          {
+            "auroc": 0.5152173913043478,
+            "length": 1,
+            "n": 43,
+            "pair_weight": 460,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 20,
+            "unsupported": 23
+          },
+          {
+            "auroc": 0.7142857142857142,
+            "length": 1,
+            "n": 17,
+            "pair_weight": 70,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 7,
+            "unsupported": 10
+          },
+          {
+            "auroc": 1.0,
+            "length": 2,
+            "n": 4,
+            "pair_weight": 3,
+            "position_bucket": "11-15",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 3
+          },
+          {
+            "auroc": 0.6469141873616917,
+            "length": 2,
+            "n": 132,
+            "pair_weight": 4067,
+            "position_bucket": "2-3",
+            "source": "granola",
+            "supported": 49,
+            "unsupported": 83
+          },
+          {
+            "auroc": 0.6,
+            "length": 2,
+            "n": 9,
+            "pair_weight": 20,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 4,
+            "unsupported": 5
+          },
+          {
+            "auroc": 0.825,
+            "length": 2,
+            "n": 13,
+            "pair_weight": 40,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 5,
+            "unsupported": 8
+          },
+          {
+            "auroc": 0.5,
+            "length": 3,
+            "n": 7,
+            "pair_weight": 10,
+            "position_bucket": "11-15",
+            "source": "granola",
+            "supported": 2,
+            "unsupported": 5
+          },
+          {
+            "auroc": 0.6538345864661654,
+            "length": 3,
+            "n": 130,
+            "pair_weight": 3325,
+            "position_bucket": "2-3",
+            "source": "granola",
+            "supported": 35,
+            "unsupported": 95
+          },
+          {
+            "auroc": 0.0,
+            "length": 3,
+            "n": 3,
+            "pair_weight": 2,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 2
+          },
+          {
+            "auroc": 0.9,
+            "length": 3,
+            "n": 12,
+            "pair_weight": 20,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 2,
+            "unsupported": 10
+          },
+          {
+            "auroc": 0.8333333333333333,
+            "length": 4,
+            "n": 5,
+            "pair_weight": 6,
+            "position_bucket": "11-15",
+            "source": "granola",
+            "supported": 2,
+            "unsupported": 3
+          },
+          {
+            "auroc": 0.787326388888889,
+            "length": 4,
+            "n": 88,
+            "pair_weight": 1152,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 16,
+            "unsupported": 72
+          },
+          {
+            "auroc": 0.780246913580247,
+            "length": 5,
+            "n": 54,
+            "pair_weight": 405,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 9,
+            "unsupported": 45
+          },
+          {
+            "auroc": 1.0,
+            "length": 6,
+            "n": 2,
+            "pair_weight": 1,
+            "position_bucket": "16+",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 1
+          },
+          {
+            "auroc": 0.9565217391304348,
+            "length": 6,
+            "n": 26,
+            "pair_weight": 69,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 3,
+            "unsupported": 23
+          },
+          {
+            "auroc": 0.7777777777777778,
+            "length": 7,
+            "n": 10,
+            "pair_weight": 9,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 9
+          },
+          {
+            "auroc": 0.5,
+            "length": 8,
+            "n": 3,
+            "pair_weight": 2,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 2
+          },
+          {
+            "auroc": 0.5,
+            "length": 9,
+            "n": 3,
+            "pair_weight": 2,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 2
+          },
+          {
+            "auroc": 0.5,
+            "length": 10,
+            "n": 3,
+            "pair_weight": 2,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 2
+          }
+        ]
+      },
+      "n": 655,
+      "prevalence": 0.6885496183206107,
+      "prompt_bootstrap_95_ci": [
+        0.6845618923235599,
+        0.7693144151058282
+      ],
+      "reliable_source_macro_auroc": 0.7258271379505239,
+      "reliable_source_worst_auroc": 0.7258271379505239,
+      "source_macro_auroc": 0.7258271379505239,
+      "supported": 204,
+      "unsupported": 451
+    },
+    "native_support_v2": {
+      "auroc": 0.842561192991609,
+      "average_precision": 0.9209958576897965,
+      "by_source": {
+        "granola": {
+          "auroc": 0.842561192991609,
+          "average_precision": 0.9209958576897965,
+          "n": 655,
+          "prevalence": 0.6885496183206107,
+          "supported": 204,
+          "unsupported": 451
+        }
+      },
+      "fold_macro_auroc": 0.8442744373607433,
+      "fold_macro_average_precision": 0.9230026312063734,
+      "folds": [
+        {
+          "auroc": 0.8563440860215055,
+          "average_precision": 0.9171356858866049,
+          "n": 143,
+          "prevalence": 0.6503496503496503,
+          "supported": 50,
+          "unsupported": 93
+        },
+        {
+          "auroc": 0.8161111111111111,
+          "average_precision": 0.9063945040435099,
+          "n": 130,
+          "prevalence": 0.6923076923076923,
+          "supported": 40,
+          "unsupported": 90
+        },
+        {
+          "auroc": 0.8129480286738351,
+          "average_precision": 0.9100843521195948,
+          "n": 141,
+          "prevalence": 0.6595744680851063,
+          "supported": 48,
+          "unsupported": 93
+        },
+        {
+          "auroc": 0.8853478429848426,
+          "average_precision": 0.9577232044567696,
+          "n": 114,
+          "prevalence": 0.7280701754385965,
+          "supported": 31,
+          "unsupported": 83
+        },
+        {
+          "auroc": 0.8506211180124224,
+          "average_precision": 0.9236754095253877,
+          "n": 127,
+          "prevalence": 0.7244094488188977,
+          "supported": 35,
+          "unsupported": 92
+        }
+      ],
+      "matched": {
+        "auroc": 0.8221309910253962,
+        "n_strata": 22,
+        "pair_weight": 10474,
+        "strata": [
+          {
+            "auroc": 0.7549407114624506,
+            "length": 1,
+            "n": 56,
+            "pair_weight": 759,
+            "position_bucket": "1",
+            "source": "granola",
+            "supported": 33,
+            "unsupported": 23
+          },
+          {
+            "auroc": 1.0,
+            "length": 1,
+            "n": 6,
+            "pair_weight": 8,
+            "position_bucket": "11-15",
+            "source": "granola",
+            "supported": 4,
+            "unsupported": 2
+          },
+          {
+            "auroc": 0.8333333333333334,
+            "length": 1,
+            "n": 13,
+            "pair_weight": 42,
+            "position_bucket": "2-3",
+            "source": "granola",
+            "supported": 6,
+            "unsupported": 7
+          },
+          {
+            "auroc": 0.641304347826087,
+            "length": 1,
+            "n": 43,
+            "pair_weight": 460,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 20,
+            "unsupported": 23
+          },
+          {
+            "auroc": 0.8571428571428571,
+            "length": 1,
+            "n": 17,
+            "pair_weight": 70,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 7,
+            "unsupported": 10
+          },
+          {
+            "auroc": 1.0,
+            "length": 2,
+            "n": 4,
+            "pair_weight": 3,
+            "position_bucket": "11-15",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 3
+          },
+          {
+            "auroc": 0.7897713302188345,
+            "length": 2,
+            "n": 132,
+            "pair_weight": 4067,
+            "position_bucket": "2-3",
+            "source": "granola",
+            "supported": 49,
+            "unsupported": 83
+          },
+          {
+            "auroc": 0.8,
+            "length": 2,
+            "n": 9,
+            "pair_weight": 20,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 4,
+            "unsupported": 5
+          },
+          {
+            "auroc": 0.8250000000000001,
+            "length": 2,
+            "n": 13,
+            "pair_weight": 40,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 5,
+            "unsupported": 8
+          },
+          {
+            "auroc": 0.4,
+            "length": 3,
+            "n": 7,
+            "pair_weight": 10,
+            "position_bucket": "11-15",
+            "source": "granola",
+            "supported": 2,
+            "unsupported": 5
+          },
+          {
+            "auroc": 0.8727819548872181,
+            "length": 3,
+            "n": 130,
+            "pair_weight": 3325,
+            "position_bucket": "2-3",
+            "source": "granola",
+            "supported": 35,
+            "unsupported": 95
+          },
+          {
+            "auroc": 0.5,
+            "length": 3,
+            "n": 3,
+            "pair_weight": 2,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 2
+          },
+          {
+            "auroc": 1.0,
+            "length": 3,
+            "n": 12,
+            "pair_weight": 20,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 2,
+            "unsupported": 10
+          },
+          {
+            "auroc": 0.8333333333333333,
+            "length": 4,
+            "n": 5,
+            "pair_weight": 6,
+            "position_bucket": "11-15",
+            "source": "granola",
+            "supported": 2,
+            "unsupported": 3
+          },
+          {
+            "auroc": 0.8697916666666666,
+            "length": 4,
+            "n": 88,
+            "pair_weight": 1152,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 16,
+            "unsupported": 72
+          },
+          {
+            "auroc": 0.9209876543209876,
+            "length": 5,
+            "n": 54,
+            "pair_weight": 405,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 9,
+            "unsupported": 45
+          },
+          {
+            "auroc": 1.0,
+            "length": 6,
+            "n": 2,
+            "pair_weight": 1,
+            "position_bucket": "16+",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 1
+          },
+          {
+            "auroc": 0.7971014492753623,
+            "length": 6,
+            "n": 26,
+            "pair_weight": 69,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 3,
+            "unsupported": 23
+          },
+          {
+            "auroc": 0.7777777777777778,
+            "length": 7,
+            "n": 10,
+            "pair_weight": 9,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 9
+          },
+          {
+            "auroc": 1.0,
+            "length": 8,
+            "n": 3,
+            "pair_weight": 2,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 2
+          },
+          {
+            "auroc": 1.0,
+            "length": 9,
+            "n": 3,
+            "pair_weight": 2,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 2
+          },
+          {
+            "auroc": 1.0,
+            "length": 10,
+            "n": 3,
+            "pair_weight": 2,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 2
+          }
+        ]
+      },
+      "n": 655,
+      "prevalence": 0.6885496183206107,
+      "prompt_bootstrap_95_ci": [
+        0.8086393211208528,
+        0.8754691911031159
+      ],
+      "reliable_source_macro_auroc": 0.842561192991609,
+      "reliable_source_worst_auroc": 0.842561192991609,
+      "source_macro_auroc": 0.842561192991609,
+      "supported": 204,
+      "unsupported": 451
+    },
+    "state_reconstruction": {
+      "auroc": 0.6838180948654407,
+      "average_precision": 0.8184670106664189,
+      "by_source": {
+        "granola": {
+          "auroc": 0.6838180948654407,
+          "average_precision": 0.8184670106664189,
+          "n": 655,
+          "prevalence": 0.6885496183206107,
+          "supported": 204,
+          "unsupported": 451
+        }
+      },
+      "fold_macro_auroc": 0.6872085746311232,
+      "fold_macro_average_precision": 0.8248106798159531,
+      "folds": [
+        {
+          "auroc": 0.6670967741935483,
+          "average_precision": 0.7958130125407392,
+          "n": 143,
+          "prevalence": 0.6503496503496503,
+          "supported": 50,
+          "unsupported": 93
+        },
+        {
+          "auroc": 0.6788888888888889,
+          "average_precision": 0.8358664416799915,
+          "n": 130,
+          "prevalence": 0.6923076923076923,
+          "supported": 40,
+          "unsupported": 90
+        },
+        {
+          "auroc": 0.6742831541218638,
+          "average_precision": 0.7919467513629981,
+          "n": 141,
+          "prevalence": 0.6595744680851063,
+          "supported": 48,
+          "unsupported": 93
+        },
+        {
+          "auroc": 0.7446560435289545,
+          "average_precision": 0.8864906383226114,
+          "n": 114,
+          "prevalence": 0.7280701754385965,
+          "supported": 31,
+          "unsupported": 83
+        },
+        {
+          "auroc": 0.6711180124223604,
+          "average_precision": 0.8139365551734251,
+          "n": 127,
+          "prevalence": 0.7244094488188977,
+          "supported": 35,
+          "unsupported": 92
+        }
+      ],
+      "matched": {
+        "auroc": 0.6716631659346954,
+        "n_strata": 22,
+        "pair_weight": 10474,
+        "strata": [
+          {
+            "auroc": 0.5652173913043479,
+            "length": 1,
+            "n": 56,
+            "pair_weight": 759,
+            "position_bucket": "1",
+            "source": "granola",
+            "supported": 33,
+            "unsupported": 23
+          },
+          {
+            "auroc": 0.625,
+            "length": 1,
+            "n": 6,
+            "pair_weight": 8,
+            "position_bucket": "11-15",
+            "source": "granola",
+            "supported": 4,
+            "unsupported": 2
+          },
+          {
+            "auroc": 0.4523809523809524,
+            "length": 1,
+            "n": 13,
+            "pair_weight": 42,
+            "position_bucket": "2-3",
+            "source": "granola",
+            "supported": 6,
+            "unsupported": 7
+          },
+          {
+            "auroc": 0.43478260869565216,
+            "length": 1,
+            "n": 43,
+            "pair_weight": 460,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 20,
+            "unsupported": 23
+          },
+          {
+            "auroc": 0.6428571428571428,
+            "length": 1,
+            "n": 17,
+            "pair_weight": 70,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 7,
+            "unsupported": 10
+          },
+          {
+            "auroc": 1.0,
+            "length": 2,
+            "n": 4,
+            "pair_weight": 3,
+            "position_bucket": "11-15",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 3
+          },
+          {
+            "auroc": 0.6665847061716254,
+            "length": 2,
+            "n": 132,
+            "pair_weight": 4067,
+            "position_bucket": "2-3",
+            "source": "granola",
+            "supported": 49,
+            "unsupported": 83
+          },
+          {
+            "auroc": 0.6,
+            "length": 2,
+            "n": 9,
+            "pair_weight": 20,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 4,
+            "unsupported": 5
+          },
+          {
+            "auroc": 0.55,
+            "length": 2,
+            "n": 13,
+            "pair_weight": 40,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 5,
+            "unsupported": 8
+          },
+          {
+            "auroc": 0.8,
+            "length": 3,
+            "n": 7,
+            "pair_weight": 10,
+            "position_bucket": "11-15",
+            "source": "granola",
+            "supported": 2,
+            "unsupported": 5
+          },
+          {
+            "auroc": 0.6926315789473685,
+            "length": 3,
+            "n": 130,
+            "pair_weight": 3325,
+            "position_bucket": "2-3",
+            "source": "granola",
+            "supported": 35,
+            "unsupported": 95
+          },
+          {
+            "auroc": 0.5,
+            "length": 3,
+            "n": 3,
+            "pair_weight": 2,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 2
+          },
+          {
+            "auroc": 0.75,
+            "length": 3,
+            "n": 12,
+            "pair_weight": 20,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 2,
+            "unsupported": 10
+          },
+          {
+            "auroc": 0.6666666666666666,
+            "length": 4,
+            "n": 5,
+            "pair_weight": 6,
+            "position_bucket": "11-15",
+            "source": "granola",
+            "supported": 2,
+            "unsupported": 3
+          },
+          {
+            "auroc": 0.7621527777777777,
+            "length": 4,
+            "n": 88,
+            "pair_weight": 1152,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 16,
+            "unsupported": 72
+          },
+          {
+            "auroc": 0.7876543209876543,
+            "length": 5,
+            "n": 54,
+            "pair_weight": 405,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 9,
+            "unsupported": 45
+          },
+          {
+            "auroc": 0.0,
+            "length": 6,
+            "n": 2,
+            "pair_weight": 1,
+            "position_bucket": "16+",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 1
+          },
+          {
+            "auroc": 0.6956521739130435,
+            "length": 6,
+            "n": 26,
+            "pair_weight": 69,
+            "position_bucket": "4-6",
+            "source": "granola",
+            "supported": 3,
+            "unsupported": 23
+          },
+          {
+            "auroc": 1.0,
+            "length": 7,
+            "n": 10,
+            "pair_weight": 9,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 9
+          },
+          {
+            "auroc": 0.5,
+            "length": 8,
+            "n": 3,
+            "pair_weight": 2,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 2
+          },
+          {
+            "auroc": 0.5,
+            "length": 9,
+            "n": 3,
+            "pair_weight": 2,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 2
+          },
+          {
+            "auroc": 1.0,
+            "length": 10,
+            "n": 3,
+            "pair_weight": 2,
+            "position_bucket": "7-10",
+            "source": "granola",
+            "supported": 1,
+            "unsupported": 2
+          }
+        ]
+      },
+      "n": 655,
+      "prevalence": 0.6885496183206107,
+      "prompt_bootstrap_95_ci": [
+        0.6407321253354914,
+        0.725500752031411
+      ],
+      "reliable_source_macro_auroc": 0.6838180948654407,
+      "reliable_source_worst_auroc": 0.6838180948654407,
+      "source_macro_auroc": 0.6838180948654407,
+      "supported": 204,
+      "unsupported": 451
+    }
+  },
+  "selection_sha256": "e928b46bf4e1be544c0b4c6560a57e60ee53a9fee0c5ca07c4ec5b495b11a22c",
+  "shuffle_controls": {
+    "aurocs": [
+      0.5586061475588018,
+      0.47884874570670843,
+      0.4636428850919525,
+      0.5044563279857398,
+      0.508956132342072,
+      0.5137276640146081,
+      0.6124298943524195,
+      0.6018651362984218,
+      0.5765401504282421,
+      0.4468392678579193,
+      0.4758814834137647,
+      0.4940763445067606,
+      0.5591278640059127,
+      0.5261075605408461,
+      0.6007238815703665,
+      0.469946958827877,
+      0.4915981913829834,
+      0.5329550889091779,
+      0.48562019042650323,
+      0.5230207382287727
+    ],
+    "controls": 20,
+    "mean_auroc": 0.5212485326724925,
+    "p95_auroc": 0.6023933742011216
+  },
+  "status": "FRESH_GRANOLA_SUPPORT_V2_PASS"
+}

@@ -1,0 +1,17 @@
+{
+  "checks": {
+    "candidate_metrics": true,
+    "decision_checks": true,
+    "fast_metrics": true,
+    "late_bootstrap": true,
+    "late_metrics": true,
+    "overall_bootstrap": true,
+    "source_macro": true,
+    "source_metrics": true,
+    "status": true
+  },
+  "kind": "delayed",
+  "schema_version": 1,
+  "status": "SUPPORT_CONDITIONAL_SE_RELEASE_V2_VERIFICATION_PASS",
+  "stored_status": "NO_FRESH_DELAYED_V2_PASS"
+}

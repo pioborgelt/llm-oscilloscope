@@ -13,8 +13,12 @@ What is included:
 - native and transferred subject probabilities, random controls and the complete held-out-subject evaluation
 - 7,830 Qwen post-token subject readings
 - compact predictions and the portable adapter for the Qwen-native two-channel detector transfer
+- the portable supervised Qwen Support V2 head, fresh GRANOLA endpoint labels,
+  fixed comparison scores and twenty shuffled-label controls
+- the optional trajectory-profile weights, both fresh operating-point
+  prediction arrays and documentation on this channel
 - split prompt IDs inside every weight artifact
-- the preregistrations, result files and cryptographic manifest
+- the result files and cryptographic manifest
 
 The full caches can be reproduced from the research pipeline, source datasets
 and the named upstream models, subject to their access and license terms. The

@@ -1,0 +1,101 @@
+{
+  "checks": {
+    "all_rows_nonempty": true,
+    "four_rows_per_source_mode_cell": true,
+    "local_position_accuracy_at_least_0_90": true,
+    "median_relative_l2_at_most_0_005": true,
+    "median_same_cosine_at_least_0_9999": true,
+    "minimum_same_cosine_at_least_0_999": true,
+    "same_over_adjacent_margin_at_least_0_001": true
+  },
+  "claim_boundary": "Exact cached execution-path and token-position parity only; original full-sequence replay failure preserved.",
+  "model_id": "Qwen/Qwen2.5-7B-Instruct",
+  "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "protocol_amendment_sha256": "5df5c0ae1059661cf5b7e9387bdc26633dc11582f73a1d2a5d45b99a0018c1f7",
+  "rows": [
+    {
+      "idx": 200,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998807907104,
+      "mode": "delayed",
+      "source": "granola",
+      "tokens": 57
+    },
+    {
+      "idx": 201,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998807907104,
+      "mode": "delayed",
+      "source": "granola",
+      "tokens": 22
+    },
+    {
+      "idx": 202,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998211860657,
+      "mode": "delayed",
+      "source": "granola",
+      "tokens": 31
+    },
+    {
+      "idx": 203,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998211860657,
+      "mode": "delayed",
+      "source": "granola",
+      "tokens": 33
+    },
+    {
+      "idx": 0,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998807907104,
+      "mode": "delayed",
+      "source": "simpleqa",
+      "tokens": 21
+    },
+    {
+      "idx": 1,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998807907104,
+      "mode": "delayed",
+      "source": "simpleqa",
+      "tokens": 21
+    },
+    {
+      "idx": 2,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998807907104,
+      "mode": "delayed",
+      "source": "simpleqa",
+      "tokens": 38
+    },
+    {
+      "idx": 3,
+      "median_relative_l2": 0.0,
+      "median_same_cosine": 1.0,
+      "minimum_same_cosine": 0.9999998211860657,
+      "mode": "delayed",
+      "source": "simpleqa",
+      "tokens": 41
+    }
+  ],
+  "schema_version": 1,
+  "selection_sha256": "aff00882138f698399c663f6eaacfee5fb8cfbce945bceda02ee45d364bc2e45",
+  "status": "CACHED_GENERATION_STATE_REPLAY_PASS",
+  "summary": {
+    "adjacent_median_cosine": 0.5675683319568634,
+    "local_position_accuracy": 1.0,
+    "median_relative_l2": 0.0,
+    "median_same_cosine": 1.0,
+    "minimum_same_cosine": 0.9999998211860657,
+    "same_over_adjacent_median_margin": 0.4324316680431366,
+    "tokens": 264
+  }
+}

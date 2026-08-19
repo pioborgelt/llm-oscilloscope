@@ -10,8 +10,8 @@ The package in this repo has clear limits:
 6. Long-form generation, more model architectures, deployment calibration and reduction interventions have not been established yet.
 7. The exported release head is not itself an independent test. The main detector numbers come from OOF evaluation, while the frozen holdout is reported separately.
 8. The matched external holdout was designed after an earlier low-coverage stress test. Its pooled score is affected by source differences, so the balanced GRANOLA result is the cleaner number.
-9. The matched-holdout preregistration was frozen locally but not externally timestamped. Its raw generations and judge files are also not included in this package.
-10. Subject routing covers eight academic subjects and short multiple-choice prompts. It has not been validated on multilingual generation, code or open-ended mixed-domain conversations.
-11. Subject-transfer AUROC is much stronger than hard classification accuracy. The Mistral and Qwen heads reach only 0.625 and 0.617 accuracy on the untouched holdout.
-12. Subject adapters fitted on general factual prompts miss the frozen transfer threshold. Channel onboarding still requires the right generation stage and broad operating domain.
-13. Qwen-native support transfer reaches 0.717 pooled AUROC but only 0.509 on SimpleQA. Its high AP partly reflects the 80.3% unsupported prevalence.
+9. Subject routing covers eight academic subjects and short multiple-choice prompts. It has not been validated on multilingual generation, code or open-ended mixed-domain conversations.
+10. Subject-transfer AUROC is much stronger than hard classification accuracy. The Mistral and Qwen heads reach only 0.625 and 0.617 accuracy on the untouched holdout.
+11. Subject adapters fitted on general factual prompts miss the frozen transfer threshold. Channel onboarding still requires the right generation stage and broad operating domain.
+12. Qwen-native support transfer reaches 0.717 pooled AUROC but only 0.509 on SimpleQA. Its high AP partly reflects the 80.3% unsupported prevalence.
+13. The stronger Support V2 Qwen head uses target-model support labels during onboarding. Its fresh 0.843 AUROC result covers GRANOLA only, not SimpleQA or long-form generation, and its sigmoid output is not deployment-calibrated.

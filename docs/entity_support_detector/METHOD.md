@@ -13,4 +13,4 @@ A positive event is the final token of a strict-consensus `ANSWER + UNSUPPORTED`
 
 I evaluated the detector with prompt-grouped five-fold CV, answer-entity-disjoint five-fold CV and leave-one-source-out testing. A separate control compares the L30 correctness head at the first, last and highest-scoring token of an entity. The matched holdout uses the already exported release head without fitting or recalibration.
 
-The exact protocols and numbers are in the [main preregistration](PREREGISTRATION.md), [main results](RESULTS.md), [entity-completion results](ENTITY_COMPLETION_RESULTS.md) and [matched holdout results](MATCHED_HOLDOUT_V2_RESULTS.md).
+The exact numbers are in the [main results](RESULTS.md) and the [entity-completion results](ENTITY_COMPLETION_RESULTS.md). The compact matched-holdout evidence remains available as a machine-readable artifact.

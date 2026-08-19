@@ -25,4 +25,4 @@ python scripts/verify_bootstrap.py --iterations 2000
 
 This release contains the out-of-fold labels and scores, all 17 detector artifacts and their checksums.
 
-The exact protocol and additional results are in [the preregistration](PREREGISTRATION.md), [main results](RESULTS.md), [entity-completion analysis](ENTITY_COMPLETION_RESULTS.md) and [external holdout](MATCHED_HOLDOUT_V2_RESULTS.md).
+Additional results are in the [main results](RESULTS.md) and the [entity-completion analysis](ENTITY_COMPLETION_RESULTS.md). The compact external-holdout evidence remains available as a machine-readable artifact.

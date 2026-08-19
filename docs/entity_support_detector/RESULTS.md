@@ -1,6 +1,6 @@
 # Completion-Aware Per-Token Entity Detection
 
-The preregistered score is `P(answer_entity_end at L24-post) * P(unsupported at L30-post)`. The detector produces it after every generated token and does not receive gold entity positions at test time.
+The evaluated score is `P(answer_entity_end at L24-post) * P(unsupported at L30-post)`. The detector produces it after every generated token and does not receive gold entity positions at test time.
 
 Of 164,203 labeled-stream tokens, 159,824 have both required post-token states in the cache. The missing rows come from the extraction limit and were removed before evaluation.
 
@@ -62,4 +62,4 @@ This is still a result on short factual QA. The detector sees an entity error on
 ## More Detail
 
 - [Entity-completion results](ENTITY_COMPLETION_RESULTS.md) compare the first and last entity token and include the paired prompt bootstrap.
-- [Matched holdout results](MATCHED_HOLDOUT_V2_RESULTS.md) cover the frozen-head SimpleQA/GRANOLA transfer check and its source-imbalance problem.
+- The machine-readable matched-holdout artifact covers the frozen-head SimpleQA/GRANOLA transfer check and its source-imbalance problem.

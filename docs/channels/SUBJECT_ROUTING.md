@@ -1,45 +1,65 @@
 # Subject Routing
-This channel reads which broad subject subspace is active while the model generates and turns it into a routing measurement.
 
-The useful question is whether a compact internal readout can stay informative while prompts, source datasets and model architectures change.
+The Subject Routing channel estimates which broad academic subject is active
+inside the model while it generates. Instead of forcing one hard category, it
+returns a graded distribution over mathematics, physics, chemistry, biology,
+computer science, engineering, economics/business and psychology/social
+science.
 
-The channel is now part of the public evidence release. Its portable heads,
-frozen probabilities and independent verifier are included under
-[`artifacts/subject_routing/`](../../artifacts/subject_routing/). The complete
-result and its limits are in
-[Subject Routing Results](../subject_routing/RESULTS.md).
+This channel is independent from the unsupported-entity detector. Its purpose is to make one part of the model's
+internal routing visible after every token.
 
-## The subject space
+## Why this channel?
 
-The current channel contains mathematics, physics, chemistry, biology, computer science, engineering, economics/business and psychology/social science.
+The Oscilloscope is meant to contain several narrow readings instead of one
+general confidence score. Subject Routing shows which knowledge region appears
+to be active and could later help select specialized tools, retrieval sources
+or interventions.
 
-The frozen core uses MMLU test and the non-MMLU-origin portion of MMLU-Pro test. Exact normalized question matches and MMLU-Pro rows marked as originating from MMLU were removed. The resulting core contains 1,664 unique questions, split evenly across sources and subjects.
+The basic observation that subjects are linearly separable in model activations
+is not new. [*Large Language Models Encode Semantics and Alignment in Linearly
+Separable Representations*](https://arxiv.org/abs/2507.09709) finds similar
+high-level semantic regions across several model families. What I am adding is
+a tokenwise measurement channel and a practical way to move it between models.
 
-Every question receives one of four subject-neutral templates. Separate unseen questions are reserved for template invariance and generation-time evaluation. The primary test trains on one source and evaluates on the other in both directions.
+## What I tested
 
-## Relation to existing work
+I trained the original channel on Llama using questions from two different
+academic benchmarks. Training and testing were separated by source, with
+additional unseen templates and fine subjects used as controls. The main
+cross-source result is **0.878 macro AUROC**.
 
-I first found this subject separation independently during the broader discovery work for the Oscilloscope. However, I later found that the basic finding that scientific subjects occupy separable internal regions is not new. [*Large Language Models Encode Semantics and Alignment in Linearly Separable Representations*](https://arxiv.org/abs/2507.09709) studies 11 autoregressive models across six scientific topics and finds that high-level semantic information consistently forms compact, linearly separable subspaces. This is the closest direct external validation of the premise behind this channel.
 
-A related Apple result is [*ExpertLens: Activation Steering Features Are Highly Interpretable*](https://machinelearning.apple.com/research/expertlens-activation). It makes a broader claim: concept-level activation features remain stable across models and datasets and recover human-like concept organization. Together, these results support the idea that useful semantic structure can be read from model activations instead of only inferred from the final text.
+## Moving it to other models
 
-The part I am adding here is the instrument around that finding. This channel produces a graded subject reading after every generated token, tests it under source, template and fine-subject shift, and transports the frozen Llama readout to other model families without using their subject labels.
+To move the channel, I run the same unlabeled prompts through Llama and the new
+model once, then fit a small adapter between their internal spaces. No subject
+labels from the new model are used.
 
-## During generation
+On untouched questions, the unchanged channel reaches **0.933 macro AUROC on
+Mistral-7B** and **0.934 on Qwen2.5-7B**. It also remains informative on Qwen's
+own generated-token stream. More importantly, every held-out subject pair stays
+above chance even when those subjects were removed during adapter onboarding.
 
-I applied the head after every consumed token in 256 generations. Across 7k post-token states, it reaches 0.924 macro AUROC and averaging the probabilities over each prompt raises AUROC to 0.963.
+This makes the channel relatively cheap to onboard, but it does not mean that
+arbitrary internal signals can be transferred between arbitrary models.
 
-One exploratory mixed-subject test asks the model to answer one question, emit a marker and answer a second question. The marker appeared in 26 of 32 generations, and the requested subject margin crossed at a median of zero tokens after it. Because the model controls the generated wording and marker coverage, this is a demonstration rather than part of the frozen pass rule.
+## Limits
 
-## Transferring the channel
-To move the channel, I run the same unlabeled prompts through Llama and the new model once and learn a small adapter between their internal spaces. No subject labels from the new model are needed.
+The current subject space contains only eight broad academic areas and has been
+tested mainly on short English multiple-choice questions. It is not yet a
+general router for multilingual text, code or conversations that mix several
+domains.
 
-On an untouched 512-row holdout, the frozen Llama channel reaches 0.933 macro AUROC on Mistral-7B and 0.934 on Qwen2.5-7B. With only 128 paired activations, it already reaches 0.875 and 0.895.
+Adapters fitted only on broad factual prompts missed the frozen transfer
+threshold. This means the onboarding data still needs to cover the relevant
+domain and point in generation. The output should also be treated as a graded
+ranking, not a deterministic subject label.
 
-The first adapters saw paired examples from all eight subjects. To test whether that was necessary, I repeated the Qwen transfer across all 28 possible pairs while removing both evaluated subjects from Qwen preprocessing and adapter fitting. The frozen Llama channel reaches 0.953 mean pairwise AUROC on these unseen subjects, compared with 0.490 under random pairing. All 28 pairs are above chance. The adapter that saw all subjects reaches 0.979 on the same pairwise endpoint, making the held-out loss 0.026.
+The portable heads, frozen predictions and failed controls are included under
+[`artifacts/subject_routing/`](../../artifacts/subject_routing/). They can be
+checked with:
 
-This means that the adapter can carry the channel to individual subject labels it never saw during onboarding.
-
-One broader control deliberately remains negative. Adapters fitted on general
-factual-QA prompts reach 0.739 on Mistral and 0.746 on Qwen, missing the frozen
-0.750 threshold. The stage and broad operating domain still need coverage.
+```
+python scripts/verify_subject_routing.py
+```
