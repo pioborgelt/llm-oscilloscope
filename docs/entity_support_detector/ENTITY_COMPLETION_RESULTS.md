@@ -51,4 +51,4 @@ The main limitation is timing: the stronger score only exists after the entity h
 
 ## Files
 
-`artifacts/entity_completion_scores.npz` contains the OOF labels and first-, last- and max-token scores for the random, entity-disjoint and leave-one-source-out models. `artifacts/entity_completion_analysis.json` contains the reported metrics and paired prompt bootstrap. `python scripts/verify_results.py` recomputes the six AUROC/AP pairs shown for the local token heads above.
+`artifacts/entity_completion_scores.npz` contains the OOF labels and first-, last- and max-token scores for the random, entity-disjoint and leave-one-source-out models. `artifacts/entity_completion_analysis.json` contains the reported metrics and paired prompt bootstrap. `python scripts/verify_results.py` recomputes the nine AUROC/AP pairs shown for the local token heads above.

@@ -4,7 +4,11 @@ The first transfer results released here used Qwen to process continuations gene
 I fixed the adapter before Qwen generated the evaluation set, and it was fitted on paired internal states without using Qwen entity or support labels. An external grader then aligned the answer entities after generation.
 
 ## What was done
-Qwen generated ~2k tokens for 400 questions from the SimpleQA and GRANOLA datasets that do not occur in the original detector data. The grader aligned 464 answer endpoints overall, consisting of 87 supported and 355 unsupported endpoints.
+Qwen generated 2,230 tokens for 400 questions from the SimpleQA and GRANOLA
+datasets that do not occur in the original detector data. The grader aligned
+464 answer endpoints overall. Of these, 442 were support-scorable: 87 supported
+and 355 unsupported. The remaining 10 unverifiable and 12 partial endpoints
+were excluded from the support evaluation.
 
 Transported entity completion channel: 0.954 AUROC / 0.824 AP
 

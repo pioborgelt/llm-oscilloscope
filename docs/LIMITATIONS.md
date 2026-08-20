@@ -6,7 +6,7 @@ The package in this repo has clear limits:
 2. Both detector channels retain useful ranking information after transfer to Qwen2.5-7B-Instruct, but support transfer is uneven and not deployment-ready.
 3. The detector identifies unsupported answer entities, not arbitrary reasoning errors or every kind of hallucination.
 4. The strongest correctness score comes after the entity has already been completed.
-5. At approximately one false alarm per 100 tokens, random precision/recall is 0.368/0.557.
+5. At approximately one false alarm per 100 tokens, detector precision/recall is 0.368/0.557 on the prompt-grouped evaluation.
 6. Long-form generation, more model architectures, deployment calibration and reduction interventions have not been established yet.
 7. The exported release head is not itself an independent test. The main detector numbers come from OOF evaluation, while the frozen holdout is reported separately.
 8. The matched external holdout was designed after an earlier low-coverage stress test. Its pooled score is affected by source differences, so the balanced GRANOLA result is the cleaner number.

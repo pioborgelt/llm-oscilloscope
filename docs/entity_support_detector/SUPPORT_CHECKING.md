@@ -4,11 +4,17 @@ This is the second part of the detector for unsupported entities. While the firs
 
 ## Methodology
 The direct starting point of this channel is the [*Real-Time Detection of Hallucinated Entities in
-Long-Form Generation*](https://arxiv.org/abs/2509.03531) I used its [official code](https://github.com/obalcells/hallucination_probes) and [published probes](https://huggingface.co/obalcells/hallucination-probes) as controls. The work here adds a cleaned support label pipeline and a gate for entity completion.
+Long-Form Generation*](https://arxiv.org/abs/2509.03531). I used its [official code](https://github.com/obalcells/hallucination_probes) and [published probes](https://huggingface.co/obalcells/hallucination-probes) as controls. The work here adds a cleaned support label pipeline and a gate for entity completion.
 
-All 2,5k original cases were indepently judged by two LLM judges, Qwen 3.5 Flash and Deepseek V4 Flash. Only agreements of these two graders have been kept, leaving ~1.7k unsupported entities.
+The P15 entity annotations were independently judged by two LLM judges,
+Qwen 3.5 Flash and DeepSeek V4 Flash. Only agreements of both judges supply the
+supported and unsupported targets.
 
-Support checking alone is a poor token level alarm because most tokens are not completed entities, so gating it with entity completion raises avg. precision from 0.229 to 0.420
+
+Support checking alone is a poor token-level alarm because most tokens are not
+completed entities. Its ungated average precision is 0.022. Entity completion
+alone reaches 0.229, and multiplying the two readings raises average precision
+to 0.420.
 
 ## Standard Detector
 
@@ -21,10 +27,16 @@ The annotation-neutral adapter also transfers this ranking to Qwen without
 Qwen support labels. On Qwen's own generations it reaches **0.717 AUROC /
 0.903 AP**, but falls to **0.509 AUROC** on SimpleQA.
 
-## Updated detector
-The released High Recall profile adds a complementary readout for uncertainty. It was trained using a Semantic Entropy probe as in [*Semantic Entropy Probes: Robust and Cheap Hallucination Detection
-in LLMs*](https://arxiv.org/abs/2406.15927), and removing the part already predicted by the endpoint Support score. A final meta head combines these two endpoints, and at inference it still only needs one generation.
 
+## Experimental high-recall candidate
+The packaged high-recall candidate adds a complementary readout for uncertainty. It uses a Semantic Entropy probe as in [*Semantic Entropy Probes: Robust and Cheap Hallucination Detection
+in LLMs*](https://arxiv.org/abs/2406.15927) after removing the component already predicted by the endpoint Support score. A final meta head combines these two endpoints, and at inference it still only needs one generation.
+
+Both fresh factual-QA tests improved recall, but both missed their
+false-alarm criteria. The artifacts are included for use cases in which false
+negatives are more costly than false alarms, not as the standard operating
+profile. The sample contains 1,209 unsupported and 257 supported endpoints, or
+82.5% unsupported prevalence.
 
 Across two disjoint hard factual-QA gates:
 
@@ -38,17 +50,17 @@ incorrectly flagged. FN is an unsupported endpoint the detector misses. TN is
 a supported endpoint correctly left unflagged.
 
 
-High recall detects 7.4 percentage points more unsupported endpoints and
+The candidate detects 7.4 percentage points more unsupported endpoints and
 reduces misses from 314 to 224, a 29% reduction. False alarms rise from 67 to
-85. This remains an explicit
-research option rather than the default.
+85.
 
-## Why two channels?
+## Why keep the candidate?
 
-The high Recall profile is explicitly a research choice for settings where a
+The high-recall candidate explores settings where a
 missed unsupported entity is more costly than another review. This channel is
-in active development, and could potentially replace the standard support
-channel if the false alarm rate can be lowered.
+in active development, but it would need a fresh evaluation with a
+lower false-alarm rate before it could replace the standard support channel.
+
 ## Boundary and evidence
 
 Both versions cover short factual answer entities, not complete reasoning

@@ -2,7 +2,11 @@
 
 The evaluated score is `P(answer_entity_end at L24-post) * P(unsupported at L30-post)`. The detector produces it after every generated token and does not receive gold entity positions at test time.
 
-Of 164,203 labeled-stream tokens, 159,824 have both required post-token states in the cache. The missing rows come from the extraction limit and were removed before evaluation.
+The underlying generation stream contains 164,203 labeled tokens. Both
+post-token states are available for 159,824 of them; the remaining rows fell
+outside the extraction limit. After disputed or unknown answer endings are
+excluded, the final evaluation contains 157,760 scorable tokens. Only 1,611 of
+these are unsupported answer-entity endings, a natural prevalence of 1.021%.
 
 ## Main Result
 
