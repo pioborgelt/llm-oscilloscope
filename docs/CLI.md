@@ -61,6 +61,7 @@ The archive contains 742 scored tokens from 26 Qwen generations: elementary
 questions spanning eight subject areas plus natural text.
 
 
+
 Short factual recordings use the same post-hoc Qwen CLI candidate thresholds as
 live generation: Entity `0.35` and Combined `0.3441904783`. Natural-text
 recordings are score-only because they fall outside that evaluated scope.
@@ -75,7 +76,7 @@ llmosci generate \
   --allow-download
 ```
 
-For later cache-only starts, omit `--allow-download`:
+For later cache-only starts, leave `--allow-download`:
 
 ```
 llmosci generate \
@@ -106,8 +107,6 @@ The latest live view and the explorer show:
 - their Combined score
 - the strongest of eight Subject Routing scores
 
-
----
 ### Forced replay
 
 ```
@@ -117,18 +116,15 @@ llmosci replay \
 ```
 
 Replay tokenizes the supplied completion and forces it through the same
-incremental KV-cache path used by generation. The completion is user-supplied,
-not sampled by the model. Replay is score-only, so candidate threshold labels
-and coloring are disabled.
+incremental KV-cache path used by generation.
+
 
 ### Candidate threshold boundary
 
 Short factual generation displays Entity `0.35` and Combined `0.3441904783` as
 post-hoc CLI candidates. They were selected on an opened 600-prompt short
-factual-QA development sample. At the Combined candidate, `TP=324`, `FP=109`,
-`FN=213` and `TN=2,678` across 3,324 scorable tokens: 60.3% of unsupported
-events are detected, 39.7% are missed, `FP / TP` is 0.336 and alarm precision
-is 0.748 at 16.2% event prevalence.
+factual-QA development sample.
+
 
 
 ### JSONL traces
@@ -140,7 +136,4 @@ llmosci generate "What is the capital of Australia?" \
 
 The first line records the mode, prompt, model revision, quantization,
 layers, artifact hashes, evidence boundary and whether CLI candidate thresholds
-were active. Every later line is one token reading. In replay and freeform
-traces, alert flags are disabled while the raw scores are retained.
-Traces can contain user prompts and generated content; treat them as
-potentially sensitive data.
+were active.
