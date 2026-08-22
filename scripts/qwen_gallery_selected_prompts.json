@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "selection": {
+    "source_pool": "p15_qwen_native_two_channel_v1",
+    "upstream_dataset": {
+      "name": "SimpleQA",
+      "repository": "https://github.com/openai/simple-evals",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2024 OpenAI"
+    },
+    "pool_size_prompts": 400,
+    "scorable_answer_endpoints": 438,
+    "endpoint_counts_with_current_cli_heads": {
+      "detected_unsupported": 211,
+      "missed_unsupported": 140,
+      "detected_supported": 0,
+      "quiet_supported": 87
+    },
+    "rule": "Take the first three detected unsupported answer endpoints in the pre-existing frozen idx/ordinal order. Do not sort by detector score and do not skip a selected case after replaying it through the current CLI runtime.",
+    "runtime_note": "The current int8 CLI replay changed two answer surfaces relative to the older saved generation stream. All first three selections remained reference-inconsistent and crossed the current Combined candidate at the relevant entity end."
+  },
+  "samples": [
+    {
+      "id": "factual_patent_date",
+      "title": "Factual QA · Patent issue date",
+      "kind": "simple_factual",
+      "fixed_showcase": true,
+      "prompt": "Answer the question with your single best short factual answer. Give one answer even if uncertain. Do not explain, hedge, or mention uncertainty.\n\nQuestion: On what day, month, and year did the physicist and chemist Katharine Burr Blodgett issue the U.S. patent for \"Step Gauge for Measuring Thickness of Thin Films\"?",
+      "selection_provenance": {
+        "frozen_idx": 0,
+        "source": "simpleqa",
+        "source_id": "1666",
+        "question_sha256": "3043a108221b6f87ea0f06b7bfd984e8135b657a749934764ec4835fd701f292",
+        "reference_answer": "26 February 1952",
+        "reference_verification": "https://patents.google.com/patent/US2587282A/en",
+        "current_cli_output": "24 April 1931",
+        "detected_entity_endpoint": 7
+      }
+    },
+    {
+      "id": "factual_elkay_client",
+      "title": "Factual QA · Elkay Apartments client",
+      "kind": "simple_factual",
+      "fixed_showcase": true,
+      "prompt": "Answer the question with your single best short factual answer. Give one answer even if uncertain. Do not explain, hedge, or mention uncertainty.\n\nQuestion: Who did Richard Neutra design the Elkay Apartments for?",
+      "selection_provenance": {
+        "frozen_idx": 1,
+        "source": "simpleqa",
+        "source_id": "1740",
+        "question_sha256": "5ba4ceaf24173dc75b3d5bc7f6b5c81a04ed9a98e9f7959deeef44fad60a12bd",
+        "reference_answer": "Louis Kievman",
+        "reference_verification": "https://www.dwell.com/amp/article/richard-neutra-strathmore-kelton-thomas-s-hines-6956f98f",
+        "current_cli_output": "Clare Falk and her husband.",
+        "detected_entity_endpoint": 2
+      }
+    },
+    {
+      "id": "factual_escape_date",
+      "title": "Factual QA · Nevada prison escape",
+      "kind": "simple_factual",
+      "fixed_showcase": true,
+      "prompt": "Answer the question with your single best short factual answer. Give one answer even if uncertain. Do not explain, hedge, or mention uncertainty.\n\nQuestion: What month and year did inmate Porfirio Duarte-Herrera escape from a medium-security Nevada prison without anyone noticing for four days?",
+      "selection_provenance": {
+        "frozen_idx": 2,
+        "source": "simpleqa",
+        "source_id": "1539",
+        "question_sha256": "49a65368d7894fb6f538f100b028f9c464785ffca7746c28ce5cf69376f0c5fb",
+        "reference_answer": "September 2022",
+        "reference_verification": "https://doc.nv.gov/uploadedFiles/docnvgov/content/About/Press_Release/Porfirio%20Duarte-Herrer_IG%20redacted%20report%20release.pdf",
+        "current_cli_output": "June 2018",
+        "detected_entity_endpoint": 5
+      }
+    }
+  ]
+}

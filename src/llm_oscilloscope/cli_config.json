@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "profile": "qwen2.5-7b-research-v1",
+  "model_id": "Qwen/Qwen2.5-7B-Instruct",
+  "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "layers": {
+    "detector": 23,
+    "subject_routing": 27
+  },
+  "artifacts": {
+    "entity_transport": {
+      "path": "qwen_native_transfer/adapter.npz",
+      "sha256": "58be4c4fc91b6f41af5047c9afb907d768cf8f3be9e821cfe2ad5d3659c0636c"
+    },
+    "support_v2": {
+      "path": "support_v2/qwen_native_support_head.npz",
+      "sha256": "3fa60d943ec97ff33b417fa9bb5a2baec9e058dd0df4fe544446a1cb1b532fb5"
+    },
+    "subject_routing": {
+      "path": "subject_routing/qwen_adapter.npz",
+      "sha256": "364725305e3960c80bed3b326b07820af75d485930683eab37353b414ea8d19e"
+    }
+  },
+  "support_calibration": {
+    "coefficient": 0.6183723873513208,
+    "intercept": 0.7883708209906313,
+    "source": "opened Support V2 combined-alert development calibration",
+    "claim": "research score calibration; not a deployment probability"
+  },
+  "thresholds": {
+    "entity_balanced": {
+      "value": 0.35,
+      "status": "post_hoc_cli_candidate"
+    },
+    "combined_balanced": {
+      "value": 0.34419047832489014,
+      "status": "post_hoc_cli_candidate"
+    }
+  },
+  "evidence_boundary": {
+    "validated_domain": "short English factual QA",
+    "freeform_status": "out_of_distribution_research",
+    "combined_release_status": "NO_SUPPORT_V2_COMBINED_ALERT_RELEASE",
+    "scores_are_probabilities": false
+  }
+}

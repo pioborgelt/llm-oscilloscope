@@ -22,3 +22,13 @@ in the README.
 This review records the upstream terms checked for this release. It is not
 legal advice, and downstream users remain responsible for complying with the
 applicable model and dataset licenses.
+
+The compact CLI gallery uses 23 prompts authored specifically for this research
+preview and three questions from OpenAI's SimpleQA benchmark. SimpleQA is
+listed under the MIT license in the official `openai/simple-evals` repository;
+its copyright and permission notice are reproduced in `NOTICE`. The gallery
+does not include MMLU/MMLU-Pro or GRANOLA sample text. The recording archive
+distributes Qwen token IDs, numerical measurements and generated text, but not
+reference answers, upstream model weights or hidden-state vectors. The separate
+selection manifest includes the three SimpleQA reference answers so the
+showcase categories can be audited.

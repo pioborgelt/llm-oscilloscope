@@ -17,6 +17,10 @@ What is included:
   fixed comparison scores and twenty shuffled-label controls
 - the optional trajectory-profile weights, both fresh operating-point
   prediction arrays and documentation on this channel
+- 26 compact Qwen CLI recordings from project-GPU runs, containing 742
+  original-token readings with all four displayed channels
+- the score-blind gallery selection rule, aggregate 400-prompt pool audit and
+  the three selected SimpleQA reference answers
 - split prompt IDs inside every weight artifact
 - the result files and cryptographic manifest
 
@@ -27,3 +31,16 @@ package, so only their frozen summary is included. I am also keeping the raw
 matched-holdout questions, generations and judge files out of this reviewer
 package until the same terms have been reviewed. Any broader data release will
 need its own license review.
+
+The CLI recordings contain prompts, generated outputs, original
+Qwen token IDs, decoded display pieces, next-token probabilities, channel
+scores and provenance hashes, but not hidden-state vectors or manual grading.
+Every token has Qwen L23 Entity Completion and Support V2, their descriptive
+product and Qwen L27 Subject Routing. The package loader verifies per-recording
+token-row hashes and the hash of the complete recording archive.
+
+The gallery contains three SimpleQA questions under the upstream MIT license.
+They were selected as the first three detected unsupported endpoints in a
+pre-existing frozen prompt order rather than by detector score. Five earlier
+sentence-style false-positive recordings were removed; the three known
+Chloroplast, DNA and RAM false positives remain visible.

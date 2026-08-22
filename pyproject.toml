@@ -4,14 +4,38 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llm-oscilloscope"
-version = "0.4.0"
+version = "0.5.0a0"
 description = "Research evidence package for internal language-model measurement channels"
 requires-python = ">=3.10"
 license = "Apache-2.0"
-dependencies = ["numpy>=1.26", "scikit-learn>=1.4"]
+dependencies = ["numpy>=1.26", "scikit-learn>=1.4", "rich>=13.9"]
+
+[project.optional-dependencies]
+runtime = [
+  "torch>=2.4",
+  "transformers>=4.57,<5",
+  "accelerate>=1.0",
+  "bitsandbytes>=0.48",
+]
 
 [project.scripts]
+llm-oscilloscope = "llm_oscilloscope.cli:main"
+llmosci = "llm_oscilloscope.cli:main"
 llm-oscilloscope-verify = "llm_oscilloscope.verify:main"
+
+[tool.setuptools.package-data]
+llm_oscilloscope = ["*.json"]
+
+[tool.setuptools.data-files]
+"share/llm-oscilloscope/artifacts/qwen_native_transfer" = [
+  "artifacts/qwen_native_transfer/adapter.npz",
+]
+"share/llm-oscilloscope/artifacts/support_v2" = [
+  "artifacts/support_v2/qwen_native_support_head.npz",
+]
+"share/llm-oscilloscope/artifacts/subject_routing" = [
+  "artifacts/subject_routing/qwen_adapter.npz",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]

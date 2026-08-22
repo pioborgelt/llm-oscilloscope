@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 960 260"
+  role="img"
+  aria-labelledby="title desc"
+>
+  <title id="title">LLM-Oscilloscope waveform</title>
+  <desc id="desc">
+    A muted green oscilloscope ribbon crossing a dotted horizontal zero line.
+  </desc>
+
+  <style>
+    .ribbon-top { stop-color: #4f9862; stop-opacity: 0.42; }
+    .ribbon-mid { stop-color: #468456; stop-opacity: 0.24; }
+    .ribbon-bottom { stop-color: #39784c; stop-opacity: 0.38; }
+    .zero-line { stroke: #64806c; stroke-opacity: 0.64; }
+    .outer-edge { stroke: #36834e; }
+    .inner-edge { stroke: #587f61; stroke-opacity: 0.68; }
+
+    @media (prefers-color-scheme: dark) {
+      .ribbon-top { stop-color: #79af81; stop-opacity: 0.42; }
+      .ribbon-mid { stop-color: #6a9a73; stop-opacity: 0.25; }
+      .ribbon-bottom { stop-color: #5e8d69; stop-opacity: 0.38; }
+      .zero-line { stroke: #829b87; stroke-opacity: 0.62; }
+      .outer-edge { stroke: #70ac7a; }
+      .inner-edge { stroke: #89a88e; stroke-opacity: 0.68; }
+    }
+  </style>
+
+  <defs>
+    <linearGradient id="ribbon" x1="0" y1="0" x2="0" y2="1">
+      <stop class="ribbon-top" offset="0" />
+      <stop class="ribbon-mid" offset="0.5" />
+      <stop class="ribbon-bottom" offset="1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Transparent background; the dotted line is the instrument zero line. -->
+  <line
+    class="zero-line"
+    x1="16"
+    y1="130"
+    x2="944"
+    y2="130"
+    fill="none"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-dasharray="1 11"
+  />
+
+  <!-- Ribbon between a large and a small, equally phased waveform. -->
+  <path
+    d="
+      M 0 130
+      C 44 2, 116 2, 160 130
+      C 204 258, 276 258, 320 130
+      C 364 2, 436 2, 480 130
+      C 524 258, 596 258, 640 130
+      C 684 2, 756 2, 800 130
+      C 844 258, 916 258, 960 130
+
+      C 916 186, 844 186, 800 130
+      C 756 74, 684 74, 640 130
+      C 596 186, 524 186, 480 130
+      C 436 74, 364 74, 320 130
+      C 276 186, 204 186, 160 130
+      C 116 74, 44 74, 0 130
+      Z
+    "
+    fill="url(#ribbon)"
+  />
+
+  <path
+    class="outer-edge"
+    d="
+      M 0 130
+      C 44 2, 116 2, 160 130
+      C 204 258, 276 258, 320 130
+      C 364 2, 436 2, 480 130
+      C 524 258, 596 258, 640 130
+      C 684 2, 756 2, 800 130
+      C 844 258, 916 258, 960 130
+    "
+    fill="none"
+    stroke-width="4.5"
+    stroke-linecap="round"
+  />
+  <path
+    class="inner-edge"
+    d="
+      M 0 130
+      C 44 74, 116 74, 160 130
+      C 204 186, 276 186, 320 130
+      C 364 74, 436 74, 480 130
+      C 524 186, 596 186, 640 130
+      C 684 74, 756 74, 800 130
+      C 844 186, 916 186, 960 130
+    "
+    fill="none"
+    stroke-width="2.5"
+    stroke-linecap="round"
+  />
+</svg>
