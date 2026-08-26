@@ -153,11 +153,34 @@ def verify(root: Path) -> None:
     verify_support_trajectory(root)
 
 
-def main() -> None:
+def find_evidence_root(explicit: Path | None = None) -> Path:
+    if explicit is not None:
+        candidates = [explicit]
+    else:
+        candidates = [Path.cwd(), Path(__file__).resolve().parents[2]]
+    for candidate in candidates:
+        root = candidate.expanduser().resolve()
+        if (root / "MANIFEST.sha256").is_file():
+            return root
+    if explicit is not None:
+        raise FileNotFoundError(
+            f"evidence root does not contain MANIFEST.sha256: {explicit}"
+        )
+    raise FileNotFoundError(
+        "could not locate the evidence checkout; run from the repository root "
+        "or pass --root PATH"
+    )
+
+
+def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[2])
-    args = parser.parse_args()
-    verify(args.root.resolve())
+    parser.add_argument("--root", type=Path)
+    args = parser.parse_args(argv)
+    try:
+        root = find_evidence_root(args.root)
+    except FileNotFoundError as error:
+        parser.error(str(error))
+    verify(root)
 
 
 if __name__ == "__main__":

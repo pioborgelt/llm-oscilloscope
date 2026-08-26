@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 from pathlib import Path
+import subprocess
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -40,11 +41,27 @@ def included(path: Path) -> bool:
     return path.is_file()
 
 
-def main() -> None:
-    files = sorted(
-        (path for path in ROOT.rglob("*") if included(path)),
+def release_files() -> list[Path]:
+    """Return tracked release files; stage new files before rebuilding."""
+    result = subprocess.run(
+        ["git", "ls-files", "-z"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+    )
+    paths = (
+        ROOT / relative
+        for relative in result.stdout.decode("utf-8").split("\0")
+        if relative
+    )
+    return sorted(
+        (path for path in paths if included(path)),
         key=lambda path: path.relative_to(ROOT).as_posix(),
     )
+
+
+def main() -> None:
+    files = release_files()
     lines = [
         f"{sha256(path)}  ./{path.relative_to(ROOT).as_posix()}"
         for path in files
