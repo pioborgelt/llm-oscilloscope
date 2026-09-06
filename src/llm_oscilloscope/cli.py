@@ -27,6 +27,7 @@ from .qwen_runtime import (
     write_jsonl_trace,
 )
 from .recordings import get_recording, list_recordings
+from .ownership_cli import add_sycophancy_parser
 from .tui import (
     AMBER,
     GOLD,
@@ -607,7 +608,7 @@ def build_parser() -> argparse.ArgumentParser:
         prog="llm-oscilloscope",
         description="Research-preview CLI for tokenwise internal Qwen measurements.",
     )
-    parser.add_argument("--version", action="version", version="%(prog)s 0.5.0a0")
+    parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     samples = subparsers.add_parser("samples", help="list recorded GPU demos")
@@ -642,6 +643,7 @@ def build_parser() -> argparse.ArgumentParser:
     doctor = subparsers.add_parser("doctor", help="check artifacts and optional runtime")
     doctor.add_argument("--artifacts", type=Path)
     doctor.set_defaults(func=command_doctor)
+    add_sycophancy_parser(subparsers)
     return parser
 
 

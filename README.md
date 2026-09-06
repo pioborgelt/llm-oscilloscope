@@ -8,7 +8,10 @@
 > of my progress. It is not ready for real use cases or deployment. For more
 > information, check out [Why this repository?](#why-this-repository)
 
-LLM-Oscilloscope is a tool that turns parts of LLM generation into human perceivable data during generation. It uses a number of validated channels to help understanding what actually happens inside the model, and to warn when dangerous patterns become visible.
+LLM-Oscilloscope turns selected model signals into separate, inspectable
+measurements. The tokenwise view shows readings during generation. Experimental
+active assays compare controlled inputs in separate calls; they are not
+default warnings.
 
 ## Try the CLI
 
@@ -43,8 +46,19 @@ llmosci generate \
 The first live run downloads Qwen2.5-7B-Instruct into the normal Hugging Face
 cache. Later starts are cache-only unless `--allow-download` is passed again.
 
-The public CLI uses Qwen2.5-7B-Instruct to avoid gated Llama access. The
+The tokenwise CLI uses Qwen2.5-7B-Instruct to avoid gated Llama access. The
 original detector research used Llama and remains labeled accordingly below.
+
+There is also a separate experimental sycophancy assay. It asks whether the
+same position gets more support when it belongs to the user. Try its recorded
+comparison without a GPU:
+
+```bash
+llmosci sycophancy
+```
+
+It compares ten controlled A/B prompts; it is not a passive chat alarm or a
+tokenwise probe. [Method, results and live use](docs/channels/SYCOPHANCY_OWNERSHIP.md)
 
 Please read the [CLI guide](docs/CLI.md) before testing the live runtime.
 
@@ -52,7 +66,7 @@ Please read the [CLI guide](docs/CLI.md) before testing the live runtime.
 
 The Oscilloscope is built around several narrow measurement channels to help
 understand specific processes. The current CLI exposes three channels and one
-alert for unsupported entities.
+alert for unsupported entities, plus a separate active ownership assay.
 
 ### Entity completion
 
@@ -82,6 +96,18 @@ generation. It reaches **0.933 macro AUROC on Mistral** and **0.934 on Qwen**.
 It can be used to see which subspace of the model is active during generation.
 The next step is to extend it beyond academic prompts.
 [Channel details](docs/channels/SUBJECT_ROUTING.md)
+
+### Sycophancy ownership assay
+
+The active assay holds two positions fixed and swaps which one belongs to
+the user. On 32 new curated opinion cases, mean preference shifts were
+**21.4 percentage points on SmolLM3-3B** and **53.1 on Qwen3-1.7B**, with
+much smaller third-party controls. Both models saw the same cases. The score
+measures this controlled assignment effect, not harmfulness or truth; factual
+and wording controls show why that distinction matters. Changing the wording
+changes the strength substantially. It runs separately from ordinary
+generation and has no alarm threshold.
+[Read the evidence and limitations](docs/channels/SYCOPHANCY_OWNERSHIP.md)
 
 ### Retrieval timing
 
@@ -149,6 +175,7 @@ The reports below contain most details:
 | Area | Current state | Start here |
 |---|---|---|
 | CLI | Recorded CPU demos and a live Qwen GPU research preview | [CLI guide](docs/CLI.md) |
+| Sycophancy ownership assay | Experimental active A/B comparison, GPU-free recordings and pinned SmolLM3/Qwen3 live profiles | [Method and results](docs/channels/SYCOPHANCY_OWNERSHIP.md) |
 | Completion-aware detector | Packaged Llama evidence with reproducible out-of-fold and external evaluations | [Method](docs/entity_support_detector/METHOD.md) · [Evaluation](docs/entity_support_detector/EVALUATION.md) · [Results](docs/entity_support_detector/RESULTS.md) · [Entity-completion analysis](docs/entity_support_detector/ENTITY_COMPLETION_RESULTS.md) |
 | Channel notes | Entity Completion, Support Checking and Subject Routing | [Entity Completion](docs/entity_support_detector/ENTITY_COMPLETION.md) · [Support Checking](docs/entity_support_detector/SUPPORT_CHECKING.md) · [Subject Routing](docs/channels/SUBJECT_ROUTING.md) |
 | Cross-model transport | Qwen-native detector-channel evidence and Subject Routing adapters | [Qwen-native transfer](docs/QWEN_NATIVE_TRANSFER.md) · [Subject Routing](docs/channels/SUBJECT_ROUTING.md) |
@@ -165,6 +192,8 @@ source .venv/bin/activate
 python -m pip install -e .
 
 python scripts/verify_results.py
+python scripts/verify_ownership.py
+python scripts/verify_ownership_controls.py
 python -m unittest discover -s tests -q
 ```
 
@@ -177,4 +206,4 @@ The paired prompt bootstrap is slower and can be run separately:
 python scripts/verify_bootstrap.py --iterations 2000
 ```
 
-**Research started with Llama. The public CLI runs on Qwen.**
+**The original detector research used Llama; tokenwise CLI generation uses Qwen. The separate ownership assay uses SmolLM3 or Qwen3.**

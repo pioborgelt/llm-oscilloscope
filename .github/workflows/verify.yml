@@ -14,4 +14,24 @@ jobs:
           python-version: "3.11"
       - run: pip install -e .
       - run: python scripts/verify_results.py
+      - run: python scripts/verify_ownership.py
+      - run: python scripts/verify_ownership_controls.py
       - run: python -m unittest discover -s tests -q
+
+  wheel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Build wheel
+        run: python -m pip wheel . --no-deps --wheel-dir dist
+      - name: Install wheel in a clean environment
+        run: |
+          python -m venv "$RUNNER_TEMP/llmosci-wheel"
+          "$RUNNER_TEMP/llmosci-wheel/bin/python" -m pip install dist/*.whl
+      - name: Smoke-test installed wheel outside the checkout
+        working-directory: ${{ runner.temp }}
+        run: |
+          "$RUNNER_TEMP/llmosci-wheel/bin/python" "$GITHUB_WORKSPACE/scripts/smoke_wheel.py" --evidence-root "$GITHUB_WORKSPACE"

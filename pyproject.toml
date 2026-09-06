@@ -4,13 +4,18 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llm-oscilloscope"
-version = "0.5.0a0"
+version = "0.6.0a0"
 description = "Research evidence package for internal language-model measurement channels"
 requires-python = ">=3.10"
 license = "Apache-2.0"
 dependencies = ["numpy>=1.26", "scikit-learn>=1.4", "rich>=13.9"]
 
 [project.optional-dependencies]
+sycophancy = [
+  "torch>=2.4",
+  "transformers>=4.57,<5",
+  "accelerate>=1.0",
+]
 runtime = [
   "torch>=2.4",
   "transformers>=4.57,<5",

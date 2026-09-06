@@ -1,6 +1,6 @@
 """Portable detector heads and evidence verification."""
 
-__version__ = "0.5.0a0"
+__version__ = "0.6.0a0"
 
 from .detector import DetectorHeads
 from .channels import ChannelReading, QwenResearchChannels

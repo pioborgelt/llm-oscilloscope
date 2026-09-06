@@ -23,6 +23,15 @@ What is included:
   the three selected SimpleQA reference answers
 - split prompt IDs inside every weight artifact
 - the result files and cryptographic manifest
+- all 112 ownership-assay recordings (56 cases on each of two models), including
+  the 32 original curated opinion cases, 24 generated factual controls,
+  1,120 compact event readouts, model revisions and frozen summaries
+- four ownership recordings in the installable package: the same two
+  preselected cases on SmolLM3 and Qwen3
+- all 896 new wording-control and 256 quoted-identity readouts from the
+  explicitly post-hoc follow-up tests, with their complete result summaries
+- all 192 neutral factual-task diagnostic readouts, including invalid or
+  incomplete answers and all four failed competence points
 
 The full caches can be reproduced from the research pipeline, source datasets
 and the named upstream models, subject to their access and license terms. The
@@ -31,6 +40,13 @@ package, so only their frozen summary is included. I am also keeping the raw
 matched-holdout questions, generations and judge files out of this reviewer
 package until the same terms have been reviewed. Any broader data release will
 need its own license review.
+
+The ownership evidence contains complete account texts, alias log-sum-exp
+values, A/B vocabulary mass and completed A/B answers, not full vocabulary
+logits, hidden states, upstream model weights or reasoning traces. Its cases
+were authored for this project; the public self-blinding paper's development
+scenario texts are not redistributed here. The complete ownership cohort and
+CPU verifier are in the repository; the wheel includes the four small demos.
 
 The CLI recordings contain prompts, generated outputs, original
 Qwen token IDs, decoded display pieces, next-token probabilities, channel

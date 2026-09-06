@@ -43,6 +43,12 @@ capability, bitsandbytes version and bundled measurement artifacts. Fix any
 
 ## Quick inspect
 
+The new `llmosci sycophancy` command is a separate active ownership assay,
+with GPU-free recorded comparisons by default and optional SmolLM3/Qwen3
+live profiles. It does not add a warning to `generate` or `replay`. Its FP16
+profiles do not need bitsandbytes. See the
+[assay guide](channels/SYCOPHANCY_OWNERSHIP.md) for input format and limits.
+
 ```
 llmosci samples
 llmosci demo 1
