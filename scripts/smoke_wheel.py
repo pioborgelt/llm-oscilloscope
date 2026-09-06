@@ -32,15 +32,21 @@ def main():
     environment = dict(os.environ)
     environment.pop("LLM_OSCILLOSCOPE_ARTIFACTS", None)
     environment.pop("PYTHONPATH", None)
+    # These are small reference workloads; avoid BLAS thread oversubscription
+    # on shared CI runners. This affects only the smoke-test subprocesses.
+    environment.update(
+        OPENBLAS_NUM_THREADS="2", OMP_NUM_THREADS="2", MKL_NUM_THREADS="2"
+    )
 
-    def call(module, *arguments, expected=0):
+    def call(module, *arguments, expected=0, timeout_seconds=90):
         result = subprocess.run(
             [sys.executable, "-m", module, *arguments],
             cwd=directory,
             env=environment,
             capture_output=True,
             text=True,
-            timeout=90,
+            timeout=timeout_seconds,
+            check=False,
         )
         assert result.returncode == expected, (arguments, result.stdout, result.stderr)
         assert "Traceback" not in result.stderr
@@ -85,10 +91,16 @@ def main():
             capture_output=True,
             text=True,
             timeout=90,
+            check=False,
         )
         assert result.returncode == 0, result.stderr
         if args.evidence_root is not None:
-            call("llm_oscilloscope.verify", "--root", str(args.evidence_root.resolve()))
+            call(
+                "llm_oscilloscope.verify",
+                "--root",
+                str(args.evidence_root.resolve()),
+                timeout_seconds=300,
+            )
     print(
         json.dumps(
             {

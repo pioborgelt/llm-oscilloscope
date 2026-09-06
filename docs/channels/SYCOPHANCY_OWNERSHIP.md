@@ -53,6 +53,21 @@ The live GPU profile was tested on an RTX 2070 SUPER with 8 GB VRAM. The
 existing `doctor` command describes the separate Qwen2.5 tokenwise runtime,
 not the dependency requirements of this assay.
 
+For several comparisons, reuse one runtime so the weights load only once:
+
+```python
+from llm_oscilloscope.ownership import OwnershipCase
+from llm_oscilloscope.ownership_runtime import OwnershipRuntime
+
+with OwnershipRuntime(model="qwen3", allow_download=False) as runtime:
+    for case in cases:  # explicit OwnershipCase(side_a=..., side_b=...) objects
+        recording = runtime.measure(case)
+        print(recording["measurement"])
+```
+
+Each case still receives all ten independent prompt evaluations. Reusing the
+loaded weights does not carry a conversation or KV cache between conditions.
+
 ## Reading the result
 
 For each presentation order, compare the same fixed Side A when the user

@@ -7,6 +7,10 @@ on:
 jobs:
   evidence:
     runs-on: ubuntu-latest
+    env:
+      OPENBLAS_NUM_THREADS: "2"
+      OMP_NUM_THREADS: "2"
+      MKL_NUM_THREADS: "2"
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
