@@ -4,18 +4,15 @@
 
 # LLM-Oscilloscope
 
-> For now, this repository is only a reviewer checkpoint package and an update
-> of my progress. It is not ready for real use cases or deployment. For more
-> information, check out [Why this repository?](#why-this-repository)
+> This repository is a research preview for reviewers and anyone who wants to try the instrument or inspect the evidence. It is not ready for deployment.
 
 LLM-Oscilloscope is a tool that turns parts of LLM generation into human perceivable data during generation. It uses a number of validated channels to help understanding what actually happens inside the model, and to warn when dangerous patterns become visible.
 
 ## Try the CLI
 
-The easiest way to understand the project is to use the CLI with the included
-Qwen2.5-7B-Instruct recordings. The recorded demos do not require a GPU.
+Start with the included Qwen2.5-7B-Instruct recordings. You don't need a GPU:
 
-```
+```bash
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -e .
@@ -24,157 +21,52 @@ llmosci samples
 llmosci demo biology_mitochondria
 ```
 
-`samples` lists all recordings. `demo` opens an interactive token explorer for
-one sample. The archive contains 26 examples spanning Biology, Chemistry,
-other academic subjects and natural text. Use the arrow keys to inspect what
-each channel read after each token.
+`samples` lists the 26 recordings. `demo` opens one in the terminal. Use the arrow keys to move through the generated text and inspect the readings after each token.
 
-Live generation is available on CUDA systems running Linux or native Windows.
-The default profile is designed for an 8 GB GPU with CPU offload:
+For live generation on your own GPU, see the setup instructions in the [CLI guide](docs/CLI.md).
 
-```
-python -m pip install -e ".[runtime]"
-llmosci doctor
-llmosci generate \
-  "Answer with only the answer: What is the capital of Australia?" \
-  --allow-download
-```
+The CLI displays four readings from the model states:
 
-The first live run downloads Qwen2.5-7B-Instruct into the normal Hugging Face
-cache. Later starts are cache-only unless `--allow-download` is passed again.
-
-The public CLI uses Qwen2.5-7B-Instruct to avoid gated Llama access. The
-original detector research used Llama and remains labeled accordingly below.
-
-Please read the [CLI guide](docs/CLI.md) before testing the live runtime.
-
-## Channels
-
-The Oscilloscope is built around several narrow measurement channels to help
-understand specific processes. The current CLI exposes three channels and one
-alert for unsupported entities.
-
-### Entity completion
-
-Entity Completion estimates whether a factual answer entity has just finished.
-It reaches **0.954 AUROC / 0.824 AP** on Qwen's generations. This determines
-whether the Support reading is meaningful. The next step is to extend it beyond
-short factual answers to longer explanations. [Channel details](docs/entity_support_detector/ENTITY_COMPLETION.md)
-
-### Support checking
-
-Support Checking estimates whether a completed answer entity looks unsupported.
-It reaches **0.843 AUROC / 0.921 AP** on Qwen. Together with Entity Completion,
-it forms the Combined Alert. The next step is to test it on longer and more
-natural generation. [Channel details](docs/entity_support_detector/SUPPORT_CHECKING.md)
-
-### Combined alert
-
-The Combined Alert turns Entity Completion and Support into one warning score.
-It reaches **0.983 AUROC / 0.420 AP** on Llama. The CLI shows a separate
-post-hoc Qwen candidate based on the same combination. The next step is to test
-the complete alert on traces collected through live use. [Method and results](docs/entity_support_detector/RESULTS.md)
-
-### Subject routing
-
-Subject Routing estimates which academic subject area is active during
-generation. It reaches **0.933 macro AUROC on Mistral** and **0.934 on Qwen**.
-It can be used to see which subspace of the model is active during generation.
-The next step is to extend it beyond academic prompts.
-[Channel details](docs/channels/SUBJECT_ROUTING.md)
-
-### Retrieval timing
-
-Retrieval Timing is intended to show when a model starts pulling a factual
-answer from its internal knowledge. It is not part of the CLI yet. The next
-step is to turn the current causal evidence into a reliable token-by-token
-measurement. [Current evidence](docs/channels/RETRIEVAL_TIMING.md)
+| Reading | What it measures |
+|---|---|
+| Entity completion | Whether a factual answer entity has just finished |
+| Support | Whether that completed entity looks unsupported |
+| Combined | The product of completion and support risk |
+| Subject routing | Which of eight academic subject directions is most active |
 
 <p align="center">
-  <img src="assets/cli-fixed-pool-detection.svg" alt="LLM-Oscilloscope CLI showing an unsupported entity detected in a fixed-pool Qwen trace" width="100%">
+  <img src="assets/cli-fixed-pool-detection.svg" alt="Recorded Qwen answer with a Combined score crossing the candidate threshold" width="100%">
 </p>
 
-<p align="center"><em>A selected Qwen trace, where the model answers “Clare Falk” instead of Louis Kievman, and the false name's final token crosses the Combined candidate threshold.</em></p>
+<p align="center"><em>A recorded Qwen example: the model answers “Clare Falk and her husband” instead of “Louis Kievman.” The Combined score crosses a candidate threshold chosen in a post-hoc analysis.</em></p>
 
 ## Why this repository?
 
-A $20,000 Emergent Ventures grant funded the discovery work for the initial
-entity support detector. That work included *many* failed attempts, multiple
-detector versions, label audits and mechanistic experiments. Now, I want to
-build the actual instrument to use such probes, because while we discover many
-interesting mechanistic findings in research, they rarely actually get used
-where they are needed.
+A $20,000 Emergent Ventures grant funded the discovery work for the initial entity support detector. Now I want to build an instrument that makes probes like this usable during generation. While we discover many interesting mechanistic findings in research, they rarely actually get used where they are needed.
 
-For this next round of research and building, I'm looking for grants, compute
-and network, so this project will actually get used one day. Because of this,
-this repository serves as a proof of my current work and ability to execute for
-reviewers and other researchers.
+I'm looking for funding, compute and people to work with on the next stage. This repository makes the current work available for review, with runnable examples, detector weights, evaluation outputs and scripts to check them.
 
-This reviewer repository contains the part that can be inspected independently:
+## Research
 
-- a runnable CPU CLI and optional live GPU runtime
-- portable measurement heads and cross-model adapters
-- out-of-fold predictions and frozen evaluation outputs
-- checksums, manifests and machine-readable metadata
-- verification scripts and tests
+The research started with channels trained on Llama. The CLI now uses Qwen, and part of the work is testing which measurements can move between models without training each channel again from scratch.
 
-## Next research steps
+[Entity completion](docs/entity_support_detector/ENTITY_COMPLETION.md) estimates whether a factual entity in the answer has just ended, such as a name or place. It gates the support score so the combined detector focuses on completed entities.
 
-For concrete next experiments, updates and steps I'm currently working on, look
-at the [issues tab](https://github.com/pioborgelt/llm-oscilloscope/issues).
+[Support checking](docs/entity_support_detector/SUPPORT_CHECKING.md) estimates whether that completed entity is supported. The current Support V2 evaluation covers fresh GRANOLA data, but not SimpleQA or long-form generation.
 
+[Combined](docs/entity_support_detector/EVALUATION.md) multiplies entity completion and support risk, forming an alert for completed entities that look unsupported. Unfortunately, the best signal for this arrives after the entity has been generated, so it can flag an answer for inspection but cannot prevent those tokens from being generated.
 
-Overall, the research will extend the existing channels to longer and more
-natural generation, test how reliably they move between models and develop new
-channels for distinct questions such as retrieval timing and sycophancy. Only
-measurements that survive their controls should become part of the instrument.
-Interventions remain a later step once a reading is reliable enough to act on.
+[Subject routing](docs/channels/SUBJECT_ROUTING.md) reads activity across eight academic subject directions, giving a graded view of which subject is most active during generation. It was evaluated on short multiple-choice prompts, where its subject rankings are more reliable than choosing a single hard label.
 
-Another point on the roadmap is reduction. Once the instrument can distinguish
-where an answer process failed, different interventions can be compared under
-one harness instead of being tested as isolated steering tricks.
-
-In parallel, the Oscilloscope can gain additional channels for behavior such as
-sycophancy, internal routing and retrieval override. The goal is not to add
-every probe ever published. The goal is to find a small set of readings that
-remain interpretable, transferable and useful for action.
-
-However, all of this requires substantial resources that I don't currently
-have, which is why I'm making this repo.
-
-## Current state and documentation
-
-The reports below contain most details:
-
-| Area | Current state | Start here |
-|---|---|---|
-| CLI | Recorded CPU demos and a live Qwen GPU research preview | [CLI guide](docs/CLI.md) |
-| Completion-aware detector | Packaged Llama evidence with reproducible out-of-fold and external evaluations | [Method](docs/entity_support_detector/METHOD.md) · [Evaluation](docs/entity_support_detector/EVALUATION.md) · [Results](docs/entity_support_detector/RESULTS.md) · [Entity-completion analysis](docs/entity_support_detector/ENTITY_COMPLETION_RESULTS.md) |
-| Channel notes | Entity Completion, Support Checking and Subject Routing | [Entity Completion](docs/entity_support_detector/ENTITY_COMPLETION.md) · [Support Checking](docs/entity_support_detector/SUPPORT_CHECKING.md) · [Subject Routing](docs/channels/SUBJECT_ROUTING.md) |
-| Cross-model transport | Qwen-native detector-channel evidence and Subject Routing adapters | [Qwen-native transfer](docs/QWEN_NATIVE_TRANSFER.md) · [Subject Routing](docs/channels/SUBJECT_ROUTING.md) |
-| Active research | Retrieval Timing and a first detector-triggered intervention PoC | [Retrieval Timing](docs/channels/RETRIEVAL_TIMING.md) · [Intervention PoC](docs/INTERVENTION_POC.md) |
-| Scope and artifacts | Limitations and Non-Claims, availability and redistribution boundary | [Limitations and Non-Claims](docs/LIMITATIONS.md) · [Data availability](docs/DATA_AVAILABILITY.md) · [Artifact terms](ARTIFACT_TERMS.md) · [License review](ARTIFACT_LICENSE_REVIEW.md) |
+[Transfer from Llama to Qwen](docs/QWEN_NATIVE_TRANSFER.md) uses one adapter for completion and the original support channel, fitted without Qwen labels. Completion transfers well; support remains uneven and falls to near chance on SimpleQA.
 
 ## Verify the package
 
-The compact evidence can be checked on CPU:
+After installation, run these checks on CPU:
 
-```
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -e .
-
+```bash
 python scripts/verify_results.py
 python -m unittest discover -s tests -q
 ```
 
-The verifier recomputes the packaged evaluations, checks the portable artifacts
-and validates `MANIFEST.sha256`.
-
-The paired prompt bootstrap is slower and can be run separately:
-
-```
-python scripts/verify_bootstrap.py --iterations 2000
-```
-
-**Research started with Llama. The public CLI runs on Qwen.**
+The package includes predictions, weights and metadata for recomputing the reported metrics, with checksums in `MANIFEST.sha256`. Large activation caches are not included. See [data availability](docs/DATA_AVAILABILITY.md) for details and [artifact terms](ARTIFACT_TERMS.md) before redistributing model-derived files.
