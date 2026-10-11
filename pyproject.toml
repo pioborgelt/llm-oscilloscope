@@ -12,10 +12,10 @@ dependencies = ["numpy>=1.26", "scikit-learn>=1.4", "rich>=13.9"]
 
 [project.optional-dependencies]
 runtime = [
-  "torch>=2.4",
-  "transformers>=4.57,<5",
+  "torch==2.11.0",
+  "transformers==4.57.6",
   "accelerate>=1.0",
-  "bitsandbytes>=0.48",
+  "bitsandbytes==0.49.2",
 ]
 
 [project.scripts]
@@ -27,6 +27,10 @@ llm-oscilloscope-verify = "llm_oscilloscope.verify:main"
 llm_oscilloscope = ["*.json"]
 
 [tool.setuptools.data-files]
+"share/llm-oscilloscope/artifacts/appraisal_experimental" = [
+  "artifacts/appraisal_experimental/weights.npz",
+  "artifacts/appraisal_experimental/manifest.json",
+]
 "share/llm-oscilloscope/artifacts/qwen_native_transfer" = [
   "artifacts/qwen_native_transfer/adapter.npz",
 ]

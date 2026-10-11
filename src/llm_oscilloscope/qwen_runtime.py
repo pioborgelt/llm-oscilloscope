@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import importlib
 import json
 import os
 from dataclasses import dataclass
@@ -12,6 +11,7 @@ from typing import Any, Iterator
 import numpy as np
 
 from .channels import QwenResearchChannels, load_cli_config
+from .cuda_libraries import load_bitsandbytes
 
 
 MIN_LLM_INT8_CAPABILITY = (7, 5)
@@ -171,13 +171,7 @@ class QwenInstrumentedRuntime:
                     "Use --quantization none only if sufficient memory is available, and "
                     "treat the resulting scores as runtime-shifted."
                 )
-            try:
-                importlib.import_module("bitsandbytes")
-            except (ImportError, OSError, RuntimeError) as error:
-                raise RuntimeError(
-                    "8-bit loading needs a working bitsandbytes installation. "
-                    "Reinstall with: python -m pip install -e \".[runtime]\""
-                ) from error
+            load_bitsandbytes(torch.version.cuda)
             try:
                 from transformers import BitsAndBytesConfig
             except ImportError as error:

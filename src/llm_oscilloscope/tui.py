@@ -6,6 +6,7 @@ import os
 import select
 import sys
 from contextlib import contextmanager
+from time import monotonic
 from typing import Any, Iterator, TextIO
 
 from rich.console import Console, Group, RenderableType
@@ -16,6 +17,8 @@ from rich.table import Table
 from rich.text import Text
 
 from . import __version__
+from .appraisal_display import appraisal_band, recorded_appraisal_row
+from .signal_plot import move_signal, signal_history, signal_options
 
 
 NAVY = "#294A70"
@@ -227,7 +230,8 @@ def _meaningful_threshold_state(row: dict[str, Any]) -> RenderableType | None:
 
 
 def recording_view(
-    sample: dict[str, Any], selected: int, *, width: int = 120
+    sample: dict[str, Any], selected: int, *, width: int = 120,
+    signal: str = "combined_score", height: int | None = None,
 ) -> RenderableType:
     """Build a complete Rich view for one selected recording row."""
 
@@ -242,8 +246,13 @@ def recording_view(
     context = Table.grid(padding=(0, 2))
     context.add_column(style="dim", no_wrap=True)
     context.add_column()
-    context.add_row("PROMPT", Text(sample["prompt"]))
-    context.add_row("OUTPUT", Text(sample["generated_text"], style=f"bold {IVORY}"))
+    compact = height is not None and height < 36
+    for label, value in (("PROMPT", sample["prompt"]), ("OUTPUT", sample["generated_text"])):
+        text = Text(value.replace("\n", " ") if compact else value,
+                    style=f"bold {IVORY}" if label == "OUTPUT" else None)
+        if compact:
+            text.truncate(max(1, width - 10), overflow="ellipsis")
+        context.add_row(label, text)
 
     token_rail = Group(
         Text("TOKENS", style=f"bold {GOLD_SOFT}"),
@@ -256,9 +265,12 @@ def recording_view(
         channel_panels.append(_detector_channels(row, sample))
     if "subject_routing" in available:
         channel_panels.append(_subject_channels(row))
+    if 'appraisal' in available:
+        channel_panels.insert(0, appraisal_panel(recorded_appraisal_row(sample['tokens'], selected), width=width))
     channel_panel = Group(*channel_panels)
     footer = Text.from_markup(
         f"[bold {GOLD}]←/→[/] token   "
+        f"[bold {GOLD}]↑/↓[/] signal   "
         f"[bold {NAVY_BRIGHT}]Home/End[/] jump   "
         f"[bold {GOLD}]q/Esc[/] quit"
     )
@@ -267,27 +279,37 @@ def recording_view(
         Rule(characters="─", style=NAVY),
         context,
         Text(""),
-        token_rail,
-        Text(""),
+        *([] if compact else [token_rail, Text("")]),
         _selected_line(sample, selected),
-        channel_panel,
+        signal_history(sample["tokens"], selected, signal=signal, width=width),
+        *([] if compact else [channel_panel]),
     ]
     threshold_state = _meaningful_threshold_state(row)
-    if threshold_state is not None:
+    if threshold_state is not None and not compact:
         content.append(threshold_state)
     content.extend((Rule(characters="─", style=NAVY), footer))
     return Group(*content)
 
 
-def move_selection(selected: int, count: int, key: str) -> tuple[int, bool]:
+def appraisal_panel(row: dict[str, Any], *, width: int = 80) -> Group:
+    table = Table.grid(padding=(0, 2))
+    table.add_column()
+    table.add_column(justify='right')
+    value = row.get('appraisal_mean4')
+    _, color = appraisal_band(value, ready=bool(row.get('appraisal_window_ready')))
+    table.add_row('4-token mean', Text(_score(value), style=f'bold {color}'))
+    return Group(Text('POSITIVE APPRAISAL', style=f'bold {GOLD}'), table)
+
+
+def move_selection(selected: int, count: int, key: str, *, step: int = 1) -> tuple[int, bool]:
     """Apply one normalized navigation key and return (selection, should_quit)."""
 
     if key in {"q", "Q", "escape", "ctrl-c"}:
         return selected, True
     if key in {"left", "h"}:
-        return max(0, selected - 1), False
+        return max(0, selected - step), False
     if key in {"right", "l"}:
-        return min(count - 1, selected + 1), False
+        return min(count - 1, selected + step), False
     if key == "home":
         return 0, False
     if key == "end":
@@ -297,6 +319,10 @@ def move_selection(selected: int, count: int, key: str) -> tuple[int, bool]:
 
 def _normalize_key(data: bytes) -> str:
     mapping = {
+        b"\x1b[A": "up",
+        b"\x1bOA": "up",
+        b"\x1b[B": "down",
+        b"\x1bOB": "down",
         b"\x1b[D": "left",
         b"\x1bOD": "left",
         b"\x1b[C": "right",
@@ -341,16 +367,27 @@ def _read_key(stream: TextIO) -> str:
 
         first = msvcrt.getwch()
         if first in {"\x00", "\xe0"}:
-            return {"K": "left", "M": "right", "G": "home", "O": "end"}.get(
+            return {"K": "left", "M": "right", "H": "up", "P": "down", "G": "home", "O": "end"}.get(
                 msvcrt.getwch(), "unknown"
             )
         return _normalize_key(first.encode("utf-8"))
 
     descriptor = stream.fileno()
     data = os.read(descriptor, 1)
+    if not data:
+        return "escape"
     if data == b"\x1b":
         while len(data) < 8 and select.select([descriptor], [], [], 0.025)[0]:
-            data += os.read(descriptor, 1)
+            part = os.read(descriptor, 1)
+            if not part:
+                break
+            data += part
+            # Stop at this CSI/SS3 sequence's final byte. Reading further
+            # swallows queued repeats (or even the following quit key).
+            if len(data) == 2 and part not in {b"[", b"O"}:
+                break
+            if len(data) >= 3 and b"@" <= part <= b"~":
+                break
     return _normalize_key(data)
 
 
@@ -365,9 +402,15 @@ def run_recording_tui(
     console = console or Console()
     input_stream = input_stream or sys.stdin
     selected = 0
+    options = signal_options(sample["tokens"])
+    signal = move_signal("combined_score", options, "")
+    previous_key = ""
+    previous_key_at = 0.0
+    repeats = 0
     with _terminal_input(input_stream):
         with Live(
-            recording_view(sample, selected, width=console.size.width),
+            recording_view(sample, selected, width=console.size.width,
+                           height=console.size.height, signal=signal),
             console=console,
             screen=True,
             auto_refresh=False,
@@ -375,12 +418,28 @@ def run_recording_tui(
         ) as live:
             live.refresh()
             while True:
+                key = _read_key(input_stream)
+                now = monotonic()
+                # Terminals send repeats rather than key-up events. A pause
+                # or another key resets acceleration; single taps stay exact.
+                if (
+                    key in {"left", "right", "h", "l"}
+                    and key == previous_key
+                    and now - previous_key_at <= 0.16
+                ):
+                    repeats += 1
+                else:
+                    repeats = 0
+                previous_key, previous_key_at = key, now
+                step = 5 if repeats >= 12 else 3 if repeats >= 4 else 1
+                signal = move_signal(signal, options, key)
                 selected, should_quit = move_selection(
-                    selected, len(sample["tokens"]), _read_key(input_stream)
+                    selected, len(sample["tokens"]), key, step=step
                 )
                 if should_quit:
                     return 0
                 live.update(
-                    recording_view(sample, selected, width=console.size.width),
+                    recording_view(sample, selected, width=console.size.width,
+                                   height=console.size.height, signal=signal),
                     refresh=True,
                 )

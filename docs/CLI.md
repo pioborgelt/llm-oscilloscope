@@ -54,11 +54,15 @@ llmosci demo computer_ram --static
 not on `PATH`, use `python -m llm_oscilloscope.cli` instead.
 
 In a terminal, `demo` opens the token explorer. Use Left/Right to move one
-token, Home/End to jump and `q` or Escape to close it. `--static` prints the
-complete timeline, while `--json` emits the stored recording.
+token, Up/Down to switch the signal shown in the graph, Home/End to jump and
+`q` or Escape to close it. `--static` prints the complete timeline, while
+`--json` emits the stored recording.
 
-The archive contains 742 scored tokens from 26 Qwen generations: elementary
-questions spanning eight subject areas plus natural text.
+The graph shows the selected signal across the answer and marks the current
+token. During live generation, the Combined graph grows as new tokens arrive.
+
+The archive contains recorded Qwen answers to elementary questions across
+eight subject areas, natural text and positive-appraisal examples.
 
 
 
@@ -106,6 +110,22 @@ The latest live view and the explorer show:
 - Entity Completion and Support scores
 - their Combined score
 - the strongest of eight Subject Routing scores
+
+### Positive appraisal
+
+Add `--appraisal` to `generate` or `replay` to include the experimental
+positive-appraisal reading. It estimates the strength of praise or approval,
+averaged over four tokens. Higher scores do not by themselves indicate
+sycophancy. See the [channel documentation](channels/POSITIVE_APPRAISAL.md).
+
+```
+llmosci demo appraisal_native_bike
+llmosci generate "I fixed my bike today." --preset freeform --appraisal
+```
+
+This channel uses the pinned Qwen2.5 INT8 runtime. Rerun the runtime
+installation above after updating; incompatible versions are reported before
+the model loads.
 
 ### Forced replay
 

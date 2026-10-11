@@ -35,7 +35,7 @@ class _SyntheticRuntime:
         }
 
     def generate(self, *_args, **_kwargs):
-        yield self.token
+        yield from self.token if isinstance(self.token, list) else [self.token]
 
     def replay(self, *_args, **_kwargs):
         yield self.token
@@ -96,6 +96,8 @@ class RecordedCliTests(unittest.TestCase):
         self.assertNotIn("Closest available evidence match", rendered)
         self.assertIn("Research preview: Read the README before testing this.", rendered)
         self.assertIn("candidate", rendered)
+        self.assertIn("SIGNAL HISTORY  Combined", rendered)
+        self.assertIn("tokens 0–0", rendered)
         self.assertNotIn(" pos  token", rendered)
 
     def test_replay_header_is_not_duplicated_and_thresholds_are_score_only(self):
@@ -136,10 +138,29 @@ class RecordedCliTests(unittest.TestCase):
         self.assertIn("score-only synthetic replay", rendered)
         self.assertIn("score only", rendered)
 
+    def test_generated_graph_keeps_earlier_tokens(self):
+        tokens = [TokenReading(
+            position=i, token_id=i, text=str(i), token_probability=0.8,
+            channels={"entity_end_score": value, "support_score": 1.0,
+                      "combined_score": value, "entity_alert": False,
+                      "combined_alert": False, "subject_scores": {}},
+        ) for i, value in enumerate([1.0, 0.0])]
+        output = StringIO()
+        with patch("llm_oscilloscope.cli._runtime", return_value=_SyntheticRuntime(tokens)), \
+             redirect_stdout(output):
+            status = main(["generate", "A short answer"])
+        rendered = output.getvalue()
+        self.assertEqual(status, 0)
+        self.assertIn("tokens 0–1 · ▲ 1", rendered)
+        top = next(line for line in rendered.splitlines() if line.startswith("  1.00"))
+        self.assertIn("●", top)
+
     def test_gallery_contains_complete_verified_qwen_recordings(self):
         samples = list_recordings()
-        self.assertEqual(len(samples), 26)
-        self.assertEqual(sum(len(sample["tokens"]) for sample in samples), 742)
+        self.assertEqual(len(samples), 18)
+        self.assertEqual(sum(len(sample["tokens"]) for sample in samples), 497)
+        self.assertEqual(len(load_recordings()['samples']), 14)
+        self.assertEqual(sum(len(s['tokens']) for s in load_recordings()['samples']), 231)
         identifiers = [sample["id"] for sample in samples]
         self.assertEqual(len(identifiers), len(set(identifiers)))
         self.assertNotIn("unsupported-entity-alert", identifiers)
@@ -205,7 +226,9 @@ class RecordedCliTests(unittest.TestCase):
         )
     def test_every_sample_has_original_ids_and_all_channels_per_token(self):
         for sample in list_recordings():
-            self.assertEqual(set(sample["available_channels"]), EXPECTED_CHANNELS)
+            extra = {'appraisal'} if sample['id'].startswith('appraisal_') else set()
+            expected = EXPECTED_CHANNELS | extra
+            self.assertEqual(set(sample["available_channels"]), expected)
             self.assertEqual(
                 sample["provenance"]["token_alignment"], "original_gpu_token_ids"
             )

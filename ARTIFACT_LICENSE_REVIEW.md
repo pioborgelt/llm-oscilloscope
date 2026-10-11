@@ -6,6 +6,7 @@ The upstream cards currently list
 [Mistral-7B-Instruct-v0.3](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3)
 and
 [Qwen2.5-7B-Instruct](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct)
+and [Qwen3-4B-Instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507/blob/main/LICENSE)
 under Apache-2.0. The
 [MMLU](https://huggingface.co/datasets/cais/mmlu) and
 [MMLU-Pro](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro) dataset cards
@@ -23,8 +24,10 @@ This review records the upstream terms checked for this release. It is not
 legal advice, and downstream users remain responsible for complying with the
 applicable model and dataset licenses.
 
-The compact CLI gallery uses 23 prompts authored specifically for this research
-preview and three questions from OpenAI's SimpleQA benchmark. SimpleQA is
+The compact CLI gallery retains eleven earlier prompts authored specifically
+for this research preview and three questions from OpenAI's SimpleQA benchmark.
+It also contains four unedited Qwen2.5 generations selected from 23 original
+appraisal prompts, plus numerical scores from the earlier color reference. SimpleQA is
 listed under the MIT license in the official `openai/simple-evals` repository;
 its copyright and permission notice are reproduced in `NOTICE`. The gallery
 does not include MMLU/MMLU-Pro or GRANOLA sample text. The recording archive

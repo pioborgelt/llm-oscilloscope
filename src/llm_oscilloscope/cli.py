@@ -19,7 +19,9 @@ from rich.table import Table
 from rich.text import Text
 
 from . import __version__
+from .appraisal_display import appraisal_band, recorded_appraisal_row
 from .channels import QwenResearchChannels, find_artifacts_root, load_cli_config
+from .cuda_libraries import load_bitsandbytes
 from .qwen_runtime import (
     QwenInstrumentedRuntime,
     TokenReading,
@@ -27,6 +29,7 @@ from .qwen_runtime import (
     write_jsonl_trace,
 )
 from .recordings import get_recording, list_recordings
+from .signal_plot import signal_history
 from .tui import (
     AMBER,
     GOLD,
@@ -36,6 +39,7 @@ from .tui import (
     NAVY_BRIGHT,
     SUBJECT_LABELS,
     _meter,
+    appraisal_panel,
     recording_view,
     run_recording_tui,
 )
@@ -154,6 +158,19 @@ def _static_demo(sample: dict[str, Any]) -> None:
             )
         )
 
+    if 'appraisal' in channels:
+        console.print(appraisal_panel(sample['tokens'][-1], width=console.size.width))
+        appraisal = Table(title='Positive appraisal')
+        for column in ('pos', 'token', '4-token mean'):
+            appraisal.add_column(column)
+        for selected in range(len(sample['tokens'])):
+            row = recorded_appraisal_row(sample['tokens'], selected)
+            value = row.get('appraisal_mean4')
+            _, color = appraisal_band(value, ready=bool(row.get('appraisal_window_ready')))
+            appraisal.add_row(str(row['position']), _token_text(row.get('text'), row.get('token_id')),
+                              Text(_score(value), style=color))
+        console.print(appraisal)
+
 
 def command_demo(args: argparse.Namespace) -> int:
     try:
@@ -175,7 +192,11 @@ def command_demo(args: argparse.Namespace) -> int:
 
 
 def _runtime(args: argparse.Namespace) -> QwenInstrumentedRuntime:
-    return QwenInstrumentedRuntime(
+    runtime_class = QwenInstrumentedRuntime
+    if getattr(args, 'appraisal', False):
+        from .appraisal_runtime import AppraisalRuntime
+        runtime_class = AppraisalRuntime
+    return runtime_class(
         artifacts_root=args.artifacts,
         quantization=args.quantization,
         device_map=args.device_map,
@@ -270,6 +291,7 @@ def _live_view(
     complete: bool,
     width: int,
     thresholds: dict[str, float | None],
+    rows: list[TokenReading] | None = None,
 ) -> RenderableType:
     title = Text("LLM OSCILLOSCOPE", style=f"bold {GOLD}")
     title.append(f"  v{__version__}", style="dim")
@@ -330,6 +352,11 @@ def _live_view(
                 ),
             )
         )
+    if row is not None and 'appraisal_raw' in row.channels:
+        content.append(appraisal_panel(row.as_dict(), width=width))
+    if rows:
+        content.append(signal_history([item.as_dict() for item in rows], len(rows) - 1,
+                                      width=width, height=3))
     if complete:
         count = 0 if row is None else row.position + 1
         content.append(Text(f"{count} tokens generated", style="dim"))
@@ -353,12 +380,12 @@ def _live_recording(
         "kind": "detector",
         "prompt": prompt,
         "generated_text": "".join(row.text for row in rows),
-        "available_channels": [
+        "available_channels": ([
             "entity_end",
             "support_v2",
             "combined_candidate",
             "subject_routing",
-        ],
+        ] + (['appraisal'] if rows and 'appraisal_raw' in rows[0].channels else [])),
         "provenance": {
             "thresholds": dict(thresholds),
             "threshold_status": (
@@ -448,6 +475,7 @@ def _run_live(
                 complete=False,
                 width=console.size.width,
                 thresholds=thresholds,
+                rows=rows,
             )
             if terminal:
                 with Live(
@@ -472,6 +500,7 @@ def _run_live(
                                 complete=False,
                                 width=console.size.width,
                                 thresholds=thresholds,
+                                rows=rows,
                             ),
                             refresh=True,
                         )
@@ -486,6 +515,7 @@ def _run_live(
                             complete=True,
                             width=console.size.width,
                             thresholds=thresholds,
+                            rows=rows,
                         ),
                         refresh=True,
                     )
@@ -505,6 +535,7 @@ def _run_live(
                         complete=True,
                         width=console.size.width,
                         thresholds=thresholds,
+                        rows=rows,
                     )
                 )
             if args.trace:
@@ -565,11 +596,13 @@ def command_doctor(args: argparse.Namespace) -> int:
         print(f"  {module:<12} {'OK' if found else 'missing'}")
         if not found:
             status = 1
+    cuda_version = None
     if importlib.util.find_spec("torch") is not None:
         import torch
 
         print(f"  CUDA:         {'available' if torch.cuda.is_available() else 'not available'}")
         if torch.cuda.is_available():
+            cuda_version = torch.version.cuda
             capability = tuple(int(value) for value in torch.cuda.get_device_capability(0))
             print(f"  GPU:          {torch.cuda.get_device_name(0)}")
             print(f"  capability:   {capability[0]}.{capability[1]}")
@@ -582,7 +615,7 @@ def command_doctor(args: argparse.Namespace) -> int:
             status = 1
     if importlib.util.find_spec("bitsandbytes") is not None:
         try:
-            import bitsandbytes
+            bitsandbytes = load_bitsandbytes(cuda_version)
 
             print(f"  bnb version:  {getattr(bitsandbytes, '__version__', 'unknown')}")
         except (ImportError, OSError, RuntimeError) as error:
@@ -593,6 +626,7 @@ def command_doctor(args: argparse.Namespace) -> int:
 
 
 def _add_runtime_arguments(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument('--appraisal', action='store_true', help='enable experimental positive-appraisal channel (pinned INT8 only)')
     parser.add_argument("--artifacts", type=Path, help="override artifacts directory")
     parser.add_argument("--quantization", choices=("8bit", "none"), default="8bit")
     parser.add_argument("--device-map", default="auto")

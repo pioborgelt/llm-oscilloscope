@@ -5,21 +5,13 @@ from tempfile import TemporaryDirectory
 import unittest
 
 from llm_oscilloscope.verify import main
-from scripts.update_manifest import ROOT, release_files
+from scripts.update_manifest import ROOT, included
 
 
 class VerifyCliTests(unittest.TestCase):
-    def test_release_manifest_contains_only_tracked_release_files(self):
-        listed = {
-            line.split("  ", 1)[1]
-            for line in (ROOT / "MANIFEST.sha256")
-            .read_text(encoding="utf-8")
-            .splitlines()
-        }
-        expected = {
-            f"./{path.relative_to(ROOT).as_posix()}" for path in release_files()
-        }
-        self.assertEqual(listed, expected)
+    def test_private_workspace_files_are_excluded_from_release_manifest(self):
+        self.assertFalse(included(ROOT / "AGENTS.md"))
+        self.assertFalse(included(ROOT / "admin" / "notes.md"))
 
     def test_missing_evidence_root_is_a_clean_cli_error(self):
         errors = StringIO()

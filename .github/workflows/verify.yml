@@ -15,3 +15,41 @@ jobs:
       - run: pip install -e .
       - run: python scripts/verify_results.py
       - run: python -m unittest discover -s tests -q
+
+  wheel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Build wheel
+        run: python -m pip wheel . --no-deps --wheel-dir dist
+      - name: Install wheel in a clean environment
+        run: |
+          python -m venv "$RUNNER_TEMP/llm-oscilloscope-wheel"
+          "$RUNNER_TEMP/llm-oscilloscope-wheel/bin/pip" install dist/*.whl
+      - name: Smoke-test installed wheel
+        working-directory: ${{ runner.temp }}
+        env:
+          WHEEL_VENV: ${{ runner.temp }}/llm-oscilloscope-wheel
+        run: |
+          "$WHEEL_VENV/bin/llmosci" --version
+          "$WHEEL_VENV/bin/llmosci" samples --json > samples.json
+          "$WHEEL_VENV/bin/python" -c 'import json; assert len(json.load(open("samples.json"))) == 18'
+          "$WHEEL_VENV/bin/llmosci" demo biology_mitochondria --static
+          "$WHEEL_VENV/bin/llmosci" demo appraisal_native_bike --static
+          "$WHEEL_VENV/bin/python" -c 'from llm_oscilloscope.appraisal import Appraisal; from llm_oscilloscope.channels import find_artifacts_root; Appraisal(find_artifacts_root() / "appraisal_experimental")'
+          "$WHEEL_VENV/bin/python" -c 'from llm_oscilloscope.channels import QwenResearchChannels; QwenResearchChannels()'
+
+          if "$WHEEL_VENV/bin/llm-oscilloscope-verify" > verify.out 2>&1; then
+            echo "expected verifier outside an evidence checkout to fail"
+            exit 1
+          fi
+          grep -Fq "could not locate the evidence checkout" verify.out
+          if grep -Fq "Traceback" verify.out; then
+            cat verify.out
+            exit 1
+          fi
+
+          "$WHEEL_VENV/bin/llm-oscilloscope-verify" --root "$GITHUB_WORKSPACE"

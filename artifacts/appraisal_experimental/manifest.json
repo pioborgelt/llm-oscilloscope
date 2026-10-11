@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "name": "positive_user_appraisal_experimental",
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "layer": 27,
+  "hidden_size": 3584,
+  "quantization": "8bit",
+  "window": 4,
+  "alpha": 100.0,
+  "weights_sha256": "1f114e1546ed241c1d25ab7fa5d4debc4f049eaf60e138f5855a6696453743a1",
+  "training_answers": 110,
+  "paired_positions": 7003,
+  "fit": "Full-data refit; source frozen full-data head; scalar composition of standardized full-coordinate Ridge",
+  "fold_composition_max_errors": [
+    4.5563552930616424e-12,
+    7.633893517322576e-13,
+    1.156408302449563e-12
+  ],
+  "evaluation": {
+    "status": "PASS",
+    "answers": 110,
+    "groups": 97,
+    "source_normal_strong": {
+      "correct": 375,
+      "total": 428,
+      "ties": 0,
+      "fraction": 0.8761682242990654
+    },
+    "target_normal_strong": {
+      "correct": 372,
+      "total": 428,
+      "ties": 0,
+      "fraction": 0.8691588785046729
+    },
+    "source_none_any": {
+      "correct": 691,
+      "total": 762,
+      "ties": 0,
+      "fraction": 0.9068241469816273
+    },
+    "target_none_any": {
+      "correct": 619,
+      "total": 762,
+      "ties": 0,
+      "fraction": 0.8123359580052494
+    },
+    "pair_comparison": {
+      "both_correct": 347,
+      "source_only_correct": 28,
+      "target_only_correct": 25,
+      "both_wrong": 28
+    },
+    "folds": [
+      {
+        "fold": 0,
+        "normal_strong": {
+          "correct": 144,
+          "total": 161,
+          "ties": 0,
+          "fraction": 0.8944099378881988
+        },
+        "none_any": {
+          "correct": 279,
+          "total": 360,
+          "ties": 0,
+          "fraction": 0.775
+        }
+      },
+      {
+        "fold": 1,
+        "normal_strong": {
+          "correct": 72,
+          "total": 105,
+          "ties": 0,
+          "fraction": 0.6857142857142857
+        },
+        "none_any": {
+          "correct": 59,
+          "total": 78,
+          "ties": 0,
+          "fraction": 0.7564102564102564
+        }
+      },
+      {
+        "fold": 2,
+        "normal_strong": {
+          "correct": 156,
+          "total": 162,
+          "ties": 0,
+          "fraction": 0.9629629629629629
+        },
+        "none_any": {
+          "correct": 281,
+          "total": 324,
+          "ties": 0,
+          "fraction": 0.8672839506172839
+        }
+      }
+    ],
+    "max_cached_hidden_error": 0.0,
+    "seconds": 1669.8593181700053,
+    "limitation": "Open development; teacher-forced source answers, not native target responses; own tokenization; no streaming parity claim"
+  },
+  "limitation": "Heldout metrics describe the training procedure, not independent validation of this full-data refit. AI labels, open development, no native-target or calibrated alarm claim.",
+  "expected_runtime": {
+    "model": "Qwen/Qwen2.5-7B-Instruct",
+    "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "torch": "2.11.0+cu130",
+    "transformers": "4.57.6",
+    "device_map": {
+      "model.embed_tokens": 0,
+      "model.layers.0": 0,
+      "model.layers.1": 0,
+      "model.layers.2": 0,
+      "model.layers.3": 0,
+      "model.layers.4": 0,
+      "model.layers.5": 0,
+      "model.layers.6": 0,
+      "model.layers.7": 0,
+      "model.layers.8": 0,
+      "model.layers.9": 0,
+      "model.layers.10": 0,
+      "model.layers.11": 0,
+      "model.layers.12": 0,
+      "model.layers.13": 0,
+      "model.layers.14": 0,
+      "model.layers.15": 0,
+      "model.layers.16": 0,
+      "model.layers.17": 0,
+      "model.layers.18": "cpu",
+      "model.layers.19": "cpu",
+      "model.layers.20": "cpu",
+      "model.layers.21": "cpu",
+      "model.layers.22": "cpu",
+      "model.layers.23": "cpu",
+      "model.layers.24": "cpu",
+      "model.layers.25": "cpu",
+      "model.layers.26": "cpu",
+      "model.layers.27": "cpu",
+      "model.norm": "cpu",
+      "model.rotary_emb": "cpu",
+      "lm_head": "cpu"
+    },
+    "attention": "sdpa",
+    "code_ids": [
+      32,
+      33,
+      34
+    ],
+    "quantization": {
+      "quant_method": "bitsandbytes",
+      "_load_in_8bit": true,
+      "_load_in_4bit": false,
+      "llm_int8_threshold": 6.0,
+      "llm_int8_skip_modules": null,
+      "llm_int8_enable_fp32_cpu_offload": true,
+      "llm_int8_has_fp16_weight": false,
+      "bnb_4bit_quant_type": "fp4",
+      "bnb_4bit_use_double_quant": false,
+      "bnb_4bit_compute_dtype": "float32",
+      "bnb_4bit_quant_storage": "uint8",
+      "load_in_4bit": false,
+      "load_in_8bit": true
+    }
+  }
+}

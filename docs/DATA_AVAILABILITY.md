@@ -17,9 +17,14 @@ What is included:
   fixed comparison scores and twenty shuffled-label controls
 - the optional trajectory-profile weights, both fresh operating-point
   prediction arrays and documentation on this channel
-- 26 compact Qwen CLI recordings from project-GPU runs, containing 742
-  original-token readings with all four displayed channels
-- the score-blind gallery selection rule, aggregate 400-prompt pool audit and
+- 14 selected earlier Qwen CLI recordings from project-GPU runs, containing
+  231 original-token readings with the four established channels
+- four unedited native Qwen2.5 appraisal generations, selected after reviewing
+  text and scores from 23 original everyday prompts; recorded tokenwise scores
+  and selection provenance are included
+- the frozen numerical color reference from the previous nine appraisal demos;
+  these values preserve the display limits independently of gallery selection
+- the original score-blind gallery selection rule, aggregate 400-prompt pool audit and
   the three selected SimpleQA reference answers
 - split prompt IDs inside every weight artifact
 - the result files and cryptographic manifest
@@ -37,7 +42,7 @@ Qwen token IDs, decoded display pieces, next-token probabilities, channel
 scores and provenance hashes, but not hidden-state vectors or manual grading.
 Every token has Qwen L23 Entity Completion and Support V2, their descriptive
 product and Qwen L27 Subject Routing. The package loader verifies per-recording
-token-row hashes and the hash of the complete recording archive.
+token-row hashes and the hash of the curated earlier recording archive.
 
 The gallery contains three SimpleQA questions under the upstream MIT license.
 They were selected as the first three detected unsupported endpoints in a

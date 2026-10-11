@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "status": "descriptive_display_only",
+  "statistic": "appraisal_mean4",
+  "yellow_from": -1.937476378861655,
+  "red_from": 0.39841624301583445,
+  "method": "Weighted empirical thirds of complete four-token means; each answer has equal total weight. Boundaries belong to the higher band. Peak uses the same limits as the windows it summarizes.",
+  "reference": {
+    "file": "appraisal_color_reference.json",
+    "sha256": "c81d20f4d9e8deac7689e5a66934129fc41b3a935f6da457ed4e8c034d7dfde8",
+    "answers": 9,
+    "complete_windows": 285,
+    "native_generations": 6,
+    "authored_replays": 3,
+    "weights_sha256": "1f114e1546ed241c1d25ab7fa5d4debc4f049eaf60e138f5855a6696453743a1"
+  },
+  "limitation": "Small curated demo reference, not representative traffic. Colors indicate relative signal strength, not safety, deserved praise or a validated sycophancy alarm."
+}

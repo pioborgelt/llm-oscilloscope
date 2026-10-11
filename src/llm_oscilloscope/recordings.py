@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 from importlib.resources import files
 from typing import Any
 
@@ -82,7 +83,27 @@ def load_recordings() -> dict[str, Any]:
 
 
 def list_recordings() -> list[dict[str, Any]]:
-    return list(load_recordings()["samples"])
+    base = list(load_recordings()["samples"])
+    extra = json.loads(files("llm_oscilloscope").joinpath("appraisal_samples.json").read_text(encoding="utf-8"))
+    samples = extra['samples']
+    if extra['sha256'] != canonical_json_sha256(samples):
+        raise ValueError('Appraisal sample checksum mismatch')
+    for sample in samples:
+        rows = sample['tokens']
+        if not rows or sample['provenance']['token_rows_sha256'] != canonical_json_sha256(rows):
+            raise ValueError('Invalid appraisal recording')
+        if set(sample['available_channels']) != REQUIRED_CHANNELS | {'appraisal'}:
+            raise ValueError('Invalid appraisal channels')
+        for i, row in enumerate(rows):
+            if not REQUIRED_TOKEN_FIELDS <= row.keys() or row['position'] != i:
+                raise ValueError('Invalid appraisal token row')
+            for key in ('appraisal_raw', 'appraisal_mean4', 'appraisal_peak4'):
+                if not math.isfinite(row[key]):
+                    raise ValueError('Nonfinite appraisal score')
+    all_samples = base + samples
+    if len({s['id'] for s in all_samples}) != len(all_samples):
+        raise ValueError('Duplicate sample IDs')
+    return all_samples
 
 
 def get_recording(identifier: str) -> dict[str, Any]:
